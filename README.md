@@ -1,4 +1,4 @@
-LHL Node Skeleton
+Vusic!
 =========
 
 ## Project Setup
