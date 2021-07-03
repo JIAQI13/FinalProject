@@ -208,6 +208,6 @@ app.get('/refresh_token', function (req, res) {
   });
 });
 
-const port = process.env.SERVER_PORT
+const port = process.env.SERVER_PORT || 4000
 app.listen(port);
 console.log(`Running a GraphQL API server at localhost:${port}/graphql`);
