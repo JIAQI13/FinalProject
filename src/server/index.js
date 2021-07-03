@@ -1,5 +1,6 @@
 const express = require('express');
-var request = require('request');
+const request = require('request');
+const morgan = require('morgan')
 const cors = require('cors');
 const { graphqlHTTP } = require('express-graphql');
 const gql = require('graphql-tag');
@@ -64,7 +65,7 @@ const root = {
         method: "GET",
         headers: {
           'Authorization': 'Bearer ' +
-            'BQCjrtvbvauFdm5PovY_C2RjCTI4VX91NpMmN8KMEhzxbjpmN8bbkum2XvxwZkVyHoHKHwgKtglIwwsGRFNoEs56mag-eu9fmz19nhXm31kXeldtX8L1P1cYtNbyGUPW8ZRvuxOGsY4HqIxIJ8CGY29mhf4VMtQArFZmcXI_PBGeStM47Qe0NmnGQCZiEJ-DINzSc3f-t37U1w9PWiPvCguM2mPs_fCxHPM5a2D86uYLNP-LXQ2PhtLjG_OStRVQMYK96dZwtL1cGFaUGKnFga88Jm7yrGwSIGOeGgwL'
+            'BQBRsO4hyNLrPr09sXg5uGr8d2zv25m55EqhcbzWoh-BQ3c1qYk_TL_CpPkfIEmmW-8gl4LMFJKg2NhLvWhL_MTsXzusgcnkkT7p8-8pku8jHyVPs48eEY9ggIg9rUnBLDl0Fy4jXlkGhRn_UVcMHWijaxojOL75cD5FWLSNvX3sixcYhvEiEvnJeyV6ldoco0JslxS5EID7p0lZ8wl6SNudxjSFB5LqT_Sm_40gMPuYioE-e8feCE_1p57HiyhTA9xgZBZLXOVe-QVZ5ntkWGZvoKkT_WfafSYeL99i'
         },
         json: true
       }, function (error, response, body) {
@@ -80,6 +81,7 @@ const root = {
 
 const app = express();
 app.use(cors());
+app.use(morgan());
 app.use('/graphql', graphqlHTTP({
   schema,
   rootValue: root,
