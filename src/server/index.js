@@ -9,6 +9,8 @@ const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const fsPromises = require('fs')
+
+var variable1;
 //graphql
 const POSTS = [
   { author: "John Doe", body: "Hello world" },
@@ -64,12 +66,12 @@ const root = {
   hello: () => 'Hello world!',
   query: () => {
     return new Promise(resolve => {
-      console.log('***************', process.env.access_token);
+      console.log('***************', variable1);
       request({
         url: "https://api.spotify.com/v1/me/top/artists",
         method: "GET",
         headers: {
-          'Authorization': 'Bearer ' + process.env.access_token
+          'Authorization': 'Bearer ' + variable1
         },
         json: true
       }, function (error, response, body) {
@@ -166,15 +168,7 @@ app.get('/callback', function (req, res) {
     request.post(authOptions, function (error, response, body) {
       if (!error && response.statusCode === 200) {
         // we can also pass the token to the browser to make requests from there
-        var access_token = body.access_token,
-          refresh_token = body.refresh_token;
-        const auth = querystring.stringify({
-          access_token: access_token,
-          refresh_token: refresh_token
-        });
-        fsPromises.appendFile('.env', auth, () => {
-          console.log('write to file')
-        });
+        variable1 = body.access_token;
         res.redirect('http://localhost:3000/view');
       } else {
         res.redirect('http://localhost:3000/view' +
