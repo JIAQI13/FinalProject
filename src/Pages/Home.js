@@ -21,7 +21,7 @@ const Home = () => {
 
       <Switch>
         <Route path='/privacy-policy' component={() => {
-          window.location.href = 'http://localhost:4000/graphql';
+          window.location.href = 'http://localhost:4000/login';
           return null;
         }} />
       </Switch>
