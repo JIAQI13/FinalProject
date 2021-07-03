@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 export default function BubblesGraph (props) {
   const data = props.graphData;
 
-  console.log("data", data)
+  // console.log("data", props.graphData[0].query.images[0].url)
 
   const onClick = () => {
     {/* Arbitrary size, aiming to be about the size of the window */}
@@ -42,7 +42,7 @@ export default function BubblesGraph (props) {
       .attr("r", function(d) {
         return radiusScale(d.popularity * d.popularity / 100);
       })
-      .attr("fill", "lightblue")
+      .attr("fill", "lightblue" )
       .on("click", function(d) {
         console.log(d.popularity);
       })

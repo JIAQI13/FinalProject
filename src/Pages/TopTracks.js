@@ -3,16 +3,6 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import BubblesGraph from '../components/BubblesGraph';
 
-export const GET_POSTS = gql`
-  query GetPosts {
-    posts {
-      id
-      author
-      body
-    }
-  }
-`;
-
 export const GET_ARTIST = gql`
   query GetArtist {
     query {
@@ -20,6 +10,11 @@ export const GET_ARTIST = gql`
       name
       popularity
       genres
+      images {
+        height
+        url
+        width
+      }
     }
   }
 `;
