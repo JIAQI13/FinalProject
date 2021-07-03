@@ -5,7 +5,13 @@ const cors = require('cors');
 const { graphqlHTTP } = require('express-graphql');
 const gql = require('graphql-tag');
 const { buildASTSchema } = require('graphql');
+const querystring = require('querystring');
+const cookieParser = require('cookie-parser');
+require('dotenv').config();
+const fsPromises = require('fs')
 
+var variable1;
+//graphql
 const POSTS = [
   { author: "John Doe", body: "Hello world" },
   { author: "Jane Doe", body: "Hi, planet!" },
@@ -60,12 +66,12 @@ const root = {
   hello: () => 'Hello world!',
   query: () => {
     return new Promise(resolve => {
+      console.log('***************', variable1);
       request({
         url: "https://api.spotify.com/v1/me/top/artists",
         method: "GET",
         headers: {
-          'Authorization': 'Bearer ' +
-            'BQAhPhZwGNFx7PLNBDt5_aT1eLdC0mfz2bWLcTVs37Wtk3mvGfzPjPns969z9EYMHGyLRwgupjITLSyzdv93bNPQA2gDCmfiG47mofDfSkLry2THfs0bYv5AF7iIXpfI9GnNrWsNRFFQ6i7STP55kRBdP-nUMOClt7bIOBnyPKRFScnY1ldMSGvJ-B1kSpPIobCOzIGuZq39IKAi0Pm2ZUyA3q-6eHcwAZpLUzQKq2AtxRVg81yIjk7j8TfgUGPi-XWfHLWTY69MiYfFJXkMLzR-MMa8Rq4o5EVWrzpF3IAW'
+          'Authorization': 'Bearer ' + variable1
         },
         json: true
       }, function (error, response, body) {
@@ -79,15 +85,125 @@ const root = {
   }
 };
 
+//spotify login prepare
+const client_id = 'cfa601e4abca4a2f87f33698a4b4d293'; // Your client id
+const client_secret = 'a17ceaf1443a4003a2d42458d6e7d8e7'; // Your secret
+const redirect_uri = 'http://localhost:4000/callback'; // Your redirect uri
+
+/**
+ * Generates a random string containing numbers and letters
+ * @param  {number} length The length of the string
+ * @return {string} The generated string
+ */
+const generateRandomString = function (length) {
+  let text = '';
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  for (let i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+};
+
+const stateKey = 'spotify_auth_state';
+
 const app = express();
-app.use(cors());
-app.use(morgan());
+app.use(cors())
+  .use(morgan())
+  .use(cookieParser());
 app.use('/graphql', graphqlHTTP({
   schema,
   rootValue: root,
   graphiql: true,
 }));
 
-const port = process.env.PORT || 4000
+//spotify routes
+app.get('/login', function (req, res) {
+
+  var state = generateRandomString(16);
+  res.cookie(stateKey, state);
+
+  // your application requests authorization
+  var scope = 'user-read-private user-read-email user-read-recently-played user-top-read user-follow-read user-follow-modify playlist-read-private playlist-read-collaborative playlist-modify-public';
+  res.redirect('https://accounts.spotify.com/authorize?' +
+    querystring.stringify({
+      response_type: 'code',
+      client_id: client_id,
+      scope: scope,
+      redirect_uri: redirect_uri,
+      state: state
+    }));
+});
+
+
+app.get('/callback', function (req, res) {
+
+  // your application requests refresh and access tokens
+  // after checking the state parameter
+
+  var code = req.query.code || null;
+  var state = req.query.state || null;
+  var storedState = req.cookies ? req.cookies[stateKey] : null;
+
+  if (state === null || state !== storedState) {
+    res.redirect('/#' +
+      querystring.stringify({
+        error: 'state_mismatch'
+      }));
+  } else {
+    res.clearCookie(stateKey);
+    var authOptions = {
+      url: 'https://accounts.spotify.com/api/token',
+      form: {
+        code: code,
+        redirect_uri: redirect_uri,
+        grant_type: 'authorization_code'
+      },
+      headers: {
+        'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+      },
+      json: true
+    };
+
+    request.post(authOptions, function (error, response, body) {
+      if (!error && response.statusCode === 200) {
+        // we can also pass the token to the browser to make requests from there
+        variable1 = body.access_token;
+        res.redirect('http://localhost:3000/view');
+      } else {
+        res.redirect('http://localhost:3000/view' +
+          querystring.stringify({
+            error: 'invalid_token'
+          }));
+      }
+    });
+  }
+});
+
+app.get('/refresh_token', function (req, res) {
+
+  // requesting access token from refresh token
+  var refresh_token = req.query.refresh_token;
+  var authOptions = {
+    url: 'https://accounts.spotify.com/api/token',
+    headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
+    form: {
+      grant_type: 'refresh_token',
+      refresh_token: refresh_token
+    },
+    json: true
+  };
+
+  request.post(authOptions, function (error, response, body) {
+    if (!error && response.statusCode === 200) {
+      var access_token = body.access_token;
+      res.send({
+        'access_token': access_token
+      });
+    }
+  });
+});
+
+const port = process.env.SERVER_PORT || 4000
 app.listen(port);
 console.log(`Running a GraphQL API server at localhost:${port}/graphql`);
