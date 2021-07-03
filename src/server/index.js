@@ -169,9 +169,9 @@ app.get('/callback', function (req, res) {
       if (!error && response.statusCode === 200) {
         // we can also pass the token to the browser to make requests from there
         variable1 = body.access_token;
-        res.redirect('http://localhost:3000/view');
+        res.redirect('http://localhost:3002/view');
       } else {
-        res.redirect('http://localhost:3000/view' +
+        res.redirect('http://localhost:3002/view' +
           querystring.stringify({
             error: 'invalid_token'
           }));
