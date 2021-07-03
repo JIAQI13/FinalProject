@@ -8,7 +8,7 @@ const { buildASTSchema } = require('graphql');
 const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
-const fs = require('fs')
+const fsPromises = require('fs')
 //graphql
 const POSTS = [
   { author: "John Doe", body: "Hello world" },
@@ -172,7 +172,9 @@ app.get('/callback', function (req, res) {
           access_token: access_token,
           refresh_token: refresh_token
         });
-        fs.appendFile('.env', auth, () => { });
+        fsPromises.appendFile('.env', auth, () => {
+          console.log('write to file')
+        });
         res.redirect('http://localhost:3000/view');
       } else {
         res.redirect('http://localhost:3000/view' +
