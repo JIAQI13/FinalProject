@@ -7,7 +7,8 @@ const gql = require('graphql-tag');
 const { buildASTSchema } = require('graphql');
 const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
-
+require('dotenv').config();
+const fs = require('fs')
 //graphql
 const POSTS = [
   { author: "John Doe", body: "Hello world" },
@@ -63,12 +64,12 @@ const root = {
   hello: () => 'Hello world!',
   query: () => {
     return new Promise(resolve => {
+      console.log('***************', process.env.access_token);
       request({
         url: "https://api.spotify.com/v1/me/top/artists",
         method: "GET",
         headers: {
-          'Authorization': 'Bearer ' +
-            'BQBRsO4hyNLrPr09sXg5uGr8d2zv25m55EqhcbzWoh-BQ3c1qYk_TL_CpPkfIEmmW-8gl4LMFJKg2NhLvWhL_MTsXzusgcnkkT7p8-8pku8jHyVPs48eEY9ggIg9rUnBLDl0Fy4jXlkGhRn_UVcMHWijaxojOL75cD5FWLSNvX3sixcYhvEiEvnJeyV6ldoco0JslxS5EID7p0lZ8wl6SNudxjSFB5LqT_Sm_40gMPuYioE-e8feCE_1p57HiyhTA9xgZBZLXOVe-QVZ5ntkWGZvoKkT_WfafSYeL99i'
+          'Authorization': 'Bearer ' + process.env.access_token
         },
         json: true
       }, function (error, response, body) {
@@ -167,13 +168,14 @@ app.get('/callback', function (req, res) {
         // we can also pass the token to the browser to make requests from there
         var access_token = body.access_token,
           refresh_token = body.refresh_token;
-        res.redirect('/#' +
-          querystring.stringify({
-            access_token: access_token,
-            refresh_token: refresh_token
-          }));
+        const auth = querystring.stringify({
+          access_token: access_token,
+          refresh_token: refresh_token
+        });
+        fs.appendFile('.env', auth, () => { });
+        res.redirect('http://localhost:3000/view');
       } else {
-        res.redirect('/#' +
+        res.redirect('http://localhost:3000/view' +
           querystring.stringify({
             error: 'invalid_token'
           }));
@@ -206,6 +208,6 @@ app.get('/refresh_token', function (req, res) {
   });
 });
 
-const port = process.env.PORT || 4000
+const port = process.env.SERVER_PORT
 app.listen(port);
 console.log(`Running a GraphQL API server at localhost:${port}/graphql`);
