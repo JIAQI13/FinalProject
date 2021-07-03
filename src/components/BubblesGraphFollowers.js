@@ -11,11 +11,13 @@ export default function BubblesGraph (props) {
     // !--! We should probably generalize the data that's coming in
     //      so we can use this bubble graph easily for other data
     const data = props.graphData;
+    console.log("data", data);
 
     // Arbitrary size, aiming to be about the size of the window
     // !--! This should be updated later to properly show window size
     let width = 720;
     let height = 1080;
+
 
     const svg = d3.select("#chart")
       .append("svg")
@@ -32,7 +34,7 @@ export default function BubblesGraph (props) {
       .force("x", d3.forceX(width / 2).strength(0.05))
       .force("y", d3.forceY(height / 2).strength(0.03))
       .force("collide", d3.forceCollide(function(d) {
-        return radiusScale(d.popularity * d.popularity / 100 + 1);
+        return radiusScale(d.followers.total / 100000 + 1);
       }));
 
 
@@ -46,8 +48,8 @@ export default function BubblesGraph (props) {
       .enter().append("circle")
       .attr("class", "artist")
       .attr("r", function(d) {
-        console.log("artist name: ", d.name)
-        return radiusScale(d.popularity * d.popularity / 100);
+        console.log("artist followers.total: ", d.followers.total)
+        return radiusScale(d.followers.total / 100000);
       })
       // !--! This should be changed later to show the album art
       .attr("fill", function(d) {
@@ -55,10 +57,11 @@ export default function BubblesGraph (props) {
         return d.images[0].url;
       })
       .on("click", function(d) {
-        console.log(d.popularity);
+        console.log("howdy", d);
       })
       .attr("cx", 100)
       .attr("cy", 300);
+
 
     const ticked = () => {
       circles

@@ -9,7 +9,6 @@ export const GET_ARTIST = gql`
       id
       name
       popularity
-      genres
       images {
         height
         url
