@@ -2,12 +2,18 @@ import React from 'react';
 import * as d3 from 'd3';
 
 export default function BubblesGraph (props) {
-  const data = props.graphData;
 
-  // console.log("data", props.graphData[0].query.images[0].url)
-
+  // !--! This could be changed using state, so we don't need
+  //      to click a button to show the bubbles
+  //      when the page first renders, props.graphData isn't available
   const onClick = () => {
-    {/* Arbitrary size, aiming to be about the size of the window */}
+
+    // !--! We should probably generalize the data that's coming in
+    //      so we can use this bubble graph easily for other data
+    const data = props.graphData;
+
+    // Arbitrary size, aiming to be about the size of the window
+    // !--! This should be updated later to properly show window size
     let width = 720;
     let height = 1080;
 
@@ -20,8 +26,8 @@ export default function BubblesGraph (props) {
 
     const radiusScale = d3.scaleSqrt().domain([1, 100]).range([10, 80]);
 
-    {/* Create the simlation for gravity and our circles */}
-    {/* collection of forces that is put on our circles */}
+    // Create the simlation for gravity and our circles
+    // collection of forces that is put on our circles
     const simulation = d3.forceSimulation()
       .force("x", d3.forceX(width / 2).strength(0.05))
       .force("y", d3.forceY(height / 2).strength(0.03))
@@ -30,19 +36,24 @@ export default function BubblesGraph (props) {
       }));
 
 
-    {/* Target the SVG to create the circles */}
-    {/* Bind the data for the callback using .data */}
-    {/* Use .enter to append each additional circle */}
-    {/* For multiple circles in the chart we use .append */}
-    {/* Specify the attributes of the circles with .attr */}
+    // Target the SVG to create the circles
+    // Bind the data for the callback using .data
+    // Use .enter to append each additional circle
+    // For multiple circles in the chart we use .append
+    // Specify the attributes of the circles with .attr
     const circles = svg.selectAll(".track")
       .data(data.query)
       .enter().append("circle")
       .attr("class", "track")
       .attr("r", function(d) {
+        console.log("artist name: ", d.name)
         return radiusScale(d.popularity * d.popularity / 100);
       })
-      .attr("fill", "lightblue" )
+      // !--! This should be changed later to show the album art
+      .attr("fill", function(d) {
+        // console.log("howdy", d.images[0].url)
+        return d.images[0].url;
+      })
       .on("click", function(d) {
         console.log(d.popularity);
       })
@@ -59,8 +70,8 @@ export default function BubblesGraph (props) {
         });
     };
 
-    {/* Each tick, the system will check what forces are being */}
-    {/* applied to our nodes */}
+    // Each tick, the system will check what forces are being
+    // applied to our nodes
     simulation.nodes(data.query)
       .on('tick', ticked);
   };

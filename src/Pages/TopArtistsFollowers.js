@@ -10,6 +10,10 @@ export const GET_ARTIST = gql`
       name
       popularity
       genres
+      followers {
+        href
+        total
+      }
       images {
         height
         url
