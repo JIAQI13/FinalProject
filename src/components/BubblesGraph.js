@@ -17,7 +17,6 @@ export default function BubblesGraph (props) {
     let width = 720;
     let height = 1080;
 
-
     const svg = d3.select("#chart")
     .append("svg")
     .attr("height", height)
