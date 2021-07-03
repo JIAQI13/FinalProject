@@ -1,8 +1,10 @@
 import React from 'react';
 import * as d3 from 'd3';
 
-export const BubblesGraph = (props) => {
+export default function BubblesGraph (props) {
   const data = props.graphData;
+
+  console.log("data", data)
 
   const onClick = () => {
     {/* Arbitrary size, aiming to be about the size of the window */}
@@ -24,7 +26,7 @@ export const BubblesGraph = (props) => {
       .force("x", d3.forceX(width / 2).strength(0.05))
       .force("y", d3.forceY(height / 2).strength(0.03))
       .force("collide", d3.forceCollide(function(d) {
-        return radiusScale(d.popularity * 1.3 + 1);
+        return radiusScale(d.popularity * d.popularity / 100 + 1);
       }));
 
 
@@ -38,7 +40,7 @@ export const BubblesGraph = (props) => {
       .enter().append("circle")
       .attr("class", "track")
       .attr("r", function(d) {
-        return radiusScale(d.popularity * 1.3);
+        return radiusScale(d.popularity * d.popularity / 100);
       })
       .attr("fill", "lightblue")
       .on("click", function(d) {

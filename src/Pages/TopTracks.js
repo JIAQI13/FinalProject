@@ -1,8 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import { Table } from 'reactstrap';
-import {BubblesGraph} from './BubblesGraph';
+import BubblesGraph from '../components/BubblesGraph';
 
 export const GET_POSTS = gql`
   query GetPosts {
@@ -25,12 +24,14 @@ export const GET_ARTIST = gql`
   }
 `;
 
-export default () => (
-  <div>
-    <Query query={GET_ARTIST}>
-      {({ loading, data }) => !loading && (
-        <BubblesGraph graphData={data} v-if="yourProp"></BubblesGraph>
-      )}
-    </Query>
-  </div>
-);
+export default function TopTracks () {
+  return (
+    <div>
+      <Query query={GET_ARTIST}>
+        {({ loading, data }) => !loading && (
+          <BubblesGraph graphData={data}></BubblesGraph>
+          )}
+      </Query>
+    </div>
+  );
+}

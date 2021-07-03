@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-
-import PostViewer from './PostViewer';
-import TopTracks from './TopTracks';
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Header from './components/Header';
+import PostViewer from './Pages/PostViewer';
+import TopTracks from './Pages/TopTracks';
+import Home from './Pages/Home'
 
 class App extends Component {
   render() {
@@ -13,6 +15,7 @@ class App extends Component {
         <Switch>
           <Route path="/" component={Home} exact />
           <Route path="/view" component={PostViewer} />
+          <Route path="/graphs/popular-top-tracks" component={TopTracks} />
         </Switch>
       </BrowserRouter>
     );
