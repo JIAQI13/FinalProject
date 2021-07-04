@@ -11,7 +11,6 @@ export default function BubblesGraph (props) {
     // !--! We should probably generalize the data that's coming in
     //      so we can use this bubble graph easily for other data
     const data = props.graphData;
-    console.log("data", data);
 
     // Arbitrary size, aiming to be about the size of the window
     // !--! This should be updated later to properly show window size
@@ -28,6 +27,9 @@ export default function BubblesGraph (props) {
 
     const defs = svg.append("defs")
 
+    const div = d3.select("#chart").append("div")
+                  .attr("class", "circle-info")
+                  .style("opacity", 0);
 
     const radiusScale = d3.scaleSqrt().domain([1, 100]).range([10, 80]);
 
@@ -83,6 +85,35 @@ export default function BubblesGraph (props) {
                        })
                        .attr("cx", 100)
                        .attr("cy", 300)
+                       .on('mouseover', function (event, d, i) {
+                        d3.select(this).transition()
+                          .duration('1')
+                          .attr('opacity', '.85');
+                        div.transition()
+                           .duration(50)
+                           .style("opacity", 1);
+
+                       // Render the div with data information on mouseover events
+                       let dataDiv = d.name + " | Followers: " + d.followers.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                       div.html(dataDiv)
+                          .style("position", "absolute")
+                          .style("left", `${d3.pointer(event)[0]}px`)
+                          .style("top", `${d3.pointer(event)[1]}px`)
+                          // !--! Add styling to css eventually
+                          .style("background-color", "#f1f1f1")
+                          .style("padding", "5px")
+                          .style("border-radius", "19px")
+                          .style("font-weight", "500")
+                          .style("border-radius", "10px")
+                      })
+                     .on('mouseout', function (d, i) {
+                       d3.select(this).transition()
+                         .duration('1')
+                         .attr('opacity', '1');
+                       div.transition()
+                          .duration('50')
+                          .style("opacity", 0);
+                     })
 
 
     const ticked = () => {
