@@ -141,7 +141,7 @@ export default function BubblesGraph (props) {
                           // !--! Add styling to css eventually
                           .style("background-color", "#f1f1f1")
                           .style("padding", "5px")
-                          .style("border-radius", "19px")
+                          .style("font-size", "19px")
                           .style("font-weight", "500")
                           .style("border-radius", "10px")
                       })
