@@ -1,12 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as d3 from 'd3';
 
 export default function BubblesGraph (props) {
 
-  // !--! This could be changed using state, so we don't need
-  //      to click a button to show the bubbles
-  //      when the page first renders, props.graphData isn't available
-  const onClick = () => {
+  useEffect(() => {
 
     // !--! We should probably generalize the data that's coming in
     //      so we can use this bubble graph easily for other data
@@ -130,13 +127,10 @@ export default function BubblesGraph (props) {
     // applied to our nodes
     simulation.nodes(data.query)
       .on('tick', ticked);
-  };
 
+  }, [props.graphData])
 
-  return (
-    <>
-      <button onClick={onClick}>Show Me Bubbles</button>
+    return (
       <div id="chart"></div>
-    </>
-  );
-};
+    );
+  };
