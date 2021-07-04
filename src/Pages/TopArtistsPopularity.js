@@ -9,6 +9,11 @@ export const GET_ARTIST = gql`
       id
       name
       popularity
+      genres
+      followers {
+        href
+        total
+      }
       images {
         height
         url
@@ -23,7 +28,7 @@ export default function TopTracks () {
     <div>
       <Query query={GET_ARTIST}>
         {({ loading, data }) => !loading && (
-          <BubblesGraph graphData={data}></BubblesGraph>
+          <BubblesGraph graphData={data} dataSet={"popularity"}></BubblesGraph>
         )}
       </Query>
     </div>
