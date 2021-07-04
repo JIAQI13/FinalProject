@@ -3,10 +3,14 @@ import * as d3 from 'd3';
 import useWindowDimensions from '../helpers/userWindowDimensions'
 
 export default function BubblesGraph (props) {
-  // Work in progress to make the page responsive
   const { height, width } = useWindowDimensions();
 
+  console.log("height", height)
+  console.log("width", width)
+
   useEffect(() => {
+    // On window size change, remove all elements and rerender
+    d3.select("#chart").selectAll("*").remove();
 
     const data = props.graphData;
     let dataKey = ""
@@ -17,19 +21,26 @@ export default function BubblesGraph (props) {
 
     if (props.dataSet === "followers") {
       dataKey = "followers";
-      domainMax = 2e8;
+
+      // For followers, the number can vary quite a but
+      // So we get the largest number of followers and
+      // use that to determine the domainMax
+      const largest = [];
+      data.query.forEach(num => {
+        largest.push(num.followers.total)
+      });
+
+      // !--! Probably a work in progress to get it just right
+      const max = Math.max(...largest)
+      domainMax = (max > 40000000 ? 9e8 : 2e8) * (width < 850 ? 1.3 : 1);
       rangeMax = 500;
     }
 
     if (props.dataSet === "popularity") {
       dataKey = "popularity";
-      domainMax = 110;
-      rangeMax = 100;
+      domainMax = 150 * (width < 850 ? 2 : 1);
+      rangeMax = 100
     }
-
-    // Arbitrary size, aiming to be about the size of the window
-    // !--! This should be updated later to properly show window size
-
 
     const svg = d3.select("#chart")
                   .append("svg")
@@ -44,14 +55,14 @@ export default function BubblesGraph (props) {
                   .attr("class", "circle-info")
                   .style("opacity", 0);
 
-
+    // Used to determine the size of circles on the page
     const radiusScale = d3.scaleSqrt().domain([domainMin, domainMax]).range([rangeMin, rangeMax]);
 
-    // Create the simlation for gravity and our circles
-    // collection of forces that is put on our circles
+    // Create the simlation for gravity and the
+    // collection of forces that is placed on the circles
     const simulation = d3.forceSimulation()
       .force("x", d3.forceX(width / 2).strength(0.07))
-      .force("y", d3.forceY(height / 2).strength(0.03))
+      .force("y", d3.forceY(height / 2).strength(0.05))
       .force("collide", d3.forceCollide(function(d) {
         if (dataKey === "followers") {
           return radiusScale(d[dataKey].total + 100000);
@@ -61,9 +72,9 @@ export default function BubblesGraph (props) {
         }
       }));
 
-    // In order to get circles to fill, we need to set defs
-    // defs allow us to import the images into hidden elements
-    // that we can reference in our circles in the svg element
+    // In order to get circles to fill, we need to set defs.
+    // <defs> allow us to import the images as hidden elements
+    // that we can reference for the circles fill attribute
     defs.selectAll(".artist-pattern")
         .data(data.query)
         .enter().append("pattern")
@@ -120,6 +131,7 @@ export default function BubblesGraph (props) {
                           dataNum = d[dataKey];
                        }
 
+                       // Show large numbers with commas
                        let numWithCommas = dataNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                        let dataDiv = `${d.name} | ${dataKey[0].toUpperCase() + dataKey.slice(1)}: ${numWithCommas}`
                        div.html(dataDiv)
@@ -142,7 +154,6 @@ export default function BubblesGraph (props) {
                           .style("opacity", 0);
                      })
 
-
     const ticked = () => {
       circles
         .attr("cx", function(d) {
@@ -154,11 +165,11 @@ export default function BubblesGraph (props) {
     };
 
     // Each tick, the system will check what forces are being
-    // applied to our nodes
+    // applied to our nodes using the ticked function above
     simulation.nodes(data.query)
       .on('tick', ticked);
 
-  }, [props.graphData, props.dataSet])
+  }, [props.graphData, props.dataSet, height, width])
 
     return (
       <div id="chart"></div>
