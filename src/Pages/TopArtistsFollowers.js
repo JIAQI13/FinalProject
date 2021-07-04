@@ -1,7 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import BubblesGraphFollowers from '../components/BubblesGraphFollowers';
+import BubblesGraph from '../components/BubblesGraph';
 
 export const GET_ARTIST = gql`
   query GetArtist {
@@ -28,7 +28,7 @@ export default function TopTracks () {
     <div>
       <Query query={GET_ARTIST}>
         {({ loading, data }) => !loading && (
-          <BubblesGraphFollowers graphData={data}></BubblesGraphFollowers>
+          <BubblesGraph graphData={data} dataSet={"followers"}></BubblesGraph>
           )}
       </Query>
     </div>
