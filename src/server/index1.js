@@ -9,9 +9,7 @@ const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
-const id = "36QJpDe2go2KgaRleHCDTp";
-
-let variable1 = 'BQBhxbonw4og8ICAd6L-1OMIGvczyoiemOm-SaLIDPDHimcQMiR-VTWj9Zg4WYx8jL2CAx1zlOVk3lbLawfMZcyTwBq8cAwc5i0ILjMe8MB6t5hpdonD03hPn7gv0UEvcpaKakiQxjuruVx2UUd7GemCsprjhR1old8OIntcvzbtWk0hTxb_zbhXGpVO3-tpnoRRm7ERyja3k4U94PZG2MGkPpp3yCMre7lq2GQRh6UEL7frDtu20_eLnSMyBQr3TJf6VOgDYvygp_smMVUyiacXwvvWnYCB-NRrgy6F'
+let variable1;
 //graphql
 const POSTS = [
   { author: "John Doe", body: "Hello world" },
