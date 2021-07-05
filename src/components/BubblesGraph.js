@@ -13,13 +13,17 @@ export default function BubblesGraph(props) {
     d3.select("#chart").selectAll("*").remove();
 
     const data = props.graphData;
+
+    console.log("data", data)
     let dataKey = ""
     let domainMin = 0;
     let rangeMin = 0;
     let domainMax = 0;
     let rangeMax = 0;
+    let dataBind = data.query;
 
-    if (props.dataSet === "followers") {
+    // Set the data that's being rendered based on what's being passed in
+    if (props.dataSet === "topArtistsFollowers") {
       dataKey = "followers";
 
       // For followers, the number can vary quite a but
@@ -36,10 +40,17 @@ export default function BubblesGraph(props) {
       rangeMax = 500;
     }
 
-    if (props.dataSet === "popularity") {
+    if (props.dataSet === "topArtistsPopularity") {
       dataKey = "popularity";
       domainMax = 150 * (width < 850 ? 2 : 1);
       rangeMax = 100
+    }
+
+    if (props.dataSet === "topTracksPopularity") {
+      dataKey = "topTracks";
+      domainMax = 150 * (width < 850 ? 2 : 1);
+      rangeMax = 100
+      dataBind = data.topTracks
     }
 
     const svg = d3.select("#chart")
@@ -70,13 +81,16 @@ export default function BubblesGraph(props) {
         if (dataKey === "popularity") {
           return radiusScale(d[dataKey]) + 1;
         }
+        if (dataKey === "topTracks") {
+          return radiusScale(d.popularity) + 1;
+        }
       }));
 
     // In order to get circles to fill, we need to set defs.
     // <defs> allow us to import the images as hidden elements
     // that we can reference for the circles fill attribute
     defs.selectAll(".artist-pattern")
-      .data(data.query)
+      .data(dataBind)
       .enter().append("pattern")
       .attr("class", "artist-pattern")
       .attr("id", function (d) {
@@ -91,7 +105,12 @@ export default function BubblesGraph(props) {
       .attr("preserveAspectRatio", "none")
       .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
       .attr("xlink:href", function (d) {
-        return d.images[0].url
+        if (dataKey === "followers" || dataKey === "popularity") {
+          return d.images[0].url
+        }
+        if (dataKey === "topTracks") {
+          return d.album.images[0].url
+        }
       })
 
     // Target the SVG to create the circles
@@ -100,7 +119,7 @@ export default function BubblesGraph(props) {
     // For multiple circles in the chart we use .append
     // Specify the attributes of the circles with .attr
     const circles = svg.selectAll(".artist")
-      .data(data.query)
+      .data(dataBind)
       .enter().append("circle")
       .attr("class", "artist")
       .attr("r", function (d) {
@@ -110,11 +129,22 @@ export default function BubblesGraph(props) {
         if (dataKey === "popularity") {
           return radiusScale(d[dataKey]) + 1;
         }
+        if (dataKey === "topTracks") {
+          return radiusScale(d.popularity) + 1;
+        }
       })
       .attr("fill", function (d) {
         return `url(#${d.name.toLowerCase().replace(/ /g, "-")})`;
       })
-      .on('mouseover', function (event, d, i) {
+      .style("stroke", "black")
+      .on("click", function (event, d) {
+        if (dataKey !== "top-tracks") {
+          props.onClick(d.id);
+        }
+      })
+
+      // Render the div with data information on mouseover events
+      .on('mouseover', function (event, d) {
         d3.select(this).transition()
           .duration('1')
           .attr('opacity', '.85');
@@ -122,7 +152,6 @@ export default function BubblesGraph(props) {
           .duration(50)
           .style("opacity", 1);
 
-        // Render the div with data information on mouseover events
         let dataNum = 0;
         if (dataKey === "followers") {
           dataNum = d[dataKey].total;
@@ -166,10 +195,10 @@ export default function BubblesGraph(props) {
 
     // Each tick, the system will check what forces are being
     // applied to our nodes using the ticked function above
-    simulation.nodes(data.query)
+    simulation.nodes(dataBind)
       .on('tick', ticked);
 
-  }, [props.graphData, props.dataSet, height, width])
+  }, [props, height, width])
 
   return (
     <div id="chart"></div>
