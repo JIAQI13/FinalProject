@@ -10,7 +10,6 @@ export const GET_ARTIST = gql`
       id
       name
       popularity
-      genres
       followers {
         href
         total

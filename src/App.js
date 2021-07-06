@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import PostViewer from "./Pages/PostViewer";
 import TopArtistsPopularity from "./Pages/TopArtistsPopularity";
 import TopArtistsFollowers from "./Pages/TopArtistsFollowers";
+import TopArtistsGenres from "./Pages/TopArtistsGenres";
 import TopTracksPopularity from './Pages/TopTracksPopularity';
 import TopTracksAnalysis from "./Pages/TopTracksAnalysis";
 import RelatedArtists from './Pages/RelatedArtists';
@@ -22,6 +23,7 @@ class App extends Component {
           <Route path="/graphs/top-artists/popularity" component={TopArtistsPopularity} exact />
           <Route path="/graphs/top-artists/followers" component={TopArtistsFollowers} exact />
           <Route path="/graphs/top-tracks/popularity" component={TopTracksPopularity} exact />
+          <Route path="/graphs/top-artists/genres" component={TopArtistsGenres} exact />
           <Route path="/graphs/top-artists/:id/related-artists" component={RelatedArtists} exact />
           <Route
             path="/graphs/top-tracks-analysis"
