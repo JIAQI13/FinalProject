@@ -19,25 +19,20 @@ import useWindowDimensions from '../helpers/userWindowDimensions'
 
 
 
-const data = {
+ const data = {
   name: "Led Zeppelin",
   children: [
     {
-      name: "Rolling Stones",
-      children: [
-        {
-          name: "Deep Purple"
-        },
-        {
-          name: "Janis Joplin"
-        },
-        {
-          name: "Blue Oyster Cult"
-        }
-      ]
+      name: "Deep Purple",
     },
     {
-      name: "Jimi Hendrix"
+      name: "Blue Oyster Cult",
+    },
+    {
+      name: "Janis Joplin",
+    },
+    {
+      name: "Jimi Hendrix",
     }
   ]
 };
@@ -64,14 +59,15 @@ function ForceTreeChart() {
 
     // d3 util to work with hierarchical data
     const root = hierarchy(data);
+
     const nodeData = root.descendants();
     const linkData = root.links();
 
     const simulation = forceSimulation(nodeData)
-      .force("charge", forceManyBody().strength(-30))
+      .force("charge", forceManyBody().strength(-150))
       .force("collide", forceCollide(30))
       .on("tick", () => {
-        console.log("current force", simulation.alpha());
+        // console.log("current force", simulation.alpha());
 
         // current alpha text
         svg
@@ -102,7 +98,10 @@ function ForceTreeChart() {
           .data(nodeData)
           .join("circle")
           .attr("class", "node")
-          .attr("r", 4)
+          .attr("r", function(d) {
+            console.log("d", d)
+            return 28 * (d.data.name === "Led Zeppelin" ? 3 : 1)
+          })
           .attr("cx", node => node.x)
           .attr("cy", node => node.y);
 
@@ -112,9 +111,9 @@ function ForceTreeChart() {
           .data(nodeData)
           .join("text")
           .attr("class", "label")
-          .attr("text-anchor", "middle")
-          .attr("font-size", 20)
-          .text(node => node.data.name)
+          // .attr("text-anchor", "middle")
+          // .attr("font-size", 20)
+          // .text(node => node.data.name)
           .attr("x", node => node.x)
           .attr("y", node => node.y);
       });
