@@ -1,7 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { useParams } from 'react-router';
-import { Query } from 'react-apollo';
 
 export const GET_TRACK = gql`
   query GetTrack {
@@ -20,7 +19,7 @@ export const GET_TRACK = gql`
 `;
 
 export default function RelatedArtists () {
-  const { id } = useParams();
+  // const { id } = useParams();
 
   return (
     <h1>Hello</h1>

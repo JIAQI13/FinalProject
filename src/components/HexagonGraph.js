@@ -10,7 +10,7 @@ const d3 = {
 export default function HexagonGraph(props) {
 
   // Added top artists to grab the images from the data
-  const data = props.graphData.query
+  const data = props.graphData.topArtists
 
   // We should use some type of state until the data loads,
   // but for now, useEffect works for loading the data when ready
