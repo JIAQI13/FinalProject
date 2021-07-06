@@ -94,7 +94,7 @@ export default function BubblesGraph(props) {
       .enter().append("pattern")
       .attr("class", "artist-pattern")
       .attr("id", function (d) {
-        return d.name.toLowerCase().replace(/ /g, "-")
+        return d.name.toLowerCase().replace(/ /g, "-").replace(/'/g, "-").replace(/"/g, "-")
       })
       .attr("height", "100%")
       .attr("width", "100%")
@@ -134,7 +134,7 @@ export default function BubblesGraph(props) {
         }
       })
       .attr("fill", function (d) {
-        return `url(#${d.name.toLowerCase().replace(/ /g, "-")})`;
+        return `url(#${d.name.toLowerCase().replace(/ /g, "-").replace(/'/g, "-").replace(/"/g, "-")})`;
       })
       .style("stroke", "black")
       .on("click", function (event, d) {
