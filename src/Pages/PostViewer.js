@@ -15,7 +15,7 @@ export const GET_POSTS = gql`
 
 export const GET_ARTIST = gql`
   query GetArtist {
-    query {
+    topArtists {
       id
       name
       popularity
@@ -57,7 +57,7 @@ export default function PostViewer() {
               </tr>
             </thead>
             <tbody>
-              {data.query.map(artist => (
+              {data.topArtists.map(artist => (
                 <tr key={artist.id}>
                   <td>{artist.name}</td>
                   <td>{artist.popularity}</td>

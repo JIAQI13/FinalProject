@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 
 const TOP_TRACKS = gql`
   query TOP_TRACKS {
-    toptracks {
+    top10Tracks {
       id
       name
     }
@@ -14,7 +14,7 @@ const TOP_TRACKS = gql`
 `;
 const TRACKS_ANALYSIS = gql`
   query TRACKS_ANALYSIS {
-    tracksanalysis {
+    tracksAnalysis {
       id
       danceability
       energy
@@ -33,14 +33,14 @@ export default function TopTracksAnalysis() {
       <div className="d-flex align-items-center">
         <Query query={TOP_TRACKS}>
           {({ loading, data }) =>
-            // !loading && console.log(data.toptracks)
+            // !loading && console.log(data.top10Tracks)
             !loading && (
               <div className="d-flex flex-column p-2 m-2">
                 <span className="d-flex bg-primary text-white">
                   Top 10 Tracks
                 </span>
                 <ol>
-                  {data.toptracks.map((track) => {
+                  {data.top10Tracks.map((track) => {
                     return (
                       <li className="p-1 m-2">
                         {track.name}
@@ -56,7 +56,8 @@ export default function TopTracksAnalysis() {
       </div>
       <div className="flex-grow-1">
         <Query query={TRACKS_ANALYSIS}>
-          {({ loading, data }) =>
+          {
+            ({ loading, data }) =>
             // !loading && console.log(data)
             !loading && <RadarGraph data={data}></RadarGraph>
           }

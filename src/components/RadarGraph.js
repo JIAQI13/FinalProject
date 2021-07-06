@@ -36,7 +36,7 @@ const audio_features = [
 
 export default function RadarGraph(data) {
   const { height, width } = useWindowDimensions();
-  const sets = transformData(data.data.tracksanalysis);
+  const sets = transformData(data.data.tracksAnalysis);
   return (
     <Radar
       width={width / 2}
