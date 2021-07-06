@@ -6,7 +6,7 @@ import BubblesGraph from '../components/BubblesGraph';
 
 export const GET_ARTIST = gql`
   query GetArtist {
-    query {
+    topArtists {
       id
       name
       popularity

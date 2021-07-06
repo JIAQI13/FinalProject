@@ -20,7 +20,7 @@ export default function BubblesGraph(props) {
     let rangeMin = 0;
     let domainMax = 0;
     let rangeMax = 0;
-    let dataBind = data.query;
+    let dataBind = data.topArtists;
 
     // Set the data that's being rendered based on what's being passed in
     if (props.dataSet === "topArtistsFollowers") {
@@ -30,7 +30,7 @@ export default function BubblesGraph(props) {
       // So we get the largest number of followers and
       // use that to determine the domainMax
       const largest = [];
-      data.query.forEach(num => {
+      data.topArtists.forEach(num => {
         largest.push(num.followers.total)
       });
 
