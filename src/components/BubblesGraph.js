@@ -94,7 +94,7 @@ export default function BubblesGraph(props) {
       .enter().append("pattern")
       .attr("class", "artist-pattern")
       .attr("id", function (d) {
-        return d.name.toLowerCase().replace(/ /g, "-")
+        return d.name.toLowerCase().replace(/ /g, "-").replace(/'/g, "-").replace(/"/g, "-")
       })
       .attr("height", "100%")
       .attr("width", "100%")
@@ -134,12 +134,18 @@ export default function BubblesGraph(props) {
         }
       })
       .attr("fill", function (d) {
-        return `url(#${d.name.toLowerCase().replace(/ /g, "-")})`;
+        return `url(#${d.name.toLowerCase().replace(/ /g, "-").replace(/'/g, "-").replace(/"/g, "-")})`;
       })
       .style("stroke", "black")
       .on("click", function (event, d) {
         if (dataKey !== "top-tracks") {
-          props.onClick(d.id);
+          console.log("everything", d)
+          props.onClick(
+            d.id,
+            d.name,
+            d.images,
+            d.external_urls
+            );
         }
       })
 
@@ -147,7 +153,8 @@ export default function BubblesGraph(props) {
       .on('mouseover', function (event, d) {
         d3.select(this).transition()
           .duration('1')
-          .attr('opacity', '.85');
+          .attr('opacity', '.85')
+          .style("cursor", "pointer");
         div.transition()
           .duration(50)
           .style("opacity", 1);
@@ -177,7 +184,8 @@ export default function BubblesGraph(props) {
       .on('mouseout', function (d, i) {
         d3.select(this).transition()
           .duration('1')
-          .attr('opacity', '1');
+          .attr('opacity', '1')
+          .style("cursor", "default");
         div.transition()
           .duration('50')
           .style("opacity", 0);

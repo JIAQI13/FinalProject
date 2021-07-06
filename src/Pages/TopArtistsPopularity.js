@@ -26,11 +26,23 @@ export const GET_ARTIST = gql`
 
 export default function TopArtistsPopularity () {
   // If a user selects an artist's bubble, will send user
-  // to the artist's id, currently looking for related artists
+  // to the artist's id, looking for related artists
   const history = useHistory()
 
-  const onClick = (id) => {
-    history.push(`${id}/related-artists`)
+  const onClick = (id, name, images, external_urls) => {
+    console.log("name", name)
+    console.log("images", images)
+    console.log("external_urls", external_urls)
+
+    history.push({
+      pathname: `${id}/related-artists`,
+      state: {
+        id: id,
+        name: name,
+        images: [...images],
+        external_urls: {...external_urls}
+      }
+    });
   }
 
   return (
