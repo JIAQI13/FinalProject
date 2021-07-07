@@ -49,7 +49,7 @@ export default function HexagonGraph(props) {
       // .attr("width", width + margin.left + margin.right)
       // .attr("height", height + margin.top + margin.bottom)
       .attr("preserveAspectRatio", "xMinYMin meet")
-      .attr("viewBox", "50 50 1600 900")
+      .attr("viewBox", "50 50 1500 1000")
       // Class to make it responsive.
       .classed("svg-content-responsive", true)
       .append("g")
@@ -72,10 +72,7 @@ export default function HexagonGraph(props) {
     function random() {
       return Math.random() * 255
     }
-    var t = d3
-      .transition()
-      .duration(1000)
-      .style("fill-opacity");
+
     //Start drawing the hexagons
     svg.selectAll(".hexagons")
       .data(hexbin(points))
@@ -87,23 +84,23 @@ export default function HexagonGraph(props) {
         return "m" + d.x + "," + d.y + hexbin.hexagon();
       })
       .attr("stroke", function (d) {
-        return '#000'
-        // return `rgb(${(random())},${(random())},${(random())})`
+        return '#fff'
       })
       .attr("stroke-width", "172px")
+      //.on("click", () => { console.log('click') })
       .on('mouseover', function (d) {
         d3.select(this)
           .transition()
-          .duration(1200)
+          .duration(700)
           .style('stroke-opacity', 1)
           .style("stroke", "url(#grump_avatar)")
       })
       .on("mouseout", function (d) {
         d3.select(this)
           .transition()
-          .duration(1200)
-          .style("stroke-opacity", 0.3)
-          .style('stroke', `rgb(${(random())},${(random())},${(random())})`)
+          .duration(3000)
+          .style("stroke-opacity", 0)
+          .style('stroke', `rgb(${(random())},${(random())},${(random())},${(random())})`)
       })
   }, [data])
 
