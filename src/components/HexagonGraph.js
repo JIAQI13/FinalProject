@@ -13,18 +13,18 @@ export default function HexagonGraph(props) {
 
   useEffect(() => {
     //svg sizes and margins
-    const margin = {
-      top: 50,
-      right: 0,
-      bottom: 0,
-      left: 0
-    };
+    // const margin = {
+    //   top: 100,
+    //   right: 0,
+    //   bottom: 0,
+    //   left: 0
+    // };
 
-    const width = 1900;
-    const height = 500;
+    // const width = 1900;
+    // const height = 500;
 
-    const MapColumns = 11,
-      MapRows = 4;
+    const MapColumns = 20,
+      MapRows = 20;
     const hexRadius = 100;
 
     const hexbin = d3.hexbin();
@@ -46,57 +46,65 @@ export default function HexagonGraph(props) {
     const svg = d3
       .select("#plot-area")
       .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
+      // .attr("width", width + margin.left + margin.right)
+      // .attr("height", height + margin.top + margin.bottom)
+      .attr("preserveAspectRatio", "xMinYMin meet")
+      .attr("viewBox", "50 50 1600 900")
+      // Class to make it responsive.
+      .classed("svg-content-responsive", true)
       .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var defs = svg
-      .append('svg:defs')
-      .attr("d", "M 20,20, 57.7,-100, 115.5,0z")
-      .attr("transform", "translate(135.5, 100)")
-      .attr("fill", "url(#grump_avatar)");
+    var defs = svg.append('svg:defs')
 
     defs.append("svg:pattern")
+      .style("fill-opacity", 1)
       .attr("id", "grump_avatar")
-      .attr("width", 100)
-      .attr("height", 100)
-      .attr("patternUnits", "userSpaceOnUse")
+      .attr("width", 200)
+      .attr("height", 200)
+      .attr("x", -50)
+      .attr("y", -50)
+      // .attr("patternUnits", "userSpaceOnUse")
       .append("svg:image")
       .attr("xlink:href", 'https://i.scdn.co/image/ab6761610000e5eb0db3b11972a84207f256769b')
-      .attr("width", 100)
-      .attr("height", 100)
-      .attr("x", 0)
-      .attr("y", 0);
+      .attr("width", 200)
+      .attr("height", 200);
     function random() {
       return Math.random() * 255
     }
+    var t = d3
+      .transition()
+      .duration(1000)
+      .style("fill-opacity");
     //Start drawing the hexagons
     svg.selectAll(".hexagons")
       .data(hexbin(points))
       .enter()
       .append("path")
       .attr("class", "hexagon")
-      .style("r", "400")
+      // .style("r", "400")
       .attr("d", function (d) {
         return "m" + d.x + "," + d.y + hexbin.hexagon();
       })
       .attr("stroke", function (d) {
-        return `rgb(${(random())},${(random())},${(random())})`
+        return '#000'
+        // return `rgb(${(random())},${(random())},${(random())})`
       })
       .attr("stroke-width", "172px")
       .on('mouseover', function (d) {
-        this.parentNode.parentNode.appendChild(this.parentNode);
-        this.parentNode.parentNode.parentNode.appendChild(this.parentNode.parentNode);
-        d3.select(this).style('stroke', 'black')
-          .style("stroke", "url(#grump_avatar)");
+        d3.select(this)
+          .transition()
+          .duration(1200)
+          .style('stroke-opacity', 1)
+          .style("stroke", "url(#grump_avatar)")
       })
-    // .on("mouseout", function (d) {
-    //   this.parentNode.parentNode.appendChild(this.parentNode);//the path group is on the top with in its parent group
-    //   this.parentNode.parentNode.parentNode.appendChild(this.parentNode.parentNode);//the parent group is on the top with in its parent group
-    //   d3.select(this)
-    //     .style('stroke', `rgb(${(random())},${(random())},${(random())})`);
-    // })
+      .on("mouseout", function (d) {
+        d3.select(this)
+          .transition()
+          .duration(1200)
+          .style("stroke-opacity", 0.3)
+          .style('stroke', `rgb(${(random())},${(random())},${(random())})`)
+      })
   }, [data])
 
   return (
