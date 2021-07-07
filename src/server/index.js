@@ -27,6 +27,7 @@ const schema = buildASTSchema(gql`
     relatedArtists(id:String): [Artists]
     audioFeatures(ids:String): [AudioFeatures]
     tracksAnalysis: [AudioFeatures]
+    trackInfo(ids:String): [Tracks]
   }
 
   type Post {
@@ -62,10 +63,10 @@ type Album {
   total_tracks: Int
   type: String
   uri: String
-  images: [Images ]
+  images: [Images]
   external_urls: ExternalUrls
-  available_markets: [String ]
-  artists: [Artists ] }
+  artists: [Artists]
+}
 
 type Tracks {
   disc_number: Int
@@ -248,6 +249,24 @@ const root = {
         return value.audio_features;
       });
   },
+  trackInfo: async (args) => {
+    const value = await new Promise(resolve => {
+      console.log('***************', args.id);
+      request({
+        url: `https://api.spotify.com/v1/tracks?ids=5CQ30WqJwcep0pYcV4AMNc%2C5CQ30WqJwcep0pYcV4AMNc&market=US`,
+        method: "GET",
+        headers: {
+          'Authorization': 'Bearer ' + variable1
+        },
+        json: true
+      }, function (error, response, body) {
+        if (!error)
+          resolve(body);
+      });
+    });
+    // process value here
+    return value.tracks
+  }
 };
 
 //spotify login prepare

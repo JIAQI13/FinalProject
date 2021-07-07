@@ -63,52 +63,68 @@ export default function Chords(props) {
     {
       artist: "Chill Jazz",
       genres: ["dinner jazz"]
+    },
+    {
+      artist: "League of Legends",
+      genres: ["speedrun", "video game music"]
     }
   ]
 
-  const genres = ["art rock", "classic rock", "glam rock", "permanent wave", "rock", "dinner jazz"]
+  console.log("aritsts", artists)
+
+  const genres = ["art rock", "classic rock", "glam rock", "permanent wave", "rock", "dinner jazz", "speedrun", "video game music"]
 
 
-  for (const artist of artistName) {
-    // This is the row of arrays
-    // artist compared to each genre
+  const bowie = ["Bowie", "art rock", "classic rock", "glam rock", "permanent wave", "rock"]
+  const jazz = ["Chill Jazz", "dinner jazz"]
+  const league = ["League of Legends", "speedrun", "video game music"]
 
+  const allOfThem = [...bowie, ...jazz, ...league]
+
+  const them = [bowie, jazz, league]
+
+  const final = [];
+
+  for (const item of them) {
+    const prepareBooleans = (genres, item) => {
+      const booleans = genres.map(el => {
+          return item.includes(el);
+      });
+      return booleans;
+    };
+    const test = (prepareBooleans(genres, item));
+    final.push(test)
   }
 
+  // // const artistNames = [3,9,11,2,20];
+  // // const genres = [1,2,3];
+  // const prepareBooleans = (artistNames, genres) => {
+  //   const booleans = artistNames.map(el => {
+  //       return genres.includes(el);
+  //   });
+  //   return booleans;
+  // };
+  // const test = (prepareBooleans(artistNames, genres));
 
 
+  // for (const artist of artists) {
+  //   const row = []
+  //   const artistGenres = [...artist.genres]
 
+  //   const prepareBooleans = (genres, artistGenres) => {
+  //     const booleans = genres.map(el => {
+  //         return artistGenres.includes(el);
+  //     });
+  //     return booleans;
+  //   };
+  //   const yes = (prepareBooleans(genres, artistGenres));
 
-  // console.log("maybe?", finalArr)
+  //   yes.forEach((e) => e === true ? row.push(1) : row.push(0))
 
+  //   final.push(row)
+  // }
 
-  const test = [
-    {
-      source: "France",
-      target: "Britain",
-      value: 22.4
-    },
-    {
-      source: "Greece",
-      target: "Britain",
-      value: 0.55
-    },
-    {source: "Italy", target: "Britain", value: 26},
-    {source: "Portugal", target: "Britain", value: 19.4},
-    {source: "United States", target: "Britain", value: 345},
-    {source: "Germany", target: "France", value: 53.8},
-    {source: "Greece", target: "France", value: 53.9},
-    {source: "Ireland", target: "France", value: 17.3},
-    {source: "Italy", target: "France", value: 366},
-    {source: "Japan", target: "France", value: 7.73},
-    {source: "Portugal", target: "France", value: 18.3},
-  ]
-
-  console.log("what", chord(test));
-
-  const genreNames = []
-  const genreNumbers = []
-  const genreColors = []
+  console.log("final", final)
 
   // Making random colors
   const random = () => {
@@ -121,28 +137,30 @@ export default function Chords(props) {
     return returnVal
   }
 
+  // const matrix = [
+  //   [1, 1, 1],
+  //   [1, 1, 1],
+  //   [1, 1, 1],
+  //   [1, 1, 1],
+  //   [1, 1, 1],
+  //   [1, 1, 1],
+  //   [1, 1, 1],
+  //   [1, 1, 1],
+  //   [1, 1, 1],
+  //   [1, 1, 1],
+  //   [1, 1, 1],
+  // ]
 
-  // for (const key in test) {
-  //   // console.log("key?", key)
-  //   genreNames.push(key)
-  //   genreNumbers.push(test[key])
-  //   genreColors.push(`#${random()}`)
-  // }
-
-  // console.log("names:", genreNames)
-  // console.log("numbers:", genreNumbers)
-  // console.log("colors:", genreColors)
 
   const matrix = [
-    [0,1,1,1,1,1,0,0,1,1],
-    [1,1,1,1,1,1,1,1,1,1],
-    [1,1,1,1,1,1,1,1,1,1],
-  ];
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+  ]
 
 
+  console.log("allofthem", allOfThem)
 
-  const testNames = ["album rock", "art rock", "classic rock", "glam rock", "permanent wave", "rock", "dinner jazz", "speedrun", "video game music", "indie rock", "modern rock", "alternative hip hop", "conscious hip hop", "east coast hip hop", "hardcore hip hop", "hip hop", "indie r&b", "neo soul", "philly rap", "political hip hop", "southern hip hop", "pittsburgh rap", "rap", "classic soul", "funk", "motown", "northern soul", "quiet storm", "soul", "jazz trio", "alternative rock", "folk rock", "melancholia", "protopunk", "psychedelic rock", "atl hip hop", "psychedelic hip hop", "underground hip hop", "lo-fi beats", "blues rock", "country rock", "folk", "mellow gold", "roots rock", "soft rock", "supergroup", "acid rock", "british folk", "british invasion", "psychedelic folk", "scottish singer-songwriter", "singer-songwriter"]
-  const testNums = [3, 4, 5, 2, 2, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 4, 1, 1, 1, 5, 1, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1]
   const testColors = ["#E3EF9F", "#77CB0E", "#F02508", "#F93C80", "#7F95E2", "#021F62", "#D2DB88", "#8A722B", "#620BA2", "#E021B6", "#7900CB", "#EFB0F0", "#0A4644", "#82A16C", "#BC5989", "#B07EFA", "#A5B0DF", "#E650C1", "#CFAF6E", "#A85A6F", "#9F5A2F", "#EF46EB", "#3E095F", "#73F5CD", "#C83F37", "#6DB760", "#D8EBEF", "#677FAD", "#01F638", "#9A49F5", "#CF6A59", "#70E4EA", "#1CF554", "#DC6846", "#5F089D", "#A1E950", "#B6A430", "#176F0B", "#69D79A", "#0A23A5", "#4FF57E", "#46AD8C", "#4FE067", "#B59F57", "#D632BB", "#783154", "#F1E1A8", "#0E392F", "#E66118", "#133187", "#05F66E", "#2250CC"]
 
   return (
@@ -150,7 +168,7 @@ export default function Chords(props) {
       <ChordDiagram
       matrix={matrix}
       componentId={1}
-      groupLabels={all}
+      groupLabels={allOfThem}
       groupColors={testColors}
     />
     </div>
