@@ -1,17 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as d3d from 'd3';
 import * as HexbinPlot from 'd3-hexbin';
 const d3 = {
   ...d3d,
   hexbin: HexbinPlot.hexbin
 }
-
+let url;
 export default function HexagonGraph(props) {
 
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
   // Added top artists to grab the images from the data
   const data = props.graphData.topArtists
+  url = useRef(data[getRandomInt(data.length)].images[2].url);
 
   useEffect(() => {
+
+
+    function random() {
+      return Math.random() * 255
+    }
     const MapColumns = 20,
       MapRows = 20;
     const hexRadius = 100;
@@ -46,15 +55,18 @@ export default function HexagonGraph(props) {
       .attr("id", "grump_avatar")
       .attr("width", 200)
       .attr("height", 200)
-      .attr("x", -50)
+      .attr("x", -60)
       .attr("y", -50)
       .append("svg:image")
-      .attr("xlink:href", 'https://i.scdn.co/image/ab6761610000e5eb0db3b11972a84207f256769b')
+      .attr("xlink:href", () => {
+        url.current = data[getRandomInt(data.length)].images[2].url
+        console.log(url.current);
+        return url.current
+      })
+      //.attr("xlink:href", 'https://i.scdn.co/image/ab6761610000e5eb0db3b11972a84207f256769b')
       .attr("width", 200)
       .attr("height", 200)
-    function random() {
-      return Math.random() * 255
-    }
+
 
     //Start drawing the hexagons
     svg.selectAll(".hexagons")
@@ -73,6 +85,8 @@ export default function HexagonGraph(props) {
         window.location.href = "http://localhost:4000/login"
       })
       .on('mouseover', function (d) {
+        // url.current = data[getRandomInt(data.length)].images[2].url;
+        // console.log(url.current);
         d3.select(this)
           .transition()
           .duration(700)

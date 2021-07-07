@@ -198,8 +198,8 @@ const root = {
         }
       );
     });
-      // process value here
-      return value.items;
+    // process value here
+    return value.items;
   },
   tracksAnalysis: () => {
     return new Promise((resolve) => {
@@ -294,13 +294,13 @@ app.get("/login", function (req, res) {
     "user-read-private user-read-email user-read-recently-played user-top-read user-follow-read user-follow-modify playlist-read-private playlist-read-collaborative playlist-modify-public";
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
-      querystring.stringify({
-        response_type: "code",
-        client_id: client_id,
-        scope: scope,
-        redirect_uri: redirect_uri,
-        state: state,
-      })
+    querystring.stringify({
+      response_type: "code",
+      client_id: client_id,
+      scope: scope,
+      redirect_uri: redirect_uri,
+      state: state,
+    })
   );
 });
 
@@ -315,9 +315,9 @@ app.get("/callback", function (req, res) {
   if (state === null || state !== storedState) {
     res.redirect(
       "/#" +
-        querystring.stringify({
-          error: "state_mismatch",
-        })
+      querystring.stringify({
+        error: "state_mismatch",
+      })
     );
   } else {
     res.clearCookie(stateKey);
@@ -340,13 +340,13 @@ app.get("/callback", function (req, res) {
       if (!error && response.statusCode === 200) {
         // we can also pass the token to the browser to make requests from there
         variable1 = body.access_token;
-        res.redirect("http://localhost:3000/view");
+        res.redirect("http://localhost:3000/graphs/top-artists/popularity");
       } else {
         res.redirect(
-          "http://localhost:3000/view" +
-            querystring.stringify({
-              error: "invalid_token",
-            })
+          "http://localhost:3000/graphs/top-artists/popularity" +
+          querystring.stringify({
+            error: "invalid_token",
+          })
         );
       }
     });
