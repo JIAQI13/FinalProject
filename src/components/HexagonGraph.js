@@ -5,7 +5,6 @@ const d3 = {
   ...d3d,
   hexbin: HexbinPlot.hexbin
 }
-let url;
 export default function HexagonGraph(props) {
 
   function getRandomInt(max) {
@@ -17,8 +16,6 @@ export default function HexagonGraph(props) {
   }
   // Added top artists to grab the images from the data
   const data = props.graphData.topArtists
-  url = useRef(data[getRandomInt(data.length)].images[2].url);
-
   useEffect(() => {
 
 
@@ -49,25 +46,20 @@ export default function HexagonGraph(props) {
       .classed("svg-content-responsive", true)
       .append("g")
 
-    var defs = svg.append('svg:defs')
-
-    defs.append("svg:pattern")
-      .style("fill-opacity", 1)
-      .attr("id", "grump_avatar")
-      .attr("width", 200)
-      .attr("height", 200)
-      .attr("x", -60)
-      .attr("y", -50)
-      .append("svg:image")
-      .attr("xlink:href", () => {
-        url.current = data[getRandomInt(data.length)].images[2].url
-        console.log(url.current);
-        return url.current
-      })
-      //.attr("xlink:href", 'https://i.scdn.co/image/ab6761610000e5eb0db3b11972a84207f256769b')
-      .attr("width", 200)
-      .attr("height", 200)
-
+    for (let i = 0; i < data.length; i++) {
+      svg.append('svg:defs')
+        .append("svg:pattern")
+        .style("fill-opacity", 1)
+        .attr("id", 'a'.repeat(i))
+        .attr("width", 200)
+        .attr("height", 200)
+        .attr("x", -60)
+        .attr("y", -50)
+        .append("svg:image")
+        .attr("xlink:href", data[i].images[2].url)
+        .attr("width", 200)
+        .attr("height", 200)
+    }
 
     //Start drawing the hexagons
     svg.selectAll(".hexagons")
@@ -86,13 +78,11 @@ export default function HexagonGraph(props) {
         window.location.href = "http://localhost:4000/login"
       })
       .on('mouseover', function (d) {
-        url.current = data[getRandomInt(data.length)].images[2].url;
-        console.log('mouse', url.current);
         d3.select(this)
           .transition()
           .duration(700)
           .style('stroke-opacity', 1)
-          .style("stroke", "url(#grump_avatar)")
+          .style("stroke", `url(#${'a'.repeat(getRandomInt(data.length))}`)
       })
       .on("mouseout", function (d) {
         d3.select(this)
