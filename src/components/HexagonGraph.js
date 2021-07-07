@@ -11,6 +11,10 @@ export default function HexagonGraph(props) {
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
+
+  function random() {
+    return Math.random() * 255
+  }
   // Added top artists to grab the images from the data
   const data = props.graphData.topArtists
   url = useRef(data[getRandomInt(data.length)].images[2].url);
@@ -18,9 +22,6 @@ export default function HexagonGraph(props) {
   useEffect(() => {
 
 
-    function random() {
-      return Math.random() * 255
-    }
     const MapColumns = 20,
       MapRows = 20;
     const hexRadius = 100;
@@ -49,7 +50,7 @@ export default function HexagonGraph(props) {
       .append("g")
 
     var defs = svg.append('svg:defs')
-
+    console.log('mouse over', url.current);
     defs.append("svg:pattern")
       .style("fill-opacity", 1)
       .attr("id", "grump_avatar")
@@ -85,8 +86,8 @@ export default function HexagonGraph(props) {
         window.location.href = "http://localhost:4000/login"
       })
       .on('mouseover', function (d) {
-        // url.current = data[getRandomInt(data.length)].images[2].url;
-        // console.log(url.current);
+        url.current = data[getRandomInt(data.length)].images[2].url;
+        console.log('mouse over', url.current);
         d3.select(this)
           .transition()
           .duration(700)
