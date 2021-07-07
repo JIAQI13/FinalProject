@@ -50,7 +50,7 @@ export default function HexagonGraph(props) {
       .append("g")
 
     var defs = svg.append('svg:defs')
-    console.log('mouse over', url.current);
+
     defs.append("svg:pattern")
       .style("fill-opacity", 1)
       .attr("id", "grump_avatar")
@@ -87,7 +87,7 @@ export default function HexagonGraph(props) {
       })
       .on('mouseover', function (d) {
         url.current = data[getRandomInt(data.length)].images[2].url;
-        console.log('mouse over', url.current);
+        console.log('mouse', url.current);
         d3.select(this)
           .transition()
           .duration(700)
