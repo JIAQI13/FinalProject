@@ -6,8 +6,8 @@ import HexagonGraph from '../components/HexagonGraph';
 const Home = () => {
   return (
     <BrowserRouter>
-      <h1>home Pages</h1>
-      <Link to='/privacy-policy'>view</Link>
+      {/* <h1>home Pages</h1>
+      <Link to='/privacy-policy'>view</Link> */}
       <Switch>
         <Route path='/privacy-policy' component={() => {
           window.location.href = 'http://localhost:4000/login';
