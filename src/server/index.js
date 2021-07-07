@@ -27,7 +27,7 @@ const schema = buildASTSchema(gql`
     relatedArtists(id:String): [Artists]
     audioFeatures(ids:String): [AudioFeatures]
     tracksAnalysis: [AudioFeatures]
-    trackInfo(ids:String): [Tracks]
+    topTracksInfo(ids:String): [Tracks]
   }
 
   type Post {
@@ -249,11 +249,10 @@ const root = {
         return value.audio_features;
       });
   },
-  trackInfo: async (args) => {
-    const value = await new Promise(resolve => {
-      console.log('***************', args.id);
+  topTracksInfo: async () => {
+    return new Promise(resolve => {
       request({
-        url: `https://api.spotify.com/v1/tracks?ids=5CQ30WqJwcep0pYcV4AMNc%2C5CQ30WqJwcep0pYcV4AMNc&market=US`,
+        url: "https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=50",
         method: "GET",
         headers: {
           'Authorization': 'Bearer ' + variable1
@@ -263,9 +262,38 @@ const root = {
         if (!error)
           resolve(body);
       });
+    })
+    .then ((value) => {
+      let allIds = ""
+      for (let i = 0; i < value.items.length; i++) {
+        allIds += `${value.items[i].id}`
+
+        // Add commas except final value
+        if (i !== value.items.length - 1) {
+          allIds += "%2C"
+        }
+      }
+      return new Promise((resolve) => {
+        console.log("***************", variable1);
+        request(
+          {
+            url: `https://api.spotify.com/v1/tracks?ids=${allIds}&market=US`,
+            method: "GET",
+            headers: {
+              Authorization: "Bearer " + variable1,
+            },
+            json: true,
+          },
+          function (error, response, body) {
+            if (!error) resolve(body);
+          }
+        );
+      });
+    })
+    .then((value) => {
+      // process value here
+      return value.tracks;
     });
-    // process value here
-    return value.tracks
   }
 };
 
