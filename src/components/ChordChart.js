@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import ChordDiagram from 'react-chord-diagram'
 import * as d3 from 'd3';
 import useWindowDimensions from '../helpers/userWindowDimensions'
+import { chord } from 'd3';
 
 export default function Chords(props) {
   const { height, width } = useWindowDimensions();
@@ -9,83 +10,101 @@ export default function Chords(props) {
   const data = [...props.graphData.topArtists]
   console.log("data", props.graphData.topArtists)
 
-  const bigArr = [];
+  const nameOrGenres = [];
 
   //tmp
-  const slicedArray = data.slice(0, 10);
+  const slicedArray = data.slice(0, 5);
 
   // tmp
-  for (let i = 0; i < 10; i++) {
-    bigArr.push(data[i].name, ...data[i].genres)
+  for (let i = 0; i < 5; i++) {
+    nameOrGenres.push(data[i].name, ...data[i].genres)
   }
 
   // Combine artists and genres into one mega array
   // data.forEach(element => {
-  //   bigArr.push(element.name, ...element.genres)
+  //   nameOrGenres.push(element.name, ...element.genres)
   // });
 
-  // ????
-  // || item === artistGenre.find(element => element === item)
-
   // Remove any duplicates from the mega array
-  // console.log("bigArr", bigArr)
-  const all = [...new Set(bigArr)]
+  // console.log("nameOrGenres", nameOrGenres)
+  const all = [...new Set(nameOrGenres)]
   console.log("all", all)
 
   const finalArr = [];
 
-  for (const item of all) {
-    const rowArr = []
-    for (const artistOrGenre of slicedArray) {
+  // WORKING? EXAMPLE
 
-      // If artists title matches, you can add for all genres by default
-      if (item === artistOrGenre.name) {
-        rowArr.push(0)
-        artistOrGenre.genres.forEach(() => rowArr.push(1))
-      } else {
-        const genres = artistOrGenre.genres.map(element => element === item);
-        if (genres.find(element => element === true)) {
-          rowArr.push(1)
-        }
-        genres.forEach((element) => element === true ? rowArr.push(0) : rowArr.push(0))
-      }
-      rowArr.push(0)
+  // for (const item of all) {
+  //   const rowArr = []
+  //   for (const artistOrGenre of slicedArray) {
 
-      // const genres = artistOrGenre.genres.map(element => element === item);
-      // console.log("genres", genres)
-      // genres.forEach((element) => element === true ? rowArr.push(1) : rowArr.push(0))
-
-
-      // If the name doesn't match, check the genres and push if they match (should be just once)
-      // if (item !== artistOrGenre.name && item === artistOrGenre.genres.find(element => element === item)) {
-      //   rowArr.push(1)
-      // }
-      // else if (item !== artistOrGenre.name && item !== artistOrGenre.genres.find(element => element === item)) {
-      //   artistOrGenre.genres.forEach(() => rowArr.push(0))
-      // }
-
-    }
-    finalArr.push(rowArr)
-  }
-
-  console.log("maybe?", finalArr)
-
-  // for (let i = 0; i < 1; i++) {
-  //   constRow = []
-  //   let count = 0;
-
-
-  //   // if (all[i] === data[i].name || all[i] === data[i].genres.find(element => element === all[i]) {
-  //   //   count++
-  //   // }
-
+  //     // If artists title matches, you can add for all genres by default
+  //     if (item === artistOrGenre.name) {
+  //       rowArr.push(0)
+  //       artistOrGenre.genres.forEach(() => rowArr.push(1))
+  //     } else {
+  //       const genres = artistOrGenre.genres.map(element => element === item);
+  //       if (genres.find(element => element === true)) {
+  //         rowArr.push(1)
+  //       }
+  //       genres.forEach((element) => element === true ? rowArr.push(0) : rowArr.push(0))
+  //     }
+  //     rowArr.push(0)
+  //   }
+  //   finalArr.push(rowArr)
   // }
 
-  // const countOccurrences = arr => arr.reduce((prev, curr) => (prev[curr] = ++prev[curr] || 1, prev), {});
-  // const test = countOccurrences(allGenres)
+
+  const artists = [
+    {
+      artist: "Bowie",
+      genres: ["art rock", "classic rock", "glam rock", "permanent wave", "rock"]
+    },
+    {
+      artist: "Chill Jazz",
+      genres: ["dinner jazz"]
+    }
+  ]
+
+  const genres = ["art rock", "classic rock", "glam rock", "permanent wave", "rock", "dinner jazz"]
 
 
-  // console.log("all", allGenres)
+  for (const artist of artistName) {
+    // This is the row of arrays
+    // artist compared to each genre
+
+  }
+
+
+
+
+
+  // console.log("maybe?", finalArr)
+
+
+  const test = [
+    {
+      source: "France",
+      target: "Britain",
+      value: 22.4
+    },
+    {
+      source: "Greece",
+      target: "Britain",
+      value: 0.55
+    },
+    {source: "Italy", target: "Britain", value: 26},
+    {source: "Portugal", target: "Britain", value: 19.4},
+    {source: "United States", target: "Britain", value: 345},
+    {source: "Germany", target: "France", value: 53.8},
+    {source: "Greece", target: "France", value: 53.9},
+    {source: "Ireland", target: "France", value: 17.3},
+    {source: "Italy", target: "France", value: 366},
+    {source: "Japan", target: "France", value: 7.73},
+    {source: "Portugal", target: "France", value: 18.3},
+  ]
+
+  console.log("what", chord(test));
 
   const genreNames = []
   const genreNumbers = []
@@ -110,19 +129,12 @@ export default function Chords(props) {
   //   genreColors.push(`#${random()}`)
   // }
 
-  console.log("names:", genreNames)
-  console.log("numbers:", genreNumbers)
-  console.log("colors:", genreColors)
+  // console.log("names:", genreNames)
+  // console.log("numbers:", genreNumbers)
+  // console.log("colors:", genreColors)
 
   const matrix = [
-    [1,1,1,1,1,1,1,1,1,1],
-    [1,1,1,1,1,1,1,1,1,1],
-    [1,1,1,1,1,1,1,1,1,1],
-    [1,1,1,1,1,1,1,1,1,1],
-    [1,1,1,1,1,1,1,1,1,1],
-    [1,1,1,1,1,1,1,1,1,1],
-    [1,1,1,1,1,1,1,1,1,1],
-    [1,1,1,1,1,1,1,1,1,1],
+    [0,1,1,1,1,1,0,0,1,1],
     [1,1,1,1,1,1,1,1,1,1],
     [1,1,1,1,1,1,1,1,1,1],
   ];
@@ -136,7 +148,7 @@ export default function Chords(props) {
   return (
     <div css="margin-left: 10px">
       <ChordDiagram
-      matrix={finalArr}
+      matrix={matrix}
       componentId={1}
       groupLabels={all}
       groupColors={testColors}
