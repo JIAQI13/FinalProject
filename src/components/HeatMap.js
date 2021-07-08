@@ -9,12 +9,6 @@ export default function HeatMap(props) {
   console.log("data", props.graphData);
 
   return (
-    <HeatMapDate
-      startDate={startDate}
-      endDate={endDate}
-      data={data}
-      colors={colors}
-      displayLegend
-    />
+    <h1>Howdy</h1>
   );
 }
