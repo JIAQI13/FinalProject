@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 export default function BubblesGraph(props) {
   useEffect(() => {
     //initilization
-    const radius = 60;
+    const radius = 50;
     const data = props.graphData.topArtists;
     const svg = d3
       .select("#chart")
@@ -55,7 +55,7 @@ export default function BubblesGraph(props) {
       })
       .on("click", function () {
         console.log(this);
-        //window.location.href = `http://localhost:3000/graphs/top-artists/${this.id}/related-artists`;
+        window.location.href = `http://localhost:3000/graphs/top-artists/${this.id}/related-artists`;
       })
       .attr("r", (data) => {
         return radius * (data.popularity / 100)

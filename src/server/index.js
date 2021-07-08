@@ -25,6 +25,7 @@ const schema = buildASTSchema(gql`
     posts: [Post]
     post(id: ID!): Post
     hello: String
+    Artist(id:String): Artists
     topArtists: [Artists]
     topTracks: [Tracks]
     top10Tracks: [Tracks]
@@ -43,6 +44,7 @@ type Images { height: Int url: String width: Int }
 type Followers { href: String total: Int }
 type ExternalUrls { spotify: String }
 type ExternalIds { isrc: String }
+
 
 type Artists {
   href: String
@@ -124,7 +126,25 @@ const root = {
   //sample query
   hello: () => 'Hello world!',
 
-  //get topArtists from user probile
+  //get Artist
+  Artist: async (id) => {
+    const value = await new Promise(resolve => {
+      request({
+        url: `https://api.spotify.com/v1/artists/${id.id}`,
+        method: "GET",
+        headers: {
+          'Authorization': 'Bearer ' + authToken
+        },
+        json: true
+      }, function (error, response, body) {
+        if (!error)
+          resolve(body);
+      });
+    });
+    return value;
+  },
+
+  //get topArtists from user profile
   topArtists: async () => {
     const value = await new Promise(resolve => {
       request({
