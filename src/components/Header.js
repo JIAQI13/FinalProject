@@ -1,10 +1,15 @@
+import Navbar from 'react-bootstrap/Navbar'
+import Nav from 'react-bootstrap/Nav'
+
+
 const Header = () => {
   return (
-    <div>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <h1 class="navbar-brand">Navbar</h1>
-      </nav>
-    </div>
+    <Navbar bg="light" variant="light">
+      <Navbar.Brand href="/">Visic</Navbar.Brand>
+      <Nav className="mr-auto">
+      </Nav>
+      <Nav.Link href="/about">About</Nav.Link>
+    </Navbar>
   )
 };
 

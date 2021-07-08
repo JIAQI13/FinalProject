@@ -93,23 +93,30 @@
 
 
   //Function to call when you mouseover a node
-  // function mover(d) {
-  //   console.log('im here');
-  //   var el = d3.select(this)
-  //     .transition()
-  //     .duration(10)
-  //     .style("fill-opacity", 0.3)
-  //     ;
-  // }
+  function mover(d) {
+    console.log('im here');
+    var el = d3.select(this)
+      .transition()
+      .duration(10)
+      .style("fill-opacity", 0.3)
+      .text(function (d) { return 'abcdefg' })
+      .attr("text-anchor", "middle")
+      .attr("alignment-baseline", "central")
+      .style("font-size", 11)
+      .style("fill", "file:///D:/d3js_projects/refresh.png")
+      .append("svg:img")
+      .attr("xlink:href", "file:///D:/d3js_projects/refresh.png")
+      ;
+  }
 
   // //Mouseout function
-  // function mout(d) {
-  //   var el = d3.select(this)
-  //     .transition()
-  //     .duration(1000)
-  //     .style("fill-opacity", 1)
-  //     ;
-  // };
+  function mout(d) {
+    var el = d3.select(this)
+      .transition()
+      .duration(1000)
+      .style("fill-opacity", 1)
+      ;
+  };
 
   //svg sizes and margins
   var margin = {
@@ -168,13 +175,10 @@
       return "M" + d.x + "," + d.y + hexbin.hexagon();
     })
     .attr("stroke", function (d, i) {
-      return "#fff";
+      return "#222";
     })
     .attr("stroke-width", "1px")
-    // .style("fill", function (d, i) {
-    //   return color[i];
-    // })
-    // .on("mouseover", mover)
-    // .on("mouseout", mout)
+    .on("mouseover", mover)
+    .on("mouseout", mout)
     ;
 </script>
