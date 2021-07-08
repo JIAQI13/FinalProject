@@ -289,7 +289,7 @@ const root = {
         url: `https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=${args.limit}&offset=${args.offset}`,
         method: "GET",
         headers: {
-          'Authorization': 'Bearer ' + variable1
+          'Authorization': 'Bearer ' + authToken
         },
         json: true
       }, function (error, response, body) {
