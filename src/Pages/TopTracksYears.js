@@ -2,10 +2,10 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import HeatMap from '../components/HeatMap'
-import { useLocation, useParams } from 'react-router';
+import Loader from "react-loader-spinner";
+
 
 export default function RelatedArtists (props) {
-  const location = useLocation();
 
   const GET_TRACKS_INFO_FIRST = gql`
     query gettopTrackOffset {
@@ -43,7 +43,16 @@ export default function RelatedArtists (props) {
         {({ loading: loadingOne, data: one }) => (
           <Query query={GET_TRACKS_INFO_SECOND}>
             {({ loading: loadingTwo, data: two }) => {
-              if (loadingOne || loadingTwo) return <span>loading...</span>
+              if (loadingOne || loadingTwo) {
+                return (
+                  <Loader
+                    type="Bars"
+                    color="#57F289"
+                    height={100}
+                    width={100}
+                  />
+                );
+              }
               return (
                 <HeatMap dataGraphFirst={one} dataGraphSecond={two}></HeatMap>
               );
