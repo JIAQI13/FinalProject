@@ -53,9 +53,14 @@ export default function BubblesGraph(props) {
       .attr("id", (data) => {
         return data.id
       })
-      .on("click", function () {
-        console.log(this);
-        window.location.href = `http://localhost:3000/graphs/top-artists/${this.id}/related-artists`;
+      .on("click", function (event, d) {
+        console.log("d", d);
+        props.onClick(
+          d.id,
+          d.name,
+          d.images,
+          d.external_urls
+        );
       })
       .attr("r", (data) => {
         return radius * (data.popularity / 100)
