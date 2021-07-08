@@ -7,28 +7,48 @@ import { useLocation, useParams } from 'react-router';
 export default function RelatedArtists (props) {
   const location = useLocation();
 
-  const GET_TRACKS_INFO = gql`
-    query getTopTracksInfo {
-      topTracksInfo {
-          id
+  const GET_TRACKS_INFO_FIRST = gql`
+    query gettopTrackOffset {
+      topTrackOffset(limit:"49", offset:"0"){
+        id
+        name
+        artists{
           name
-          artists{
-            name
-          }
-          album{
-            release_date
-          }
+        }
+        album{
+          release_date
         }
       }
-    `;
+    }
+  `;
 
-  console.log("tracks?", GET_TRACKS_INFO)
+  const GET_TRACKS_INFO_SECOND = gql`
+    query gettopTrackOffset {
+      topTrackOffset(limit:"50", offset:"49"){
+        id
+        name
+        artists{
+          name
+        }
+        album{
+          release_date
+        }
+      }
+    }
+  `;
 
   return (
     <div>
-      <Query query={GET_TRACKS_INFO}>
-        {({ loading, data }) => !loading && (
-          <HeatMap graphData={data}></HeatMap>
+      <Query query={GET_TRACKS_INFO_FIRST}>
+        {({ loading: loadingOne, data: one }) => (
+          <Query query={GET_TRACKS_INFO_SECOND}>
+            {({ loading: loadingTwo, data: two }) => {
+              if (loadingOne || loadingTwo) return <span>loading...</span>
+              return (
+                <HeatMap dataGraphFirst={one} dataGraphSecond={two}></HeatMap>
+              );
+            }}
+          </Query>
         )}
       </Query>
     </div>
