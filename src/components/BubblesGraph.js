@@ -3,8 +3,7 @@ import * as d3 from 'd3';
 
 export default function BubblesGraph(props) {
   useEffect(() => {
-
-    //initialization
+    //initilization
     const radius = 60;
     const data = props.graphData.topArtists;
     const svg = d3
@@ -40,9 +39,9 @@ export default function BubblesGraph(props) {
       .attr("height", 1)
       .attr("width", 1)
       .attr("preserveAspectRatio", "none")
-      .attr("xlink:href", (data) => { return data.images[2].url })
+      .attr("xlink:href", function (data) { return data.images[2].url })
 
-    //create circles for bubble graph
+    //bubble graph circles
     const circles = svg.selectAll(".artist")
       .data(data)
       .enter()
@@ -51,23 +50,31 @@ export default function BubblesGraph(props) {
       .style("stroke", "white")
       .attr("stroke-width", "5px")
       .style("cursor", "pointer")
-      .attr("id", data.id)
-      .on("click", () => { window.location.href = `http://localhost:3000/graphs/top-artists/${this.id}/related-artists`; })
-      .attr("r", (data) => radius * (data.popularity / 100))
-      .attr("fill", (data) => `url(#${data.id})`)
+      .attr("id", (data) => {
+        return data.id
+      })
+      .on("click", function () {
+        console.log(this);
+        //window.location.href = `http://localhost:3000/graphs/top-artists/${this.id}/related-artists`;
+      })
+      .attr("r", (data) => {
+        return radius * (data.popularity / 100)
+      })
+      .attr("fill", function (data) {
+        return `url(#${data.id})`;
+      })
 
-    //move cricle to right place
+    //move circle into position
     const ticked = () => {
       circles
         .attr("cx", function (d) { return d.x; })
         .attr("cy", function (d) { return d.y; });
     };
 
-    //start animation
+    //animation start
     simulation
       .nodes(data)
       .on('tick', ticked);
-
   })
 
   return (
