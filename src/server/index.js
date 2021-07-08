@@ -32,6 +32,7 @@ const schema = buildASTSchema(gql`
     relatedArtists(id:String): [Artists]
     audioFeatures(ids:String): [AudioFeatures]
     tracksAnalysis: [AudioFeatures]
+    topTracksInfo(ids:String): [Tracks]
   }
 
   type Post {
@@ -68,10 +69,10 @@ type Album {
   total_tracks: Int
   type: String
   uri: String
-  images: [Images ]
+  images: [Images]
   external_urls: ExternalUrls
-  available_markets: [String ]
-  artists: [Artists ] }
+  artists: [Artists]
+}
 
 type Tracks {
   disc_number: Int
@@ -281,6 +282,52 @@ const root = {
         return value.audio_features;
       });
   },
+  topTracksInfo: async () => {
+    return new Promise(resolve => {
+      request({
+        url: "https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=50",
+        method: "GET",
+        headers: {
+          'Authorization': 'Bearer ' + variable1
+        },
+        json: true
+      }, function (error, response, body) {
+        if (!error)
+          resolve(body);
+      });
+    })
+    .then ((value) => {
+      let allIds = ""
+      for (let i = 0; i < value.items.length; i++) {
+        allIds += `${value.items[i].id}`
+
+        // Add commas except final value
+        if (i !== value.items.length - 1) {
+          allIds += "%2C"
+        }
+      }
+      return new Promise((resolve) => {
+        console.log("***************", variable1);
+        request(
+          {
+            url: `https://api.spotify.com/v1/tracks?ids=${allIds}&market=US`,
+            method: "GET",
+            headers: {
+              Authorization: "Bearer " + variable1,
+            },
+            json: true,
+          },
+          function (error, response, body) {
+            if (!error) resolve(body);
+          }
+        );
+      });
+    })
+    .then((value) => {
+      // process value here
+      return value.tracks;
+    });
+  }
 };
 
 //spotify login prepare
