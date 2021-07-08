@@ -21,20 +21,20 @@ function ForceTreeChart(props) {
   const { height, width } = useWindowDimensions();
 
   // Artist which all other artists are related to
-  const parent = {...props.parent}
+  const parent = { ...props.parent }
 
   // Set all artists to create the defs which will be used
   // to correctly set the artist image urls
   // Add parent to the list
   const allArtists = [...props.graphData.relatedArtists]
-  allArtists.unshift({...parent})
+  allArtists.unshift({ ...parent })
 
   // This is used for the actual node and link dependencies
   // spread the related artists in childArr for .dependencies to use
   const childArr = [...props.graphData.relatedArtists]
   const parentArtist = {
     ...parent,
-      children: [...childArr]
+    children: [...childArr]
   }
 
   // Require a function call to navigate to a new tab
@@ -92,7 +92,7 @@ function ForceTreeChart(props) {
     const linkData = root.links();
 
     // Radius scale to change size of circles with screen height/width
-    const radiusScale = scaleSqrt().domain([0, width * 2 -100]).range([0, width * 1.5]);
+    const radiusScale = scaleSqrt().domain([0, width * 2 - 100]).range([0, width * 1.5]);
 
     const simulation = forceSimulation(nodeData)
       .force("charge", forceManyBody().strength(-15))
@@ -129,7 +129,7 @@ function ForceTreeChart(props) {
           .data(nodeData)
           .join("circle")
           .attr("class", "node")
-          .attr("r", function(d) {
+          .attr("r", function (d) {
             return radiusScale(d.data.name === parent.name ? 4 : 1)
           })
           .attr("cx", node => node.x)
@@ -174,7 +174,7 @@ function ForceTreeChart(props) {
               .duration('50')
               .style("opacity", 0);
           })
-          .on("click", function(event, d) {
+          .on("click", function (event, d) {
             spotifyClick(d.data.external_urls.spotify)
           })
       });
@@ -196,7 +196,7 @@ function ForceTreeChart(props) {
   }, [parent, allArtists, dimensions, height, width]);
 
   return (
-    <div ref={wrapperRef} style={{ }}>
+    <div ref={wrapperRef} style={{}}>
       <div id="artist-info"></div>
       <svg ref={svgRef}></svg>
     </div>

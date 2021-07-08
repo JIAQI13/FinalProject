@@ -5,7 +5,7 @@ import ForceChart from '../components/ForceChart'
 import { useLocation } from 'react-router';
 
 
-export default function RelatedArtists (props) {
+export default function RelatedArtists(props) {
   const location = useLocation();
 
   const GET_TRACK = gql`
