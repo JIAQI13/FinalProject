@@ -6,6 +6,12 @@ import Loader from "react-loader-spinner";
 
 
 export default function RelatedArtists (props) {
+  const tmpStyle = {
+    "display": 'flex',
+    "justify-content": "center",
+    "align-content": "center",
+    "padding-top": "30%"
+  };
 
   const GET_TRACKS_INFO_FIRST = gql`
     query gettopTrackOffset {
@@ -51,12 +57,14 @@ export default function RelatedArtists (props) {
             {({ loading: loadingTwo, data: two }) => {
               if (loadingOne || loadingTwo) {
                 return (
-                  <Loader
-                    type="Bars"
-                    color="#57F289"
-                    height={100}
-                    width={100}
-                  />
+                  <div style={tmpStyle}>
+                    <Loader
+                      type="Bars"
+                      color="#57F289"
+                      height={100}
+                      width={100}
+                    />
+                  </div>
                 );
               }
               return (
