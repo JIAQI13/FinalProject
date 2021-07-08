@@ -2,15 +2,16 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import ForceChart from '../components/ForceChart'
-import { useLocation } from 'react-router';
+import { useParams } from 'react-router-dom';
 
 
-export default function RelatedArtists (props) {
-  const location = useLocation();
+export default function RelatedArtists(props) {
+  const { id } = useParams();
+  console.log(id);
 
   const GET_TRACK = gql`
     query GetTrack {
-      relatedArtists (id:"${location.state.id}") {
+      relatedArtists (id:"${id}") {
         id
         name
         images {
@@ -29,7 +30,7 @@ export default function RelatedArtists (props) {
     <div>
       <Query query={GET_TRACK}>
         {({ loading, data }) => !loading && (
-          <ForceChart graphData={data} parent={location.state}></ForceChart>
+          <ForceChart graphData={data} parent={id}></ForceChart>
         )}
       </Query>
     </div>
