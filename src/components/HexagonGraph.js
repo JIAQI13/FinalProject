@@ -1,28 +1,29 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import * as d3d from 'd3';
 import * as HexbinPlot from 'd3-hexbin';
+
+//manually combine d3-hexbin into d3
 const d3 = {
   ...d3d,
   hexbin: HexbinPlot.hexbin
 }
 export default function HexagonGraph(props) {
 
+  //generate random int which is used to show photoes in hexagons
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
 
-  function random() {
-    return Math.random() * 255
-  }
   // Added top artists to grab the images from the data
   const data = props.graphData.topArtists
+
+  //future dynamic data update feature with useEffect
   useEffect(() => {
 
-
-    const MapColumns = 20,
-      MapRows = 20;
+    //initilization
+    const MapColumns = 20;
+    const MapRows = 20;
     const hexRadius = 100;
-
     const hexbin = d3.hexbin();
     hexbin.radius = hexRadius;
 
@@ -30,12 +31,12 @@ export default function HexagonGraph(props) {
     const points = [];
     for (let i = 0; i < MapRows; i++) {
       for (let j = 0; j < MapColumns; j++) {
-        let x = hexRadius * j * Math.sqrt(3)
-        if (i % 2 === 1) x += (hexRadius * Math.sqrt(3)) / 2
-        let y = hexRadius * i * 1.5
-        points.push([x, y])
+        let x = hexRadius * j * Math.sqrt(3);
+        if (i % 2 === 1) x += (hexRadius * Math.sqrt(3)) / 2;
+        let y = hexRadius * i * 1.5;
+        points.push([x, y]);
       }
-    }
+    };
 
     //Create SVG element
     const svg = d3
@@ -44,8 +45,9 @@ export default function HexagonGraph(props) {
       .attr("preserveAspectRatio", "xMinYMin meet")
       .attr("viewBox", "50 50 1500 1000")
       .classed("svg-content-responsive", true)
-      .append("g")
+      .append("g");
 
+    //add all photoes into the web page
     for (let i = 0; i < data.length; i++) {
       svg.append('svg:defs')
         .append("svg:pattern")
@@ -58,8 +60,8 @@ export default function HexagonGraph(props) {
         .append("svg:image")
         .attr("xlink:href", data[i].images[2].url)
         .attr("width", 200)
-        .attr("height", 200)
-    }
+        .attr("height", 200);
+    };
 
     //Start drawing the hexagons
     svg.selectAll(".hexagons")
@@ -70,29 +72,28 @@ export default function HexagonGraph(props) {
       .attr("d", function (d) {
         return "m" + d.x + "," + d.y + hexbin.hexagon();
       })
-      .attr("stroke", function (d) {
-        return '#fff'
-      })
+      .attr("stroke", '#fff')
       .attr("stroke-width", "172px")
-      .on("click", function (event, d) {
-        window.location.href = "http://localhost:4000/login"
+      .on("click", function () {
+        window.location.href = "http://localhost:4000/login";
       })
       .on('mouseover', function (d) {
         d3.select(this)
           .transition()
           .duration(700)
+          .style("cursor", "pointer")
           .style('stroke-opacity', 1)
-          .style("stroke", `url(#${'a'.repeat(getRandomInt(data.length))}`)
+          .style("stroke", `url(#${'a'.repeat(getRandomInt(data.length))}`);
       })
       .on("mouseout", function (d) {
         d3.select(this)
           .transition()
           .duration(3000)
-          .style("stroke-opacity", 0)
-          .style('stroke', `rgb(${(random())},${(random())},${(random())},${(random())})`)
+          .style("stroke-opacity", 0);
       })
-  }, [data])
+  });
 
+  //create tag to show
   return (
     <div id="plot-area"></div>
   );

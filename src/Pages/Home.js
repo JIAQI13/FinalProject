@@ -1,21 +1,10 @@
-import { BrowserRouter, Switch, Route } from "react-router-dom";
 import HexagonGraph from '../components/HexagonGraph';
 // For more information, read
 // https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
 
 const Home = () => {
   return (
-    // <BrowserRouter>
-    //   {/* <h1>home Pages</h1>
-    //   <Link to='/privacy-policy'>view</Link> */}
-    //   <Switch>
-    //     <Route path='/privacy-policy' component={() => {
-    //       window.location.href = 'http://localhost:4000/login';
-    //       return null;
-    //     }} />
-    //   </Switch>
     <HexagonGraph graphData={data}></HexagonGraph>
-    // </BrowserRouter>
   );
 };
 export default Home;

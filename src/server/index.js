@@ -9,13 +9,17 @@ const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
-var variable1;
-//graphql
+//global authToken
+let authToken;
+
+
+//sample database for future updates
 const POSTS = [
   { author: "John Doe", body: "Hello world" },
   { author: "Jane Doe", body: "Hi, planet!" },
 ];
 
+//schema generated using https://walmartlabs.github.io/json-to-simple-graphql-schema/ with JSON results from Spotify API Console
 const schema = buildASTSchema(gql`
   type Query {
     posts: [Post]
@@ -107,19 +111,27 @@ type Tracks {
     time_signature: Int }
 `);
 
+//sample data refactor function
 const mapPost = (post, id) => post && { id, ...post };
 
+//root function holds all queries
 const root = {
+
+  //sample query
   posts: () => POSTS.map(mapPost),
+  //sample query
   post: ({ id }) => mapPost(POSTS[id], id),
+  //sample query
   hello: () => 'Hello world!',
+
+  //get topArtists from user probile
   topArtists: async () => {
     const value = await new Promise(resolve => {
       request({
         url: "https://api.spotify.com/v1/me/top/artists?time_range=long_term",
         method: "GET",
         headers: {
-          'Authorization': 'Bearer ' + variable1
+          'Authorization': 'Bearer ' + authToken
         },
         json: true
       }, function (error, response, body) {
@@ -129,13 +141,15 @@ const root = {
     });
     return value.items;
   },
+
+  //get topTracks from user profile
   topTracks: async () => {
     const value = await new Promise(resolve => {
       request({
         url: "https://api.spotify.com/v1/me/top/tracks?time_range=long_term",
         method: "GET",
         headers: {
-          'Authorization': 'Bearer ' + variable1
+          'Authorization': 'Bearer ' + authToken
         },
         json: true
       }, function (error, response, body) {
@@ -145,14 +159,15 @@ const root = {
     });
     return value.items;
   },
+
+  //get relatedArtists
   relatedArtists: async (args) => {
     const value = await new Promise(resolve => {
-      console.log('***************', args.id);
       request({
         url: `https://api.spotify.com/v1/artists/${args.id}/related-artists`,
         method: "GET",
         headers: {
-          'Authorization': 'Bearer ' + variable1
+          'Authorization': 'Bearer ' + authToken
         },
         json: true
       }, function (error, response, body) {
@@ -160,17 +175,17 @@ const root = {
           resolve(body);
       });
     });
-    // process value here
     return value.artists;
   },
+
+  //get audioFeatures for each Track
   audioFeatures: async (args) => {
     const value = await new Promise(resolve => {
-      console.log('***************', args.id);
       request({
         url: `https://api.spotify.com/v1/audio-features?ids=${args.ids}`,
         method: "GET",
         headers: {
-          'Authorization': 'Bearer ' + variable1
+          'Authorization': 'Bearer ' + authToken
         },
         json: true
       }, function (error, response, body) {
@@ -183,13 +198,12 @@ const root = {
   },
   top10Tracks: async () => {
     const value = await new Promise((resolve) => {
-      console.log("***************", variable1);
       request(
         {
           url: "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=10&offset=5",
           method: "GET",
           headers: {
-            Authorization: "Bearer " + variable1,
+            Authorization: "Bearer " + authToken,
           },
           json: true,
         },
@@ -203,13 +217,12 @@ const root = {
   },
   tracksAnalysis: () => {
     return new Promise((resolve) => {
-      console.log("***************", variable1);
       request(
         {
           url: "https://api.spotify.com/v1/me/top/tracks?time_range=medium_term&limit=10",
           method: "GET",
           headers: {
-            Authorization: "Bearer " + variable1,
+            Authorization: "Bearer " + authToken,
           },
           json: true,
         },
@@ -226,13 +239,13 @@ const root = {
         });
         ids = ids.slice(0, ids.length - 1);
         return new Promise((resolve) => {
-          console.log("***************", variable1);
+          console.log("***************", authToken);
           request(
             {
               url: `https://api.spotify.com/v1/audio-features?ids=${ids}`,
               method: "GET",
               headers: {
-                Authorization: "Bearer " + variable1,
+                Authorization: "Bearer " + authToken,
               },
               json: true,
             },
@@ -339,7 +352,7 @@ app.get("/callback", function (req, res) {
     request.post(authOptions, function (error, response, body) {
       if (!error && response.statusCode === 200) {
         // we can also pass the token to the browser to make requests from there
-        variable1 = body.access_token;
+        authToken = body.access_token;
         res.redirect("http://localhost:3000/graphs/top-artists/popularity");
       } else {
         res.redirect(
