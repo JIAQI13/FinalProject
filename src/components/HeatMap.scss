@@ -1,0 +1,36 @@
+#main {
+  background-color: rgb(41, 41, 41);
+  height: 100%;
+  width: 100%;
+}
+
+.tick {
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.domain {
+  color: white;
+  font-weight: bold;
+}
+
+#info {
+  visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#cell-info {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#albums {
+  color: white;
+  font-size: 16px;
+}
+

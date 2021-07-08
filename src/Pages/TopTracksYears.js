@@ -15,7 +15,10 @@ export default function RelatedArtists (props) {
         artists{
           name
         }
-        album{
+        album {
+          images {
+            url
+          }
           release_date
         }
       }
@@ -30,7 +33,10 @@ export default function RelatedArtists (props) {
         artists{
           name
         }
-        album{
+        album {
+          images {
+            url
+          }
           release_date
         }
       }
