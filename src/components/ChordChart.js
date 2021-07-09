@@ -1,7 +1,6 @@
 import React from 'react';
 import ChordDiagram from 'react-chord-diagram'
 import useWindowDimensions from '../helpers/userWindowDimensions'
-import './ChordChart.scss';
 
 export default function Chords(props) {
   const { height, width } = useWindowDimensions();
@@ -10,8 +9,8 @@ export default function Chords(props) {
 
   // Currently, about 15 songs looks the best for the graph
   const nameOrGenres = [];
-  const slicedArray = data.slice(0, 15);
-  for (let i = 0; i < 15; i++) {
+  const slicedArray = data.slice(0, 20);
+  for (let i = 0; i < 20; i++) {
     nameOrGenres.push(data[i].name, ...data[i].genres)
   }
 
@@ -74,32 +73,38 @@ export default function Chords(props) {
     display: 'flex',
     justifyContent: "center",
     alignContent: "center",
-    width: "100%"
+    width: "100%",
   };
 
 
   return (
-    <div style={tmpStyle}>
-      <ChordDiagram
-      matrix={finalArray}
-      componentId={1}
-      groupLabels={all}
-      labelColors={colors}
-      groupColors={colors}
-      padAngle={.04}
-      height={height + 50}
-      width={width}
-      outerRadius={250}
-      innerRadius={225}
-      strokeWidth={1.5}
-      persistHoverOnClick={true}
-      disableHover={false}
-      style={{
-        backgroundColor: "#292929",
-        font: '14px cambria',
-        wordWrap: "break-word"
-      }}
-    />
-    </div>
+    <>
+      <h1>Artists and Genres from your Top {slicedArray.length} Tracks</h1>
+      <div style={tmpStyle}>
+        <ChordDiagram
+        matrix={finalArray}
+        componentId={1}
+        groupLabels={all}
+        labelColors={colors}
+        groupColors={colors}
+        padAngle={.06}
+        height={height + 250}
+        width={width}
+        outerRadius={225}
+        innerRadius={200}
+        strokeWidth={1.5}
+        persistHoverOnClick={true}
+        disableHover={false}
+        style={{
+          textTransform: "capitalize",
+          backgroundColor: "#292929",
+          font: '16px cambria',
+          fontWeight: "bolder",
+          wordWrap: "break-word",
+          letterSpacing: "2px",
+        }}
+      />
+      </div>
+    </>
   );
 }
