@@ -30,22 +30,6 @@ const routes = [
 class App extends Component {
   render() {
     return (
-      // <BrowserRouter>
-      //   <div>
-      //     <Header />
-      //   </div>
-      //   <Switch>
-      //     <Route path="/" component={Home} exact />
-      //     <Route path="/view" component={PostViewer} />
-      //     <Route path="/graphs/top-artists/popularity" component={TopArtistsPopularity} exact />
-      //     <Route path="/graphs/top-artists/followers" component={TopArtistsFollowers} exact />
-      //     <Route path="/graphs/top-tracks/popularity" component={TopTracksPopularity} exact />
-      //     <Route path="/graphs/top-artists/genres" component={TopArtistsGenres} exact />
-      //     <Route path="/graphs/top-artists/:id/related-artists" component={RelatedArtists} exact />
-      //     <Route path="/graphs/top-tracks/years" component={TopTracksYears} exact />
-      //     <Route path="/graphs/top-tracks-analysis" component={TopTracksAnalysis} exact />
-      //   </Switch>
-      // </BrowserRouter>
       <Router>
         <>
           <Navbar bg="light">
