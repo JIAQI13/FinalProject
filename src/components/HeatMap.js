@@ -41,14 +41,12 @@ export default function HeatMap(props) {
     // Combine all artists from the two queries
     const allArtists = [...props.dataGraphFirst.topTrackOffset, ...props.dataGraphSecond.topTrackOffset]
 
-    // console.log("all artists", allArtists)
 
     // Create an array of the year and month of each release data
     const albumYearMonth = [];
     const fullInfo = [];
     allArtists.forEach((artist) => {
       const obj = {}
-      // console.log("artist", artist)
       albumYearMonth.push(artist.album.release_date.slice(0, 7))
       obj.date = (artist.album.release_date.slice(0, 7))
       obj.artist = (artist.artists[0].name)
@@ -63,7 +61,6 @@ export default function HeatMap(props) {
     const countOccurrences = arr => arr.reduce((prev, curr) => (prev[curr] = ++prev[curr] || 1, prev), {});
     const eachOccurence = countOccurrences(albumYearMonth)
 
-    console.log("each", eachOccurence)
 
     // Data format for graph
     // Base is number of albums for that year/month
@@ -107,7 +104,6 @@ export default function HeatMap(props) {
       dateData.albumCount.push(objCount)
     }
 
-    console.log("dateData:", dateData)
 
     setInfo(fullInfo)
     setData(dateData)
