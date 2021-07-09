@@ -19,7 +19,7 @@ export default function BubblesGraph(props) {
     const simulation = d3.forceSimulation()
       .force("x", d3.forceX(750).strength(0.1))
       .force("y", d3.forceY(305).strength(0.1))
-      .force("collide", d3.forceCollide(radius - 5))
+      .force("collide", d3.forceCollide(radius * 1.1))
       .nodes(data)
 
     //start drawing
