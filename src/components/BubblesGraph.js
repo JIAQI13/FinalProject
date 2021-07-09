@@ -1,25 +1,27 @@
 import React, { useEffect } from 'react';
 import * as d3 from 'd3';
+import useWindowDimensions from '../helpers/userWindowDimensions';
 
 export default function BubblesGraph(props) {
+  const { height, width } = useWindowDimensions();
   useEffect(() => {
     //initilization
-    const radius = 50;
+    const radius = d3.scaleLinear().domain([0, 150]).range([0, 100]);
     const data = props.graphData.topArtists;
     const svg = d3
       .select("#chart")
       .append("svg")
       .attr("preserveAspectRatio", "xMinYMin meet")
-      .attr("viewBox", "0 0 1500 600")
+      .attr("viewBox", `0 0 ${width} ${height}`)
       .classed("svg-content-responsive", true)
       .append("g")
       .attr("transform", "translate(0,0)");
 
     //animation
     const simulation = d3.forceSimulation()
-      .force("x", d3.forceX(750).strength(0.1))
-      .force("y", d3.forceY(305).strength(0.1))
-      .force("collide", d3.forceCollide(radius * 1.1))
+      .force("x", d3.forceX(width / 2).strength(0.05))
+      .force("y", d3.forceY(height / 2).strength(0.05))
+      .force("collide", d3.forceCollide(radius(80) + 1))
       .nodes(data)
 
     //start drawing
@@ -63,7 +65,7 @@ export default function BubblesGraph(props) {
         );
       })
       .attr("r", (data) => {
-        return radius * (data.popularity / 100)
+        return radius(data.popularity)
       })
       .attr("fill", function (data) {
         return `url(#${data.id})`;
