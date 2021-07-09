@@ -1,7 +1,7 @@
 import React from 'react';
 import ChordDiagram from 'react-chord-diagram'
 import useWindowDimensions from '../helpers/userWindowDimensions'
-import { chord } from 'd3';
+import './ChordChart.scss';
 
 export default function Chords(props) {
   const { height, width } = useWindowDimensions();
@@ -70,15 +70,12 @@ export default function Chords(props) {
   const colors = [];
   all.forEach(() => colors.push(random()))
 
-
   const tmpStyle = {
     display: 'flex',
     justifyContent: "center",
     alignContent: "center",
     width: "100%"
   };
-
-  const test = chord(finalArray)
 
 
   return (
@@ -96,6 +93,7 @@ export default function Chords(props) {
       innerRadius={225}
       strokeWidth={1.5}
       persistHoverOnClick={true}
+      disableHover={false}
       style={{
         backgroundColor: "#292929",
         font: '14px cambria',

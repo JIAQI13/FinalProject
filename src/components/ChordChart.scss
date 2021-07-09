@@ -1,0 +1,28 @@
+path {
+  transition-duration: 300ms;
+  stroke-dasharray: 800;
+  stroke-dashoffset: 10;
+  stroke-width: 2px;
+  animation: dash 5s ease;
+
+
+
+  &:hover {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 10;
+    fill-opacity: 1;
+    animation: dash 2s linear infinite;
+    stroke: white;
+    fill: white;
+    stroke-width: 2px;
+  }
+  @keyframes dash {
+    from {
+      stroke-dashoffset: 400;
+    }
+    to {
+      stroke-dashoffset: 10;
+    }
+  }
+}
+
