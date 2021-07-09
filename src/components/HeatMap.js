@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import * as d3 from 'd3';
-import useWindowDimensions from '../helpers/userWindowDimensions'
-
-import "./HeatMap.scss";
 import { select } from "d3";
+import useWindowDimensions from '../helpers/userWindowDimensions'
+import "./HeatMap.scss";
 
 export default function HeatMap(props) {
   const { height, width } = useWindowDimensions();
-  const [info, setInfo] = useState([null])
+
+  console.log("width", width)
+
+  const [info, setInfo] = useState([null]);
   const [data, setData] = useState({
     base: 0,
     albumCount: [
@@ -15,32 +17,36 @@ export default function HeatMap(props) {
         albums: []
       }
     ]
-  })
+  });
 
-  let xScale;
-  let yScale;
+  const graphWidth = width /1.3;
+  const graphHeight = height /1.3;
 
-  let minYear;
-  let maxYear;
+  // Find the min and max years in our data, to be used in scales
+  const minYear = d3.min(data.albumCount, item => item['year']);
+  const maxYear = d3.max(data.albumCount, item => item['year']);
 
-  let padding = width / 10;
+  // x-axis scale
+  const xScale = d3.scaleLinear()
+            .domain([minYear, maxYear + 1])
+            .range([60, graphWidth - 60]);
 
-  let graphWidth = width / 1.3
-  let graphHeight = height / 1.3
+  // y-axis scale
+  const yScale = d3.scaleTime()
+            .domain([new Date(0, 0, 0, 0, 0, 0, 0), new Date(0, 12, 0, 0, 0, 0, 0)])
+            .range([60, graphHeight - 60]);
 
-  let cellInfo = d3.select("#cell-info")
-  let albums = d3.select("#albums")
+  let cellInfo = d3.select("#cell-info");
+  let albums = d3.select("#albums");
+  let canvas = d3.select('#canvas');
 
-  let canvas = d3.select('#canvas')
-  canvas.attr('width', graphWidth)
-  canvas.attr('height', graphHeight)
-
-  const defs = canvas.append("defs")
+  canvas
+    .attr('width', graphWidth)
+    .attr('height', graphHeight)
 
   useEffect(() => {
     // Combine all artists from the two queries
     const allArtists = [...props.dataGraphFirst.topTrackOffset, ...props.dataGraphSecond.topTrackOffset]
-
 
     // Create an array of the year and month of each release data
     const albumYearMonth = [];
@@ -48,6 +54,7 @@ export default function HeatMap(props) {
     allArtists.forEach((artist) => {
       const obj = {}
       albumYearMonth.push(artist.album.release_date.slice(0, 7))
+      obj.id = (artist.id)
       obj.date = (artist.album.release_date.slice(0, 7))
       obj.artist = (artist.artists[0].name)
       obj.track = (artist.name)
@@ -56,15 +63,15 @@ export default function HeatMap(props) {
     })
 
     // From the release dates, find the count of each
-    // eg. number of times 1982-02 appears
+    // ie. number of times 1982-02 appears
     // create an object of the year/month and the count
     const countOccurrences = arr => arr.reduce((prev, curr) => (prev[curr] = ++prev[curr] || 1, prev), {});
     const eachOccurence = countOccurrences(albumYearMonth)
 
-
-    // Data format for graph
-    // Base is number of albums for that year/month
-    // And array of each year/month in the
+    // Data format for plotting the graph
+    // 'Base' is number of albums for that year/month, initially 0
+    // Track how many albums in that year/month against base
+    // Also track info on which artist and album is in that year/month
     const dateData = {
       base: 0,
       albumCount: [
@@ -104,60 +111,28 @@ export default function HeatMap(props) {
       dateData.albumCount.push(objCount)
     }
 
-
     setInfo(fullInfo)
     setData(dateData)
   }, [props.dataGraphFirst, props.dataGraphSecond])
 
-  const appendDefs = () => {
-    defs.selectAll(".artist-pattern")
-      .data(info)
-      .enter().append("pattern")
-      .attr("class", "artist-pattern")
-      .attr("id", (item) => {
-        return item.track.toLowerCase().replace(/ /g, "-").replace(/'/g, "-").replace(/"/g, "-").replace(/,/g, "-").replace(/./g, "-").replace(/&/g, "-").replace(/"/g, "-")
-      })
-      .attr("height", "100%")
-      .attr("width", "100%")
-      .attr("patternContentUnits", "objectBoundingBox")
-      .append("image")
-      .attr("height", 1)
-      .attr("width", 1)
-      .attr("preserveAspectRatio", "none")
-      .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
-      .attr("xlink:href", function (d) {
-        return d.image
-      })
-  }
-
   const createChart = () => {
-    // Add defs to reference images
-    appendDefs()
+    // Reset any cells on re-render, remove any info text as well
+    canvas.selectAll("*").remove()
+    cellInfo.text("")
+    albums.selectAll("*").remove()
 
-    // Find the minimum year in our data
-    minYear = d3.min(data.albumCount, (item) => {
-      return item['year']
-    })
+    // Transition to make the cells appear slowly on the graph
+    const slowReveal = () => {
+      rect
+        .transition()
+        .ease(d3.easeLinear)
+        .duration(300)
+        .delay((d,i) => i * Math.floor(Math.random() * 75))
+        .style("opacity", 1)
+    }
 
-    // Find the maximum year in our data
-    maxYear = d3.max(data.albumCount, (item) => {
-      return item['year']
-    })
-
-    // Setting scales for the graph ----------------
-    // x-axis scale
-    xScale = d3.scaleLinear()
-              .domain([minYear, maxYear + 1])
-              .range([padding, graphWidth - padding])
-
-    // y-axis scale
-    yScale = d3.scaleTime()
-              .domain([new Date(0, 0, 0, 0, 0, 0, 0), new Date(0, 12, 0, 0, 0, 0, 0)])
-              .range([padding, graphHeight - padding])
-
-    // Creating the cells in the graph ----------------
     // Each rectangle generated by data
-    canvas
+    const rect = canvas
       .selectAll('rect')
       .data(data.albumCount)
       .enter()
@@ -166,69 +141,59 @@ export default function HeatMap(props) {
       .attr('stroke', '#000')
       .attr('stroke-width', '1px')
       .attr('fill', (item) => {
-        const albumCount = item['count']
-        if (albumCount === 0) {
-          // return '#D6F2C1'
-        } else if (albumCount === 1) {
-          return '#CBF4AD'
-        } else if (albumCount === 2) {
-          return '#B3F783'
-        } else if (albumCount === 3) {
-          return '#95F952'
-        } else if (albumCount === 4) {
-          return '#66FC02'
-        } else if (albumCount === 5) {
-          return '#53EA02'
-        } else if (albumCount === 6) {
-          return '#45CC02'
-        } else if (albumCount === 7) {
-          return '#39A801'
-        } else if (albumCount > 8) {
-          return '#306B00'
+        const colors = {
+          1:'#CBF4AD',
+          2:'#B3F783',
+          3:'#95F952',
+          4:'#66FC02',
+          5:'#53EA02',
+          6:'#45CC02',
+          7:'#39A801'
         }
+        // Return darkest color if colors is undefined (> 8 albums)
+        return (colors[item['count']] ? colors[item['count']] : '#306B00')
       })
-      .attr('data-year', (item) => {
-        return item['year']
-      })
-      .attr('data-month', (item) => {
-        return item['month'] - 1
-      })
-      .attr('data', (item) => {
-        return item['albumCount']
-      })
-      .attr('height', `${(graphHeight - (padding * 2)) / 12}`)
-      .attr('y', (item) => {
-        return yScale(new Date(0, item['month'] - 1, 0, 0, 0, 0, 0 ))
-      })
+      .attr('data-year', item => item['year'])
+      .attr('data-month', (item) => item['month'] - 1)
+      .attr('data', item => item['albumCount'])
+      .attr('height', `${(graphHeight - (60 * 2)) / 12}`)
       .attr('width', (item) => {
         let numberOfYears = maxYear - minYear
-        return (graphWidth - (padding * 2)) / numberOfYears
+        return (graphWidth - (60 * 2)) / numberOfYears
       })
-      .attr('x', (item) => {
-        return xScale(item['year'])
-      })
+      .attr('y', item => yScale(new Date(0, item['month'] - 1, 0, 0, 0, 0, 0 )))
+      .attr('x', item => xScale(item['year']))
+      .style("opacity", 0)
       .on("click", function (event, item, index) {
         // Remove any previous info divs and styling
-        cellInfo.transition()
-                .style("visibility", "hidden")
-        albums.transition()
-              .style("visibility", "hidden")
-        albums.selectAll('div')
-              .remove()
+        cellInfo
+          .transition()
+          .style("visibility", "hidden");
+        albums
+          .transition()
+          .style("visibility", "hidden");
+        albums
+          .selectAll('li')
+          .remove();
 
         // Reset all cells to black borders
-        canvas.selectAll('rect')
-              .attr("stroke", "black")
-              .attr("stroke-width", "1px")
+        canvas
+          .selectAll('rect')
+          .attr("stroke", "black")
+          .attr("stroke-width", "1px");
 
         // Highlight this specific cell
-        select(this).attr("stroke", "white")
-                    .attr("stroke-width", "2px")
+        select(this)
+          .raise()
+          .attr("stroke", "white")
+          .attr("stroke-width", "3px");
 
-        cellInfo.transition()
-                .style("visibility", "visible")
-        albums.transition()
-                .style("visibility", "visible")
+        cellInfo
+          .transition()
+          .style("visibility", "visible");
+        albums
+          .transition()
+          .style("visibility", "visible");
 
         const months = {
           1: "January",
@@ -243,28 +208,21 @@ export default function HeatMap(props) {
           10: "October",
           11: "November",
           12: "December"
-        }
+        };
 
+        cellInfo
+          .text(`${months[item['month']]} ${item['year']}: ${item['count']} Track${item['count'] === 1 ? "" : 's' }`)
+          .attr('data-year', item['year']);
 
-        cellInfo.text(`${months[item['month']]} ${item['year']}: ${item['count']} Track${item['count'] === 1 ? "" : 's' }`)
-        cellInfo.attr('data-year', item['year'])
-
-        albums.selectAll('div')
-              .data(item.albums)
-              .enter()
-              .append('div')
-              .attr('class', 'album')
-              .text((item) => {
-                return (`"${item['track']}" by ${item['artist']}`)
-              })
-
-              // Somehow this should work to show album art
-              // stores in the defs. Currently, fill doesn't do anything
-
-              // .append('span')
-              // .attr("fill", (item) => {
-              //   return `url(#${item.track.toLowerCase().replace(/ /g, "-").replace(/'/g, "-").replace(/"/g, "-").replace(/,/g, "-").replace(/&/g, "-").replace(/"/g, "-")}`;
-              // })
+        albums
+          .selectAll('li')
+          .data(item.albums)
+          .enter()
+          .append('li')
+          .attr('class', 'album')
+          .text((item) => {
+            return (`"${item['track']}" by ${item['artist']}`)
+          });
       })
 
     // Creating the axes in the graph ----------------
@@ -277,25 +235,29 @@ export default function HeatMap(props) {
     canvas.append('g')
           .call(xAxis)
           .attr('id', 'x-axis')
-          .attr('transform', `translate(0, ${graphHeight - padding})`)
-          .attr("stroke-width", "2px")
+          .attr('transform', `translate(0, ${graphHeight - 56})`)
+          .attr("stroke-width", "5px");
 
     canvas.append('g')
           .call(yAxis)
           .attr('id', 'y-axis')
-          .attr('transform', `translate(${padding}, 0)`)
-          .attr("stroke-width", "2px")
+          .attr('transform', `translate(${56}, 0)`)
+          .attr("stroke-width", "5px");
+
+    slowReveal();
   }
 
   return (
-    <div id="main">
-
-      {data && createChart()}
-      <svg id="canvas"></svg>
-      <div id="info">
-        <div id="cell-info"></div>
-        <div id="albums"></div>
+    <>
+      <h1>Top {info.length} Tracks Relase Dates</h1>
+      <div id="main">
+        {data && createChart()}
+        <svg id="canvas"></svg>
+        <div id="info">
+          <div id="cell-info"></div>
+          <ul id="albums"></ul>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
