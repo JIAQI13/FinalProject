@@ -95,6 +95,8 @@ export default function HexagonGraph(props) {
 
   //create tag to show
   return (
-    <div id="plot-area"></div>
+    <>
+      <div id="plot-area"></div>
+    </>
   );
 }
