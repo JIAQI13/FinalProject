@@ -8,9 +8,7 @@ const transformData = function (values) {
 
   values &&
     values.forEach((value) => {
-      console.log('value', value)
       set['key'] = value.id;
-      set['label'] = value.name;
       set['values'] = {
         danceability: value.danceability,
         energy: value.energy,
