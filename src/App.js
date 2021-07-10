@@ -17,7 +17,7 @@ import './styles.css'
 
 const routes = [
   { path: '/', name: 'Vusic', Component: Home },
-  { path: '/view', name: 'View', Component: PostViewer },
+  // { path: '/view', name: 'View', Component: PostViewer },
   { path: "/graphs/top-artists/popularity", name: 'Top Artists by Popularity', Component: TopArtistsPopularity },
   { path: "/graphs/top-artists/followers", name: 'Top Artists by Followers', Component: TopArtistsFollowers },
   { path: "/graphs/top-tracks/popularity", name: 'Top Tracks by Popularity', Component: TopTracksPopularity },
@@ -34,16 +34,18 @@ class App extends Component {
         <>
           <Navbar bg="light">
             <Nav className="mx-auto">
-              {routes.map(route => (
-                <Nav.Link
-                  key={route.path}
-                  as={NavLink}
-                  to={route.path}
-                  activeClassName="active"
-                  exact
-                >
-                  {route.name}
-                </Nav.Link>
+              {routes.filter(route => route.path !== "/graphs/top-artists/:id/related-artists").map(route => (
+                <>
+                  <Nav.Link
+                    key={route.path}
+                    as={NavLink}
+                    to={route.path}
+                    activeClassName="active"
+                    exact
+                  >
+                    {route.name}
+                  </Nav.Link>
+                </>
               ))}
             </Nav>
           </Navbar>
