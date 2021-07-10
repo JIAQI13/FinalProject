@@ -278,12 +278,10 @@ const root = {
       })
       .then((value) => {
         // process value here
-        // console.log("-------------------->",value)
         return value.audio_features;
       });
   },
   topTrackOffset: async (args) => {
-    console.log("Args -------", args)
     return new Promise(resolve => {
       request({
         url: `https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=${args.limit}&offset=${args.offset}`,
@@ -299,7 +297,6 @@ const root = {
     })
     .then((value) => {
       // process value here
-      console.log("-------------------->",value)
       return value.items;
     });
 },
