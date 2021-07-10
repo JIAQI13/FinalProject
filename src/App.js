@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 // import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom'
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
-import { Container, Navbar, Nav } from 'react-bootstrap'
-import Header from "./components/Header";
-import PostViewer from "./Pages/PostViewer";
+import { Navbar, Nav, Form, Button } from 'react-bootstrap'
 import TopArtistsPopularity from "./Pages/TopArtistsPopularity";
 import TopArtistsFollowers from "./Pages/TopArtistsFollowers";
 import TopArtistsGenres from "./Pages/TopArtistsGenres";
@@ -48,8 +46,11 @@ class App extends Component {
                 </>
               ))}
             </Nav>
+            <Form inline>
+              <Button variant="outline-primary" href="http://localhost:4000/login">Login</Button>
+            </Form>
           </Navbar>
-          <Container className="container">
+          <div >
             {routes.map(({ path, Component }) => (
               <Route key={path} exact path={path}>
                 {({ match }) => (
@@ -66,7 +67,7 @@ class App extends Component {
                 )}
               </Route>
             ))}
-          </Container>
+          </div>
         </>
       </Router>
     );
