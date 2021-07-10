@@ -2,7 +2,7 @@ import React, { Component } from "react";
 // import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
-import { Container, Navbar, Nav } from 'react-bootstrap'
+import { Container, Navbar, Nav, Form, Button } from 'react-bootstrap'
 import Header from "./components/Header";
 import PostViewer from "./Pages/PostViewer";
 import TopArtistsPopularity from "./Pages/TopArtistsPopularity";
@@ -16,7 +16,7 @@ import Home from './Pages/Home'
 import './styles.css'
 
 const routes = [
-  { path: '/', name: 'Visic', Component: Home },
+  { path: '/', name: 'Home', Component: Home },
   { path: '/view', name: 'view', Component: PostViewer },
   { path: "/graphs/top-artists/popularity", name: 'top-artists by popularity', Component: TopArtistsPopularity },
   { path: "/graphs/top-artists/followers", name: 'top-artists by followers', Component: TopArtistsFollowers },
@@ -33,6 +33,7 @@ class App extends Component {
       <Router>
         <>
           <Navbar bg="light">
+            <Navbar.Brand href="/">Visic</Navbar.Brand>
             <Nav className="mx-auto">
               {routes.map(route => (
                 <Nav.Link
@@ -46,8 +47,11 @@ class App extends Component {
                 </Nav.Link>
               ))}
             </Nav>
+            <Form inline>
+              <Button variant="outline-primary" href="http://localhost:4000/login">Login</Button>
+            </Form>
           </Navbar>
-          <Container className="container">
+          <div >
             {routes.map(({ path, Component }) => (
               <Route key={path} exact path={path}>
                 {({ match }) => (
@@ -64,7 +68,7 @@ class App extends Component {
                 )}
               </Route>
             ))}
-          </Container>
+          </div>
         </>
       </Router>
     );
