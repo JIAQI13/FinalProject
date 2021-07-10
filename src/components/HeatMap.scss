@@ -3,8 +3,9 @@
   height: 100%;
   width: 100%;
   display: flex;
-  justify-content: space-between;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  align-items: center;
+  flex-direction: column;
 }
 
 #canvas {
@@ -28,7 +29,8 @@
   justify-content: flex-start;
   flex-direction: column;
   margin: 10px 20px 10px 10px;
-  width: 20%;
+  align-items: center;
+  width: 80%;
 
 }
 
@@ -36,7 +38,7 @@
   color: white;
   font-size: 20px;
   font-weight: bold;
-  padding: 35px 0 20px 0
+  padding: 15px 0 20px 0
 }
 
 #albums {
@@ -49,23 +51,6 @@ li {
 
   &:before {
     content: '\1F3B5'; margin-left: -30px; margin-right: 10px; color:green;
-  }
-}
-
-
-@media only screen and (max-width: 960px) {
-  #main {
-    align-items: center;
-    flex-direction: column;
-  }
-
-  #info {
-    align-items: center;
-    width: 80%;
-  }
-
-  #cell-info {
-    padding-top: 0px;
   }
 }
 
