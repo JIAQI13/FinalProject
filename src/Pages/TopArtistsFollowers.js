@@ -42,10 +42,6 @@ export default function TopArtistsFollowers () {
   const history = useHistory()
 
   const onClick = (id, name, images, external_urls) => {
-    console.log("name", name)
-    console.log("images", images)
-    console.log("external_urls", external_urls)
-
     history.push({
       pathname: `${id}/related-artists`,
       state: {
@@ -75,8 +71,6 @@ export default function TopArtistsFollowers () {
             );
           }
           data.topArtists.forEach((element) => {element.numbers = element.followers.total})
-
-          console.log("graphData", data)
 
           return (
             <BubblesGraph graphData={data} onClick={onClick}></BubblesGraph>

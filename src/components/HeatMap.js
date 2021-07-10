@@ -7,8 +7,6 @@ import "./HeatMap.scss";
 export default function HeatMap(props) {
   const { height, width } = useWindowDimensions();
 
-  console.log("width", width)
-
   const [info, setInfo] = useState([null]);
   const [data, setData] = useState({
     base: 0,

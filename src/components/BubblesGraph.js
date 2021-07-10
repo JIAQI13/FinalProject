@@ -34,7 +34,6 @@ export default function BubblesGraph(props) {
     // For setting the radius of bubbles
     let radiusScale = d3.scaleLinear().domain([0, 130]).range([0, 110])
     if (domain.max > 100) {
-      console.log("hello")
       radiusScale = d3.scaleSqrt().domain([domain.min, domain.max]).range([0, 110]);
     }
 
