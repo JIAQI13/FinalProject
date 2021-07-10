@@ -2,7 +2,6 @@ import React from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import RadarGraph from "../components/RadarGraph";
-import { NavLink } from "react-router-dom";
 
 const TOP_TRACKS = gql`
   query TOP_TRACKS {
@@ -29,8 +28,17 @@ const TRACKS_ANALYSIS = gql`
 
 export default function TopTracksAnalysis() {
   return (
-    <div className="d-flex flex-row bd-highlight mb-3">
+    <div className="d-flex flex-column bd-highlight mb-3">
       <div className="d-flex align-items-center">
+      </div>
+      <div className="flex-grow-1">
+        <Query query={TRACKS_ANALYSIS}>
+          {
+            ({ loading, data }) =>
+              // !loading && console.log(data)
+              !loading && <RadarGraph data={data}></RadarGraph>
+          }
+        </Query>
         <Query query={TOP_TRACKS}>
           {({ loading, data }) =>
             // !loading && console.log(data.top10Tracks)
@@ -51,15 +59,6 @@ export default function TopTracksAnalysis() {
                 </ol>
               </div>
             )
-          }
-        </Query>
-      </div>
-      <div className="flex-grow-1">
-        <Query query={TRACKS_ANALYSIS}>
-          {
-            ({ loading, data }) =>
-            // !loading && console.log(data)
-            !loading && <RadarGraph data={data}></RadarGraph>
           }
         </Query>
       </div>

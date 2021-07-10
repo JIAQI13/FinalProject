@@ -74,21 +74,17 @@ export default function HexagonGraph(props) {
       })
       .attr("stroke", '#fff')
       .attr("stroke-width", "172px")
-      .on("click", function () {
-        window.location.href = "http://localhost:4000/login";
-      })
       .on('mouseover', function (d) {
         d3.select(this)
           .transition()
           .duration(700)
-          .style("cursor", "pointer")
           .style('stroke-opacity', 1)
           .style("stroke", `url(#${'a'.repeat(getRandomInt(data.length))}`);
       })
       .on("mouseout", function (d) {
         d3.select(this)
           .transition()
-          .duration(3000)
+          .duration(2000)
           .style("stroke-opacity", 0);
       })
   });
