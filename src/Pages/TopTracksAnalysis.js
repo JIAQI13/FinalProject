@@ -28,20 +28,11 @@ const TRACKS_ANALYSIS = gql`
 
 export default function TopTracksAnalysis() {
   return (
-    <div className="d-flex flex-column bd-highlight mb-3">
+    <div className="d-flex flex-row bd-highlight mb-3">
       <div className="d-flex align-items-center">
-      </div>
-      <div className="flex-grow-1">
-        <Query query={TRACKS_ANALYSIS}>
-          {
-            ({ loading, data }) =>
-              // !loading && console.log(data)
-              !loading && <RadarGraph data={data}></RadarGraph>
-          }
-        </Query>
         <Query query={TOP_TRACKS}>
           {({ loading, data }) =>
-            // !loading && console.log(data.top10Tracks)
+            // !loading && console.log(data.toptracks)
             !loading && (
               <div className="d-flex flex-column p-2 m-2">
                 <span className="d-flex bg-primary text-white">
@@ -59,6 +50,14 @@ export default function TopTracksAnalysis() {
                 </ol>
               </div>
             )
+          }
+        </Query>
+      </div>
+      <div className="flex-grow-1">
+        <Query query={TRACKS_ANALYSIS}>
+          {({ loading, data }) =>
+            // !loading && console.log(data)
+            !loading && <RadarGraph data={data}></RadarGraph>
           }
         </Query>
       </div>

@@ -1,5 +1,7 @@
 import React from 'react';
 import Radar from 'react-d3-radar';
+import * as d3 from 'd3'
+import { voronoi } from 'd3-voronoi';
 import useWindowDimensions from '../helpers/userWindowDimensions';
 
 const transformData = function (values) {
@@ -53,9 +55,9 @@ export default function RadarGraph(data) {
       }}
       onHover={(point) => {
         if (point) {
-          console.log('point', point)
+          voronoi(point.x, point.y)
 
-          // console.log('hovered over a data point');
+          console.log('hovered over a data point');
         } else {
           console.log('not over anything');
         }
