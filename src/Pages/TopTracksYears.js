@@ -7,10 +7,11 @@ import Loader from "react-loader-spinner";
 
 export default function RelatedArtists (props) {
   const tmpStyle = {
-    "display": 'flex',
-    "justify-content": "center",
-    "align-content": "center",
-    "padding-top": "30%"
+    display: 'flex',
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    paddingTop: "20%"
   };
 
   const GET_TRACKS_INFO_FIRST = gql`
@@ -58,6 +59,7 @@ export default function RelatedArtists (props) {
               if (loadingOne || loadingTwo) {
                 return (
                   <div style={tmpStyle}>
+                    <h1>Vusic</h1>
                     <Loader
                       type="Bars"
                       color="#57F289"

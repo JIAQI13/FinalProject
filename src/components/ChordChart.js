@@ -9,8 +9,8 @@ export default function Chords(props) {
 
   // Currently, about 15 songs looks the best for the graph
   const nameOrGenres = [];
-  const slicedArray = data.slice(0, 20);
-  for (let i = 0; i < 20; i++) {
+  const slicedArray = data.slice(0, 15);
+  for (let i = 0; i < 15; i++) {
     nameOrGenres.push(data[i].name, ...data[i].genres)
   }
 
@@ -98,7 +98,7 @@ export default function Chords(props) {
         style={{
           textTransform: "capitalize",
           backgroundColor: "#292929",
-          font: '16px cambria',
+          font: '20px cambria',
           fontWeight: "bolder",
           wordWrap: "break-word",
           letterSpacing: "2px",
