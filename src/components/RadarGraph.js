@@ -1,6 +1,6 @@
-import React from "react";
-import Radar from "react-d3-radar";
-import useWindowDimensions from "../helpers/userWindowDimensions";
+import React from 'react';
+import Radar from 'react-d3-radar';
+import useWindowDimensions from '../helpers/userWindowDimensions';
 
 const transformData = function (values) {
   let result = [];
@@ -8,8 +8,10 @@ const transformData = function (values) {
 
   values &&
     values.forEach((value) => {
-      set["key"] = value.id;
-      set["values"] = {
+      console.log('value', value)
+      set['key'] = value.id;
+      set['label'] = value.name;
+      set['values'] = {
         danceability: value.danceability,
         energy: value.energy,
         speechiness: value.speechiness,
@@ -25,16 +27,19 @@ const transformData = function (values) {
 };
 
 const audio_features = [
-  { key: "danceability", label: "danceability" },
-  { key: "energy", label: "energy" },
-  { key: "speechiness", label: "speechiness" },
-  { key: "acousticness", label: "acousticness" },
-  { key: "instrumentalness", label: "instrumentalness" },
-  { key: "liveness", label: "liveness" },
-  { key: "valence", label: "valence" },
+  { key: 'danceability', label: 'Danceability' },
+  { key: 'energy', label: 'Energy' },
+  { key: 'speechiness', label: 'Speechiness' },
+  { key: 'acousticness', label: 'Acousticness' },
+  { key: 'instrumentalness', label: 'Instrumentalness' },
+  { key: 'liveness', label: 'Liveness' },
+  { key: 'valence', label: 'Valence' },
 ];
 
 export default function RadarGraph(data) {
+
+  console.log("data", data)
+
   const { height, width } = useWindowDimensions();
   const sets = transformData(data.data.tracksAnalysis);
   return (
@@ -50,9 +55,11 @@ export default function RadarGraph(data) {
       }}
       onHover={(point) => {
         if (point) {
-          console.log("hovered over a data point");
+          console.log('point', point)
+
+          // console.log('hovered over a data point');
         } else {
-          console.log("not over anything");
+          console.log('not over anything');
         }
       }}
     />
