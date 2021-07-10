@@ -29,7 +29,7 @@ class App extends Component {
       <Router>
         <>
           <Navbar bg="light">
-            <Navbar.Brand href="/">Visic</Navbar.Brand>
+            <Navbar.Brand>Vusic</Navbar.Brand>
             <Nav className="mx-auto">
               {routes.map(route => (
                 <Nav.Link
