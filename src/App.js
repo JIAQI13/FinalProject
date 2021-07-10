@@ -14,15 +14,13 @@ import Home from './Pages/Home'
 import './styles.css'
 
 const routes = [
-  { path: '/', name: 'Home', Component: Home },
-  // { path: '/view', name: 'view', Component: PostViewer },
-  { path: "/graphs/top-artists/popularity", name: 'top-artists by popularity', Component: TopArtistsPopularity },
-  { path: "/graphs/top-artists/followers", name: 'top-artists by followers', Component: TopArtistsFollowers },
-  { path: "/graphs/top-tracks/popularity", name: 'top-tracks by popularity', Component: TopTracksPopularity },
-  { path: "/graphs/top-artists/genres", name: 'top-artists by genres', Component: TopArtistsGenres },
-  // { path: "/graphs/top-artists/:id/related-artists", name: 'related artist', Component: RelatedArtists },
-  { path: "/graphs/top-tracks/years", name: 'top-tracks by year', Component: TopTracksYears },
-  { path: "/graphs/top-tracks-analysis", name: 'top-tracks analysis', Component: TopTracksAnalysis }
+  { path: '/', name: 'Vusic', Component: Home },
+  { path: "/graphs/top-artists/popularity", name: 'Top Artists by Popularity', Component: TopArtistsPopularity },
+  { path: "/graphs/top-artists/followers", name: 'Top Artists by Followers', Component: TopArtistsFollowers },
+  { path: "/graphs/top-tracks/popularity", name: 'Top Tracks by Popularity', Component: TopTracksPopularity },
+  { path: "/graphs/top artists/genres", name: 'Top Artists by Genres', Component: TopArtistsGenres },
+  { path: "/graphs/top-tracks/years", name: 'Top Tracks by Year', Component: TopTracksYears },
+  { path: "/graphs/top-tracks-analysis", name: 'Top Tracks Analysis', Component: TopTracksAnalysis }
 ]
 
 class App extends Component {

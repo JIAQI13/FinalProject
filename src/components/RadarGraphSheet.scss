@@ -1,0 +1,57 @@
+body {
+  background-color: white;
+}
+
+circle,
+line,
+polygon {
+  stroke: black;
+  stroke-width: 3px;
+  fill: none;
+}
+
+text {
+  font-family: "Helvetica";
+  font-size: 12px;
+  font-weight: bold;
+  stroke: none;
+  fill: black;
+  alignment-baseline: middle;
+}
+
+circle.ring,
+polygon.ring {
+  stroke-width: 1px;
+  opacity: 0.1;
+  fill: none;
+}
+
+circle.axis_circle,
+circle.point {
+  stroke-width: 1px;
+  stroke: black;
+  fill: none;
+}
+
+circle.point {
+  fill: black;
+}
+
+circle.center {
+  stroke-width: 2px;
+  stroke: black;
+  fill: white;
+}
+
+polygon.area {
+  stroke: black;
+  stroke-width: 2px;
+  fill: none;
+  fill: black;
+  fill-opacity: 0.4;
+}
+
+line.axis {
+  stroke-width: 1px;
+  opacity: 0.1;
+}

@@ -83,7 +83,7 @@ function ForceTreeChart(props) {
       .attr("preserveAspectRatio", "none")
       .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
       .attr("xlink:href", function (d) {
-        return d.images[0].url
+        return (d.images[0] ? d.images[0].url : `https://nilepost.co.ug/wp-content/uploads/2021/02/Spotify-logo.jpg`)
       })
 
     // d3 util to work with hierarchical data
@@ -104,7 +104,6 @@ function ForceTreeChart(props) {
         svg
           .selectAll(".alpha")
           .data([parentArtist])
-          .join("text")
           .attr("class", "alpha")
           .text(simulation.alpha().toFixed(2))
           .attr("x", -dimensions.width / 2 + 10)
