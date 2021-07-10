@@ -48,13 +48,6 @@ export default function RadarGraph(data) {
         variables: audio_features,
         sets: sets,
       }}
-      onHover={(point) => {
-        if (point) {
-          console.log("hovered over a data point");
-        } else {
-          console.log("not over anything");
-        }
-      }}
     />
   );
 }

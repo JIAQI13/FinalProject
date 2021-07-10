@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 // import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom'
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
-import { Container, Navbar, Nav, Form, Button } from 'react-bootstrap'
-import Header from "./components/Header";
-import PostViewer from "./Pages/PostViewer";
+import { Navbar, Nav, Form, Button } from 'react-bootstrap'
 import TopArtistsPopularity from "./Pages/TopArtistsPopularity";
 import TopArtistsFollowers from "./Pages/TopArtistsFollowers";
 import TopArtistsGenres from "./Pages/TopArtistsGenres";
-import RelatedArtists from './Pages/RelatedArtists';
+// import RelatedArtists from './Pages/RelatedArtists';
 import TopTracksPopularity from './Pages/TopTracksPopularity';
 import TopTracksAnalysis from "./Pages/TopTracksAnalysis";
 import TopTracksYears from "./Pages/TopTracksYears";
@@ -17,7 +15,7 @@ import './styles.css'
 
 const routes = [
   { path: '/', name: 'Home', Component: Home },
-  { path: '/view', name: 'view', Component: PostViewer },
+  // { path: '/view', name: 'view', Component: PostViewer },
   { path: "/graphs/top-artists/popularity", name: 'top-artists by popularity', Component: TopArtistsPopularity },
   { path: "/graphs/top-artists/followers", name: 'top-artists by followers', Component: TopArtistsFollowers },
   { path: "/graphs/top-tracks/popularity", name: 'top-tracks by popularity', Component: TopTracksPopularity },
