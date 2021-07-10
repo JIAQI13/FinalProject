@@ -3,6 +3,15 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { useHistory } from 'react-router';
 import BubblesGraph from '../components/BubblesGraph';
+import Loader from 'react-loader-spinner';
+
+const tmpStyle = {
+  display: 'flex',
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "column",
+  paddingTop: "20%"
+};
 
 export const GET_ARTIST = gql`
   query GetArtist {
@@ -47,9 +56,28 @@ export default function TopArtistsPopularity () {
   return (
     <div>
       <Query query={GET_ARTIST}>
-        {({ loading, data }) => !loading && (
-          <BubblesGraph graphData={data} dataSet={"topArtistsPopularity"} onClick={onClick}></BubblesGraph>
-        )}
+      {({ loading, data }) => {
+          if (loading) {
+            return (
+              <div style={tmpStyle}>
+                <h1>Vusic</h1>
+                <Loader
+                  type="Bars"
+                  color="#57F289"
+                  height={100}
+                  width={100}
+                />
+              </div>
+            );
+          }
+          data.topArtists.forEach((element) => {element.numbers = element.popularity})
+
+          console.log("graphData", data)
+
+          return (
+            <BubblesGraph graphData={data} onClick={onClick}></BubblesGraph>
+          );
+        }}
       </Query>
     </div>
   );
