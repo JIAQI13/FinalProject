@@ -221,7 +221,7 @@ const root = {
     const value = await new Promise((resolve) => {
       request(
         {
-          url: "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=10&offset=5",
+          url: "https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=10",
           method: "GET",
           headers: {
             Authorization: "Bearer " + authToken,
@@ -240,7 +240,7 @@ const root = {
     return new Promise((resolve) => {
       request(
         {
-          url: "https://api.spotify.com/v1/me/top/tracks?time_range=medium_term&limit=10",
+          url: "https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=10",
           method: "GET",
           headers: {
             Authorization: "Bearer " + authToken,

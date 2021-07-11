@@ -61,9 +61,7 @@ class App extends Component {
                     classNames="page"
                     unmountOnExit
                   >
-                    <div className="page">
-                      <Component />
-                    </div>
+                  <Component />
                   </CSSTransition>
                 )}
               </Route>

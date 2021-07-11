@@ -12,6 +12,7 @@
     "cors": "^2.8.5",
     "d3": "^7.0.0",
     "d3-hexbin": "^0.2.2",
+    "d3-voronoi": "^1.1.4",
     "envdot": "^0.0.3",
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
