@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import useWindowDimensions from '../helpers/userWindowDimensions';
-import { select } from 'd3';
+import { select, pointer } from 'd3';
 
 export default function BubblesGraph(props) {
   const { height, width } = useWindowDimensions();
@@ -32,10 +32,10 @@ export default function BubblesGraph(props) {
   // Constructing the chart in the return
   const createChart = () => {
     // For setting the radius of bubbles
-    let radiusScale = d3.scaleLinear().domain([0, 130]).range([0, 110])
+    let radiusScale = d3.scaleLinear().domain([0, 100]).range([0, domain.max])
     if (domain.max > 100) {
       radiusScale = d3.scaleSqrt().domain([domain.min, domain.max]).range([0, 110]);
-    }
+  }
 
     const svg = d3
       .select("#chart")
@@ -45,6 +45,12 @@ export default function BubblesGraph(props) {
       .classed("svg-content-responsive", true)
       .append("g")
       .attr("transform", "translate(0,0)");
+
+    // Text info on hover
+    const div = select("#artist-info")
+      .append("div")
+      .attr("class", "circle-info")
+      .style("opacity", 0)
 
     // Animation
     const simulation = d3.forceSimulation()
@@ -103,12 +109,53 @@ export default function BubblesGraph(props) {
       .on("mouseover", function(e, d){
         select(this)
           .attr("stroke-width", "5px")
-          .style("stroke", "#fff");
-        })
+          .style("stroke", "#fff")
+
+        // Show div with artist name and allow user to click link
+
+        select(this)
+          .transition()
+          .duration('1')
+          .attr('opacity', '.95')
+          .style("cursor", "pointer");
+
+        div.transition()
+          .duration(50)
+          .style("opacity", 1)
+
+        // Prevent div from disappearing when hovering over it
+        div.on('mouseover', function(e, d) {
+            select(this)
+                .transition()
+                .duration(50)
+                .style("opacity", 1)
+            })
+            .on('mouseout', function(e, d) {
+              select(this)
+                .transition()
+                .duration('50')
+                .style("opacity", 0);
+            });
+
+        div.html(`${d.name} | ${d.numbers.toLocaleString()}`)
+          .style("position", "absolute")
+          .style("left", `${e.clientX + 20}px`)
+          .style("top", `${e.clientY - 20}px`)
+          // !--! Add styling to css eventually
+          .style("background-color", "#f1f1f1")
+          .style("padding", "5px")
+          .style("font-size", "19px")
+          .style("font-weight", "500")
+          .style("border-radius", "10px")
+      })
       .on("mouseout", function(e, d){
         select(this)
-        .attr("stroke-width", "3px")
-        .style("stroke", random());
+          .attr("stroke-width", "3px")
+          .style("stroke", random())
+
+        div.transition()
+          .duration('50')
+          .style("opacity", 0);
       })
 
 
@@ -127,6 +174,7 @@ export default function BubblesGraph(props) {
 
   return (
     <div>
+      <div id="artist-info"></div>
       <div id="chart">
         {data && domain && createChart()}
       </div>
