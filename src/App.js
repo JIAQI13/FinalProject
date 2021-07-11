@@ -12,6 +12,7 @@ import TopTracksAnalysis from "./Pages/TopTracksAnalysis";
 import TopTracksYears from "./Pages/TopTracksYears";
 import Home from './Pages/Home'
 import './styles.css'
+import './App.scss'
 
 const routes = [
   { path: '/', name: 'Vusic', Component: Home },
@@ -29,26 +30,39 @@ class App extends Component {
     return (
       <Router>
         <>
-          <Navbar bg="light">
-            <Navbar.Brand>Vusic</Navbar.Brand>
-            <Nav className="mx-auto">
-              {routes.filter(route => route.path !== "/graphs/top-artists/:id/related-artists").map(route => (
-                <>
-                  <Nav.Link
-                    key={route.path}
-                    as={NavLink}
-                    to={route.path}
-                    activeClassName="active"
-                    exact
-                  >
-                    {route.name}
-                  </Nav.Link>
-                </>
+          <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">
+          <Navbar.Brand>
+            <Nav.Link
+              key='/'
+              as={NavLink}
+              to='/'
+              activeClassName="active"
+              exact
+            >
+              <span id="brand">
+                Vusic
+              </span>
+            </Nav.Link>
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="mr-auto">
+              {routes.filter(route => route.path !== "/graphs/top-artists/:id/related-artists" && route.path !== '/').map(route => (
+                <Nav.Link
+                  key={route.path}
+                  as={NavLink}
+                  to={route.path}
+                  activeClassName="active"
+                  exact
+                >
+                  {route.name}
+                </Nav.Link>
               ))}
             </Nav>
             <Form inline>
               <Button variant="outline-primary" href="http://localhost:4000/login">Login</Button>
             </Form>
+          </Navbar.Collapse>
           </Navbar>
           <div >
             {routes.map(({ path, Component }) => (
