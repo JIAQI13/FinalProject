@@ -2,18 +2,10 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import HeatMap from '../components/HeatMap'
-import Loader from "react-loader-spinner";
+import VusicLoader from '../components/VusicLoader';
 
 
 export default function RelatedArtists (props) {
-  const tmpStyle = {
-    display: 'flex',
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
-    paddingTop: "20%"
-  };
-
   const GET_TRACKS_INFO_FIRST = gql`
     query gettopTrackOffset {
       topTrackOffset(limit:"49", offset:"0"){
@@ -58,15 +50,7 @@ export default function RelatedArtists (props) {
             {({ loading: loadingTwo, data: two }) => {
               if (loadingOne || loadingTwo) {
                 return (
-                  <div style={tmpStyle}>
-                    <h1>Vusic</h1>
-                    <Loader
-                      type="Bars"
-                      color="#57F289"
-                      height={100}
-                      width={100}
-                    />
-                  </div>
+                  <VusicLoader/>
                 );
               }
               return (

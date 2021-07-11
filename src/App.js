@@ -40,7 +40,7 @@ class App extends Component {
               exact
             >
               <span id="brand">
-                Vusic
+              <img src="/icon_vusic_2.png" alt="vusic-icon" width="110" height="60"></img>
               </span>
             </Nav.Link>
           </Navbar.Brand>

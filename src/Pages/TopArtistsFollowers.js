@@ -3,15 +3,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { useHistory } from 'react-router';
 import BubblesGraph from '../components/BubblesGraph';
-import Loader from 'react-loader-spinner';
-
-const tmpStyle = {
-  display: 'flex',
-  justifyContent: "center",
-  alignItems: "center",
-  flexDirection: "column",
-  paddingTop: "20%"
-};
+import VusicLoader from '../components/VusicLoader';
 
 export const GET_ARTIST = gql`
   query GetArtist {
@@ -59,15 +51,7 @@ export default function TopArtistsFollowers () {
         {({ loading, data }) => {
           if (loading) {
             return (
-              <div style={tmpStyle}>
-                <h1>Vusic</h1>
-                <Loader
-                  type="Bars"
-                  color="#57F289"
-                  height={100}
-                  width={100}
-                />
-              </div>
+              <VusicLoader/>
             );
           }
           data.topArtists.forEach((element) => {element.numbers = element.followers.total})
