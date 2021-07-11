@@ -55,6 +55,58 @@ li {
   }
 }
 
+#prompt {display: none;}
+
+.fas {
+  color: white;
+  font-size: 56px;
+  margin-top: 40px;
+  animation-name: rotate;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  transform-origin: center;
+}
+
+@keyframes rotate {
+  0%  {-webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      transform-origin: 0% 0%;}
+  50%  {-webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        -o-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+      transform-origin: 0% 10px}
+  100%  {-webkit-transform: rotate(0deg);
+          -moz-transform: rotate(0deg);
+          -ms-transform: rotate(0deg);
+          -o-transform: rotate(0deg);
+          transform: rotate(0deg);
+          transform-origin: 0% 0%;}
+}
+
+/* only when orientation is in portrait mode */
+@media all and (orientation:portrait) {
+    #prompt {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+
+      #prompt-message {
+        font-size: 26px;
+        color: white;
+      }
+    }
+
+    #canvas {
+      display: none;
+    }
+}
+
 @media only screen and (max-width: 770px) {
   .tick {
     font-size: 11px;
