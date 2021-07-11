@@ -16,13 +16,13 @@ import './App.scss'
 
 const routes = [
   { path: '/', name: 'Vusic', Component: Home },
-  { path: "/graphs/top-artists/popularity", name: 'Top Artists by Popularity', Component: TopArtistsPopularity },
-  { path: "/graphs/top-artists/followers", name: 'Top Artists by Followers', Component: TopArtistsFollowers },
-  { path: "/graphs/top-tracks/popularity", name: 'Top Tracks by Popularity', Component: TopTracksPopularity },
+  { path: "/graphs/top-artists/popularity", name: 'Artists by Popularity', Component: TopArtistsPopularity },
+  { path: "/graphs/top-artists/followers", name: 'Artists by Followers', Component: TopArtistsFollowers },
+  { path: "/graphs/top-tracks/popularity", name: 'Tracks by Popularity', Component: TopTracksPopularity },
   { path: "/graphs/top-artists/:id/related-artists", name: 'Related Artists', Component: RelatedArtists },
-  { path: "/graphs/top-artists/genres", name: 'Top Artists by Genres', Component: TopArtistsGenres },
-  { path: "/graphs/top-tracks/years", name: 'Top Tracks by Year', Component: TopTracksYears },
-  { path: "/graphs/top-tracks/analysis", name: 'Top Tracks Analysis', Component: TopTracksAnalysis }
+  { path: "/graphs/top-artists/genres", name: 'Artists by Genres', Component: TopArtistsGenres },
+  { path: "/graphs/top-tracks/years", name: 'Tracks by Year', Component: TopTracksYears },
+  { path: "/graphs/top-tracks/analysis", name: 'Tracks Analysis', Component: TopTracksAnalysis }
 ]
 
 class App extends Component {
@@ -39,9 +39,7 @@ class App extends Component {
               activeClassName="active"
               exact
             >
-              <span id="brand">
-              <img src="/icon_vusic_2.png" alt="vusic-icon" width="110" height="60"></img>
-              </span>
+            <img id="brand" src="/icon_vusic_2.png" alt="vusic-icon" width="110" height="60"></img>
             </Nav.Link>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
