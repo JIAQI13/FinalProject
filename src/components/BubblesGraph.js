@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import useWindowDimensions from '../helpers/userWindowDimensions';
-import { select, pointer } from 'd3';
+import { select } from 'd3';
 
 export default function BubblesGraph(props) {
   const { height, width } = useWindowDimensions();
@@ -11,6 +11,11 @@ export default function BubblesGraph(props) {
   // Generating random colors for stroke
   const random = () => {
     return (`rgb(${(Math.floor(Math.random() * 100) + 75)}, ${(Math.floor(Math.random()*100) + 155)}, ${(Math.floor(Math.random() * 100) + 75)})`);
+  }
+
+  // Require a function call to navigate to a new tab
+  const spotifyClick = (url) => {
+    window.open(url, '_blank');
   }
 
   useEffect(() => {
@@ -93,13 +98,19 @@ export default function BubblesGraph(props) {
         return data.id
       })
       .on("click", function (event, d) {
-        props.onClick(
-          d.id,
-          d.name,
-          d.images,
-          d.external_urls
-          );
-        })
+        // Only songs have albums property - don't create
+        // force chart but open link to song instead
+        if (d.album) {
+          spotifyClick(d.external_urls.spotify)
+        } else {
+          props.onClick(
+            d.id,
+            d.name,
+            d.images,
+            d.external_urls
+            );
+        }
+      })
         .attr("r", (data) => {
         return radiusScale(data.numbers)
       })
@@ -112,7 +123,6 @@ export default function BubblesGraph(props) {
           .style("stroke", "#fff")
 
         // Show div with artist name and allow user to click link
-
         select(this)
           .transition()
           .duration('1')

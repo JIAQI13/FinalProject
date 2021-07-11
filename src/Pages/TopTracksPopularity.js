@@ -18,6 +18,9 @@ export const GET_TRACK = gql`
       id
       name
       popularity
+      external_urls {
+        spotify
+      }
       album {
         images {
           height
