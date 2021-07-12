@@ -1,0 +1,55 @@
+// background styling for all pages
+// definitely needs to be moved to a _styles.scss folder
+html {
+  background-color: #292929 ;
+}
+
+#chord {
+  display: 'flex';
+  justify-content: "center";
+  align-items: "center";
+  width: "100%";
+  height: "50%";
+  font-size: 20px;
+}
+
+
+@media all and (orientation:portrait) {
+  #prompt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+
+    #prompt-message {
+      font-size: 26px;
+      color: white;
+    }
+  }
+
+  #chord {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 950px) {
+  .svg-content {
+    width: 90%;
+    margin: 0 2% 0 2%;
+  }
+
+  #chord {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .svg-content {
+    width: 70%;
+    margin: 0 5% 0 15%;
+  }
+
+  #chord {
+    font-size: 10px;
+  }
+}

@@ -30,37 +30,37 @@ class App extends Component {
     return (
       <Router>
         <>
-          <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">
-          <Navbar.Brand>
-            <Nav.Link
-              key='/'
-              as={NavLink}
-              to='/'
-              activeClassName="active"
-              exact
-            >
-            <img id="brand" src="/icon_vusic_2.png" alt="vusic-icon"></img>
-            </Nav.Link>
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="mr-auto">
-              {routes.filter(route => route.path !== "/graphs/top-artists/:id/related-artists" && route.path !== '/').map(route => (
-                <Nav.Link
-                  key={route.path}
-                  as={NavLink}
-                  to={route.path}
-                  activeClassName="active"
-                  exact
-                >
-                  {route.name}
-                </Nav.Link>
-              ))}
-            </Nav>
-            <Form inline>
-              <Button variant="outline-primary" href="http://localhost:4000/login">Login</Button>
-            </Form>
-          </Navbar.Collapse>
+          <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+            <Navbar.Brand>
+              <Nav.Link
+                key='/'
+                as={NavLink}
+                to='/'
+                activeClassName="active"
+                exact
+              >
+              <img id="brand" src="/icon_vusic_2.png" alt="vusic-icon"></img>
+              </Nav.Link>
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="mr-auto">
+                {routes.filter(route => route.path !== "/graphs/top-artists/:id/related-artists" && route.path !== '/').map(route => (
+                  <Nav.Link
+                    key={route.path}
+                    as={NavLink}
+                    to={route.path}
+                    activeClassName="active"
+                    exact
+                  >
+                    {route.name}
+                  </Nav.Link>
+                ))}
+              </Nav>
+              <Form inline>
+                <Button variant="outline-primary" href="http://localhost:4000/login">Login</Button>
+              </Form>
+            </Navbar.Collapse>
           </Navbar>
           <div >
             {routes.map(({ path, Component }) => (
