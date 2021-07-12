@@ -1,9 +1,9 @@
-import React from 'react';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
-import { useHistory } from 'react-router';
-import BubblesGraph from '../components/BubblesGraph';
-import VusicLoader from '../components/VusicLoader';
+import React from "react";
+import gql from "graphql-tag";
+import { Query } from "react-apollo";
+import { useHistory } from "react-router";
+import BubblesGraph from "../components/BubblesGraph";
+import VusicLoader from "../components/VusicLoader";
 
 export const GET_ARTIST = gql`
   query GetArtist {
@@ -28,10 +28,10 @@ export const GET_ARTIST = gql`
   }
 `;
 
-export default function TopArtistsFollowers () {
+export default function TopArtistsFollowers() {
   // If a user selects an artist's bubble, will send user
   // to the artist's id, looking for related artists
-  const history = useHistory()
+  const history = useHistory();
 
   const onClick = (id, name, images, external_urls) => {
     history.push({
@@ -40,24 +40,29 @@ export default function TopArtistsFollowers () {
         id: id,
         name: name,
         images: [...images],
-        external_urls: {...external_urls}
-      }
+        external_urls: { ...external_urls },
+      },
     });
-  }
+  };
 
   return (
     <div>
       <Query query={GET_ARTIST}>
         {({ loading, data }) => {
           if (loading) {
-            return (
-              <VusicLoader/>
-            );
+            return <VusicLoader />;
           }
-          data.topArtists.forEach((element) => {element.numbers = element.followers.total})
+          data.topArtists.forEach((element) => {
+            element.numbers = element.followers.total;
+          });
 
           return (
-            <BubblesGraph graphData={data} onClick={onClick}></BubblesGraph>
+            <>
+              <h1 class="d-flex justify-content-center display-3 text-white">
+                Artists by Followers
+              </h1>
+              <BubblesGraph graphData={data} onClick={onClick}></BubblesGraph>
+            </>
           );
         }}
       </Query>

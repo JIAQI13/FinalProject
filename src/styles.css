@@ -1,3 +1,7 @@
+* {
+  font-family: "Archivo", sans-serif;
+}
+
 .container {
   position: relative;
 }

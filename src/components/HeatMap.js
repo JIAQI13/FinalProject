@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import * as d3 from 'd3';
+import * as d3 from "d3";
 import { select } from "d3";
-import useWindowDimensions from '../helpers/userWindowDimensions'
+import useWindowDimensions from "../helpers/userWindowDimensions";
 import "./HeatMap.scss";
 
 export default function HeatMap(props) {
@@ -12,9 +12,9 @@ export default function HeatMap(props) {
     base: 0,
     albumCount: [
       {
-        albums: []
-      }
-    ]
+        albums: [],
+      },
+    ],
   });
 
   // There's some not-perfect-science with width and getting the graph
@@ -23,50 +23,54 @@ export default function HeatMap(props) {
   const graphHeight = height / 1.2;
 
   // Find the min and max years in our data, to be used in scales
-  const minYear = d3.min(data.albumCount, item => item['year']);
-  const maxYear = d3.max(data.albumCount, item => item['year']);
+  const minYear = d3.min(data.albumCount, (item) => item["year"]);
+  const maxYear = d3.max(data.albumCount, (item) => item["year"]);
 
   // x-axis scale
-  const xScale = d3.scaleLinear()
-            .domain([minYear, maxYear + 1])
-            .range([60, graphWidth - 60]);
+  const xScale = d3
+    .scaleLinear()
+    .domain([minYear, maxYear + 1])
+    .range([60, graphWidth - 60]);
 
   // y-axis scale
-  const yScale = d3.scaleTime()
-            .domain([new Date(0, 0, 0, 0, 0, 0, 0), new Date(0, 12, 0, 0, 0, 0, 0)])
-            .range([60, graphHeight - 60]);
+  const yScale = d3
+    .scaleTime()
+    .domain([new Date(0, 0, 0, 0, 0, 0, 0), new Date(0, 12, 0, 0, 0, 0, 0)])
+    .range([60, graphHeight - 60]);
 
   let cellInfo = d3.select("#cell-info");
   let albums = d3.select("#albums");
-  let canvas = d3.select('#canvas');
+  let canvas = d3.select("#canvas");
 
-  canvas
-    .attr('width', graphWidth)
-    .attr('height', graphHeight)
+  canvas.attr("width", graphWidth).attr("height", graphHeight);
 
   useEffect(() => {
     // Combine all artists from the two queries
-    const allArtists = [...props.dataGraphFirst.topTrackOffset, ...props.dataGraphSecond.topTrackOffset]
+    const allArtists = [
+      ...props.dataGraphFirst.topTrackOffset,
+      ...props.dataGraphSecond.topTrackOffset,
+    ];
 
     // Create an array of the year and month of each release data
     const albumYearMonth = [];
     const fullInfo = [];
     allArtists.forEach((artist) => {
-      const obj = {}
-      albumYearMonth.push(artist.album.release_date.slice(0, 7))
-      obj.id = (artist.id)
-      obj.date = (artist.album.release_date.slice(0, 7))
-      obj.artist = (artist.artists[0].name)
-      obj.track = (artist.name)
-      obj.image = (artist.album.images[0].url)
-      fullInfo.push(obj)
-    })
+      const obj = {};
+      albumYearMonth.push(artist.album.release_date.slice(0, 7));
+      obj.id = artist.id;
+      obj.date = artist.album.release_date.slice(0, 7);
+      obj.artist = artist.artists[0].name;
+      obj.track = artist.name;
+      obj.image = artist.album.images[0].url;
+      fullInfo.push(obj);
+    });
 
     // From the release dates, find the count of each
     // ie. number of times 1982-02 appears
     // create an object of the year/month and the count
-    const countOccurrences = arr => arr.reduce((prev, curr) => (prev[curr] = ++prev[curr] || 1, prev), {});
-    const eachOccurence = countOccurrences(albumYearMonth)
+    const countOccurrences = (arr) =>
+      arr.reduce((prev, curr) => ((prev[curr] = ++prev[curr] || 1), prev), {});
+    const eachOccurence = countOccurrences(albumYearMonth);
 
     // Data format for plotting the graph
     // 'Base' is number of albums for that year/month, initially 0
@@ -76,50 +80,50 @@ export default function HeatMap(props) {
       base: 0,
       albumCount: [
         // {
-          // year:
-          // month:
-          // count:
-          // albums: [
-            // {
-              // date:
-              // artist:
-              // image:
-              // track:
-            // }
-          // ]
+        // year:
+        // month:
+        // count:
+        // albums: [
+        // {
+        // date:
+        // artist:
+        // image:
+        // track:
         // }
-      ]
-    }
+        // ]
+        // }
+      ],
+    };
 
     // For each item in the object, create an object of
     // the year, month, and count to push into albumCount
     // Some albums don't have release months, so choose 1
     for (const album in eachOccurence) {
       const objCount = {};
-      objCount.year = Number(album.slice(0, 4))
-      objCount.month = Number("" === album.slice(5, 7) ? 1 : album.slice(5, 7))
-      objCount.count = Number(eachOccurence[album])
+      objCount.year = Number(album.slice(0, 4));
+      objCount.month = Number("" === album.slice(5, 7) ? 1 : album.slice(5, 7));
+      objCount.count = Number(eachOccurence[album]);
 
       // Find which dates correspond to which artist's album
       const albumsArr = [];
       for (const item of fullInfo) {
         if (album.slice(0, 7) === item.date) {
-          albumsArr.push(item)
+          albumsArr.push(item);
         }
       }
-      objCount.albums = albumsArr
-      dateData.albumCount.push(objCount)
+      objCount.albums = albumsArr;
+      dateData.albumCount.push(objCount);
     }
 
-    setInfo(fullInfo)
-    setData(dateData)
-  }, [props.dataGraphFirst, props.dataGraphSecond])
+    setInfo(fullInfo);
+    setData(dateData);
+  }, [props.dataGraphFirst, props.dataGraphSecond]);
 
   const createChart = () => {
     // Reset any cells on re-render, remove any info text as well
-    canvas.selectAll("*").remove()
-    cellInfo.text("")
-    albums.selectAll("*").remove()
+    canvas.selectAll("*").remove();
+    cellInfo.text("");
+    albums.selectAll("*").remove();
 
     // Transition to make the cells appear slowly on the graph
     const slowReveal = () => {
@@ -127,58 +131,54 @@ export default function HeatMap(props) {
         .transition()
         .ease(d3.easeLinear)
         .duration(300)
-        .delay((d,i) => i * Math.floor(Math.random() * 75))
-        .style("opacity", 1)
-    }
+        .delay((d, i) => i * Math.floor(Math.random() * 75))
+        .style("opacity", 1);
+    };
 
     // Each rectangle generated by data
     const rect = canvas
-      .selectAll('rect')
+      .selectAll("rect")
       .data(data.albumCount)
       .enter()
-      .append('rect')
-      .attr('class', 'cell')
-      .attr('stroke', '#000')
-      .attr('stroke-width', '1px')
-      .attr('fill', (item) => {
+      .append("rect")
+      .attr("class", "cell")
+      .attr("stroke", "#000")
+      .attr("stroke-width", "1px")
+      .attr("fill", (item) => {
         const colors = {
-          1:'#CBF4AD',
-          2:'#B3F783',
-          3:'#95F952',
-          4:'#66FC02',
-          5:'#53EA02',
-          6:'#45CC02',
-          7:'#39A801'
-        }
+          1: "#CBF4AD",
+          2: "#B3F783",
+          3: "#95F952",
+          4: "#66FC02",
+          5: "#53EA02",
+          6: "#45CC02",
+          7: "#39A801",
+        };
         // Return darkest color if colors is undefined (> 8 albums)
-        return (colors[item['count']] ? colors[item['count']] : '#306B00')
+        return colors[item["count"]] ? colors[item["count"]] : "#306B00";
       })
-      .attr('data-year', item => item['year'])
-      .attr('data-month', (item) => item['month'] - 1)
-      .attr('data', item => item['albumCount'])
-      .attr('height', `${(graphHeight - (60 * 2)) / 12}`)
-      .attr('width', (item) => {
-        let numberOfYears = maxYear - minYear
-        return (graphWidth - (60 * 2)) / numberOfYears
+      .attr("data-year", (item) => item["year"])
+      .attr("data-month", (item) => item["month"] - 1)
+      .attr("data", (item) => item["albumCount"])
+      .attr("height", `${(graphHeight - 60 * 2) / 12}`)
+      .attr("width", (item) => {
+        let numberOfYears = maxYear - minYear;
+        return (graphWidth - 60 * 2) / numberOfYears;
       })
-      .attr('y', item => yScale(new Date(0, item['month'] - 1, 0, 0, 0, 0, 0 )))
-      .attr('x', item => xScale(item['year']))
+      .attr("y", (item) =>
+        yScale(new Date(0, item["month"] - 1, 0, 0, 0, 0, 0))
+      )
+      .attr("x", (item) => xScale(item["year"]))
       .style("opacity", 0)
       .on("click", function (event, item, index) {
         // Remove any previous info divs and styling
-        cellInfo
-          .transition()
-          .style("visibility", "hidden");
-        albums
-          .transition()
-          .style("visibility", "hidden");
-        albums
-          .selectAll('li')
-          .remove();
+        cellInfo.transition().style("visibility", "hidden");
+        albums.transition().style("visibility", "hidden");
+        albums.selectAll("li").remove();
 
         // Reset all cells to black borders
         canvas
-          .selectAll('rect')
+          .selectAll("rect")
           .attr("stroke", "black")
           .attr("stroke-width", "1px");
 
@@ -188,12 +188,8 @@ export default function HeatMap(props) {
           .attr("stroke", "white")
           .attr("stroke-width", "3px");
 
-        cellInfo
-          .transition()
-          .style("visibility", "visible");
-        albums
-          .transition()
-          .style("visibility", "visible");
+        cellInfo.transition().style("visibility", "visible");
+        albums.transition().style("visibility", "visible");
 
         const months = {
           1: "January",
@@ -207,49 +203,55 @@ export default function HeatMap(props) {
           9: "September",
           10: "October",
           11: "November",
-          12: "December"
+          12: "December",
         };
 
         cellInfo
-          .text(`${months[item['month']]} ${item['year']}: ${item['count']} Track${item['count'] === 1 ? "" : 's' }`)
-          .attr('data-year', item['year']);
+          .text(
+            `${months[item["month"]]} ${item["year"]}: ${item["count"]} Track${
+              item["count"] === 1 ? "" : "s"
+            }`
+          )
+          .attr("data-year", item["year"]);
 
         albums
-          .selectAll('li')
+          .selectAll("li")
           .data(item.albums)
           .enter()
-          .append('li')
-          .attr('class', 'album')
+          .append("li")
+          .attr("class", "album")
           .text((item) => {
-            return (`"${item['track']}" by ${item['artist']}`)
+            return `"${item["track"]}" by ${item["artist"]}`;
           });
-      })
+      });
 
     // Creating the axes in the graph ----------------
-    let xAxis = d3.axisBottom(xScale)
-                  .tickFormat(d3.format('d'))
+    let xAxis = d3.axisBottom(xScale).tickFormat(d3.format("d"));
 
-    let yAxis = d3.axisLeft(yScale)
-                  .tickFormat(d3.timeFormat('%b'))
+    let yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%b"));
 
-    canvas.append('g')
-          .call(xAxis)
-          .attr('id', 'x-axis')
-          .attr('transform', `translate(0, ${graphHeight - 56})`)
-          .attr("stroke-width", "5px");
+    canvas
+      .append("g")
+      .call(xAxis)
+      .attr("id", "x-axis")
+      .attr("transform", `translate(0, ${graphHeight - 56})`)
+      .attr("stroke-width", "5px");
 
-    canvas.append('g')
-          .call(yAxis)
-          .attr('id', 'y-axis')
-          .attr('transform', `translate(${56}, 0)`)
-          .attr("stroke-width", "5px");
+    canvas
+      .append("g")
+      .call(yAxis)
+      .attr("id", "y-axis")
+      .attr("transform", `translate(${56}, 0)`)
+      .attr("stroke-width", "5px");
 
     slowReveal();
-  }
+  };
 
   return (
     <>
-      <h1>Top {info.length} Tracks Relase Dates</h1>
+      <h1 class="d-flex justify-content-center display-3 text-white">
+        Top {info.length} Tracks Release Years
+      </h1>
       <div id="prompt">
         <div id="prompt-message">Rotate Device</div>
         <i class="fas fa-mobile-alt"></i>
