@@ -19,9 +19,9 @@ const routes = [
   { path: "/graphs/top-artists/followers", name: 'Top Artists by Followers', Component: TopArtistsFollowers },
   { path: "/graphs/top-tracks/popularity", name: 'Top Tracks by Popularity', Component: TopTracksPopularity },
   { path: "/graphs/top-artists/:id/related-artists", name: 'Related Artists', Component: RelatedArtists },
-  { path: "/graphs/top artists/genres", name: 'Top Artists by Genres', Component: TopArtistsGenres },
+  { path: "/graphs/top-artists/genres", name: 'Top Artists by Genres', Component: TopArtistsGenres },
   { path: "/graphs/top-tracks/years", name: 'Top Tracks by Year', Component: TopTracksYears },
-  { path: "/graphs/top-tracks-analysis", name: 'Top Tracks Analysis', Component: TopTracksAnalysis }
+  { path: "/graphs/top-tracks/analysis", name: 'Top Tracks Analysis', Component: TopTracksAnalysis }
 ]
 
 class App extends Component {

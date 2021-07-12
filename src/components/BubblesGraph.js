@@ -13,6 +13,11 @@ export default function BubblesGraph(props) {
     return (`rgb(${(Math.floor(Math.random() * 100) + 75)}, ${(Math.floor(Math.random() * 100) + 155)}, ${(Math.floor(Math.random() * 100) + 75)})`);
   }
 
+  // Require a function call to navigate to a new tab
+  const spotifyClick = (url) => {
+    window.open(url, '_blank');
+  }
+
   useEffect(() => {
     // Initilization
     const graphData = (props.graphData.topArtists ? props.graphData.topArtists : props.graphData.topTracks)
@@ -32,7 +37,7 @@ export default function BubblesGraph(props) {
   // Constructing the chart in the return
   const createChart = () => {
     // For setting the radius of bubbles
-    let radiusScale = d3.scaleLinear().domain([0, 130]).range([0, 60])
+    let radiusScale = d3.scaleLinear().domain([0, 100]).range([0, domain.max])
     if (domain.max > 100) {
       radiusScale = d3.scaleSqrt().domain([domain.min, domain.max]).range([0, 110]);
     }
@@ -45,6 +50,12 @@ export default function BubblesGraph(props) {
       .classed("svg-content-responsive", true)
       .append("g")
       .attr("transform", "translate(0,0)");
+
+    // Text info on hover
+    const div = select("#artist-info")
+      .append("div")
+      .attr("class", "circle-info")
+      .style("opacity", 0)
 
     // Animation
     const simulation = d3.forceSimulation()
@@ -87,12 +98,18 @@ export default function BubblesGraph(props) {
         return data.id
       })
       .on("click", function (event, d) {
-        props.onClick(
-          d.id,
-          d.name,
-          d.images,
-          d.external_urls
-        );
+        // Only songs have albums property - don't create
+        // force chart but open link to song instead
+        if (d.album) {
+          spotifyClick(d.external_urls.spotify)
+        } else {
+          props.onClick(
+            d.id,
+            d.name,
+            d.images,
+            d.external_urls
+          );
+        }
       })
       .attr("r", (data) => {
         return radiusScale(data.numbers)
@@ -103,12 +120,52 @@ export default function BubblesGraph(props) {
       .on("mouseover", function (e, d) {
         select(this)
           .attr("stroke-width", "5px")
-          .style("stroke", "#fff");
+          .style("stroke", "#fff")
+
+        // Show div with artist name and allow user to click link
+        select(this)
+          .transition()
+          .duration('1')
+          .attr('opacity', '.95')
+          .style("cursor", "pointer");
+
+        div.transition()
+          .duration(50)
+          .style("opacity", 1)
+
+        // Prevent div from disappearing when hovering over it
+        div.on('mouseover', function (e, d) {
+          select(this)
+            .transition()
+            .duration(50)
+            .style("opacity", 1)
+        })
+          .on('mouseout', function (e, d) {
+            select(this)
+              .transition()
+              .duration('50')
+              .style("opacity", 0);
+          });
+
+        div.html(`${d.name} | ${d.numbers.toLocaleString()}`)
+          .style("position", "absolute")
+          .style("left", `${e.clientX + 20}px`)
+          .style("top", `${e.clientY - 20}px`)
+          // !--! Add styling to css eventually
+          .style("background-color", "#f1f1f1")
+          .style("padding", "5px")
+          .style("font-size", "19px")
+          .style("font-weight", "500")
+          .style("border-radius", "10px")
       })
       .on("mouseout", function (e, d) {
         select(this)
           .attr("stroke-width", "3px")
-          .style("stroke", random());
+          .style("stroke", random())
+
+        div.transition()
+          .duration('50')
+          .style("opacity", 0);
       })
 
 
@@ -127,6 +184,7 @@ export default function BubblesGraph(props) {
 
   return (
     <div>
+      <div id="artist-info"></div>
       <div id="chart">
         {data && domain && createChart()}
       </div>
