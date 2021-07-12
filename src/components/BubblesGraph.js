@@ -6,11 +6,11 @@ import { select } from 'd3';
 export default function BubblesGraph(props) {
   const { height, width } = useWindowDimensions();
   const [data, setData] = useState()
-  const [domain, setDomain] = useState({min: 0, max: 150})
+  const [domain, setDomain] = useState({ min: 0, max: 150 })
 
   // Generating random colors for stroke
   const random = () => {
-    return (`rgb(${(Math.floor(Math.random() * 100) + 75)}, ${(Math.floor(Math.random()*100) + 155)}, ${(Math.floor(Math.random() * 100) + 75)})`);
+    return (`rgb(${(Math.floor(Math.random() * 100) + 75)}, ${(Math.floor(Math.random() * 100) + 155)}, ${(Math.floor(Math.random() * 100) + 75)})`);
   }
 
   // Require a function call to navigate to a new tab
@@ -23,7 +23,7 @@ export default function BubblesGraph(props) {
     const graphData = (props.graphData.topArtists ? props.graphData.topArtists : props.graphData.topTracks)
 
     const arr = [];
-    graphData.forEach((element) => {arr.push(element.numbers)})
+    graphData.forEach((element) => { arr.push(element.numbers) })
     const min = Math.min(...arr);
     const max = Math.max(...arr);
 
@@ -40,7 +40,7 @@ export default function BubblesGraph(props) {
     let radiusScale = d3.scaleLinear().domain([0, 100]).range([0, domain.max])
     if (domain.max > 100) {
       radiusScale = d3.scaleSqrt().domain([domain.min, domain.max]).range([0, 110]);
-  }
+    }
 
     const svg = d3
       .select("#chart")
@@ -59,8 +59,8 @@ export default function BubblesGraph(props) {
 
     // Animation
     const simulation = d3.forceSimulation()
-      .force("x", d3.forceX(width / 2).strength(0.05))
-      .force("y", d3.forceY(height / 2).strength(0.05))
+      .force("x", d3.forceX(width / 2).strength(0.1))
+      .force("y", d3.forceY(height / 2).strength(0.1))
       .force("collide", d3.forceCollide((d) => {
         return radiusScale(d.numbers) + 3;
       }))
@@ -108,16 +108,16 @@ export default function BubblesGraph(props) {
             d.name,
             d.images,
             d.external_urls
-            );
+          );
         }
       })
-        .attr("r", (data) => {
+      .attr("r", (data) => {
         return radiusScale(data.numbers)
       })
       .attr("fill", function (data) {
         return `url(#${data.id})`;
       })
-      .on("mouseover", function(e, d){
+      .on("mouseover", function (e, d) {
         select(this)
           .attr("stroke-width", "5px")
           .style("stroke", "#fff")
@@ -134,18 +134,18 @@ export default function BubblesGraph(props) {
           .style("opacity", 1)
 
         // Prevent div from disappearing when hovering over it
-        div.on('mouseover', function(e, d) {
+        div.on('mouseover', function (e, d) {
+          select(this)
+            .transition()
+            .duration(50)
+            .style("opacity", 1)
+        })
+          .on('mouseout', function (e, d) {
             select(this)
-                .transition()
-                .duration(50)
-                .style("opacity", 1)
-            })
-            .on('mouseout', function(e, d) {
-              select(this)
-                .transition()
-                .duration('50')
-                .style("opacity", 0);
-            });
+              .transition()
+              .duration('50')
+              .style("opacity", 0);
+          });
 
         div.html(`${d.name} | ${d.numbers.toLocaleString()}`)
           .style("position", "absolute")
@@ -158,7 +158,7 @@ export default function BubblesGraph(props) {
           .style("font-weight", "500")
           .style("border-radius", "10px")
       })
-      .on("mouseout", function(e, d){
+      .on("mouseout", function (e, d) {
         select(this)
           .attr("stroke-width", "3px")
           .style("stroke", random())
