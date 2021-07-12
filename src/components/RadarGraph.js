@@ -3,6 +3,7 @@ import Radar from 'react-d3-radar';
 import * as d3 from 'd3'
 import useWindowDimensions from '../helpers/userWindowDimensions';
 import { select } from 'd3';
+import './RadarGraph.scss';
 
 
 export default function RadarGraph(props) {
@@ -67,9 +68,11 @@ export default function RadarGraph(props) {
         for (const element of tracksAnalysis) {
           if (element.id === d.id) {
             select(this)
-              .style("background-color", "#f3f3f3")
+              .style("background-color", "#22c95c")
 
+            // Give empty objects to get a visible color
             setSets([
+              {},{},
               {
                 key: element.id,
                 values: {
@@ -89,7 +92,7 @@ export default function RadarGraph(props) {
       .on("mouseout", (event, d) => {
         setSets(transformData(tracksAnalysis))
         topTracks.selectAll("li")
-              .style("background-color", "white")
+              .style("background-color", "#292929")
       })
 
 

@@ -72,7 +72,7 @@ export default function HexagonGraph(props) {
       .attr("d", function (d) {
         return "m" + d.x + "," + d.y + hexbin.hexagon();
       })
-      .attr("stroke", '#191919')
+      .attr("stroke", '#292929')
       .attr("stroke-width", "172px")
       .on("click", function () {
         window.location.href = "http://localhost:4000/login";
