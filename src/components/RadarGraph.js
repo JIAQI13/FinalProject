@@ -3,13 +3,10 @@ import Radar from 'react-d3-radar';
 import * as d3 from 'd3'
 import useWindowDimensions from '../helpers/userWindowDimensions';
 import { select } from 'd3';
+import './RadarGraph.scss';
 
 
 export default function RadarGraph(props) {
-  const tmpStyle = {
-    display: "flex"
-  }
-
   const [tracksNames, setTracksNames] = useState();
   const [tracksAnalysis, setTracksAnalysis] = useState();
   const [audioFeatures, setAudioFeatures] = useState();
@@ -67,9 +64,12 @@ export default function RadarGraph(props) {
         for (const element of tracksAnalysis) {
           if (element.id === d.id) {
             select(this)
-              .style("background-color", "#f3f3f3")
+              .style("background-color", "#22c95c")
 
-            setSets([
+              setSets([
+              // Give empty objects so the third object with data
+              // gets a visible color on dark background
+              {},{},
               {
                 key: element.id,
                 values: {
@@ -89,9 +89,16 @@ export default function RadarGraph(props) {
       .on("mouseout", (event, d) => {
         setSets(transformData(tracksAnalysis))
         topTracks.selectAll("li")
-              .style("background-color", "white")
+              .style("background-color", "#292929")
       })
 
+  // The display require some changes depending on the screen size here
+  // Works in tandem with the scss styling
+  const tmpStyle = {
+    display: (width < 500 ? "none" : "flex"),
+    flexDirection: (width < 900 ? "column" : "row"),
+    paddingTop: "3%",
+  }
 
   const createRadar = () => {
     return (
@@ -110,15 +117,21 @@ export default function RadarGraph(props) {
   };
 
   return (
-    <div id="#radar" style={tmpStyle}>
-      {tracksNames && tracksAnalysis && createRadar()}
-      <div className="d-flex flex-column p-2 m-2">
-        <span className="d-flex bg-primary text-white">
-          Top 10 Tracks
-        </span>
-        <ul id="top-tracks">
-        </ul>
+    <>
+      <div id="prompt-radar">
+        <div id="prompt-message-radar">Rotate Device</div>
+        <i class="fas fa-mobile-alt"></i>
       </div>
-    </div>
+      <div id="#radar" style={tmpStyle}>
+        {tracksNames && tracksAnalysis && createRadar()}
+        <div id="tracks-list">
+          <span id="title">
+            Top 10 Tracks
+          </span>
+          <ul id="top-tracks">
+          </ul>
+        </div>
+      </div>
+  </>
   );
 }

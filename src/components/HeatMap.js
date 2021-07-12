@@ -19,8 +19,8 @@ export default function HeatMap(props) {
 
   // There's some not-perfect-science with width and getting the graph
   // just right, should find a way to make this dynamic
-  const graphWidth = width / 1.6;
-  const graphHeight = height / 1.6;
+  const graphWidth = width / 1.2;
+  const graphHeight = height / 1.2;
 
   // Find the min and max years in our data, to be used in scales
   const minYear = d3.min(data.albumCount, item => item['year']);
@@ -250,6 +250,10 @@ export default function HeatMap(props) {
   return (
     <>
       <h1>Top {info.length} Tracks Relase Dates</h1>
+      <div id="prompt">
+        <div id="prompt-message">Rotate Device</div>
+        <i class="fas fa-mobile-alt"></i>
+      </div>
       <div id="main">
         {data && createChart()}
         <svg id="canvas"></svg>

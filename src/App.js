@@ -12,16 +12,17 @@ import TopTracksAnalysis from "./Pages/TopTracksAnalysis";
 import TopTracksYears from "./Pages/TopTracksYears";
 import Home from './Pages/Home'
 import './styles.css'
+import './App.scss'
 
 const routes = [
   { path: '/', name: 'Vusic', Component: Home },
-  { path: "/graphs/top-artists/popularity", name: 'Top Artists by Popularity', Component: TopArtistsPopularity },
-  { path: "/graphs/top-artists/followers", name: 'Top Artists by Followers', Component: TopArtistsFollowers },
-  { path: "/graphs/top-tracks/popularity", name: 'Top Tracks by Popularity', Component: TopTracksPopularity },
+  { path: "/graphs/top-artists/popularity", name: 'Artists by Popularity', Component: TopArtistsPopularity },
+  { path: "/graphs/top-artists/followers", name: 'Artists by Followers', Component: TopArtistsFollowers },
   { path: "/graphs/top-artists/:id/related-artists", name: 'Related Artists', Component: RelatedArtists },
-  { path: "/graphs/top-artists/genres", name: 'Top Artists by Genres', Component: TopArtistsGenres },
-  { path: "/graphs/top-tracks/years", name: 'Top Tracks by Year', Component: TopTracksYears },
-  { path: "/graphs/top-tracks/analysis", name: 'Top Tracks Analysis', Component: TopTracksAnalysis }
+  { path: "/graphs/top-artists/genres", name: 'Artists by Genres', Component: TopArtistsGenres },
+  { path: "/graphs/top-tracks/popularity", name: 'Tracks by Popularity', Component: TopTracksPopularity },
+  { path: "/graphs/top-tracks/years", name: 'Tracks by Year', Component: TopTracksYears },
+  { path: "/graphs/top-tracks/analysis", name: 'Tracks Analysis', Component: TopTracksAnalysis }
 ]
 
 class App extends Component {
@@ -30,11 +31,22 @@ class App extends Component {
     return (
       <Router>
         <>
-          <Navbar bg="light">
-            <Navbar.Brand>Vusic</Navbar.Brand>
-            <Nav className="mx-auto">
-              {routes.filter(route => route.path !== "/graphs/top-artists/:id/related-artists").map(route => (
-                <>
+          <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+            <Navbar.Brand>
+              <Nav.Link
+                key='/'
+                as={NavLink}
+                to='/'
+                activeClassName="active"
+                exact
+              >
+              <img id="brand" src="/icon_vusic_2.png" alt="vusic-icon"></img>
+              </Nav.Link>
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="mr-auto">
+                {routes.filter(route => route.path !== "/graphs/top-artists/:id/related-artists" && route.path !== '/').map(route => (
                   <Nav.Link
                     key={route.path}
                     as={NavLink}
@@ -44,12 +56,12 @@ class App extends Component {
                   >
                     {route.name}
                   </Nav.Link>
-                </>
-              ))}
-            </Nav>
-            <Form inline>
-              <Button variant="outline-primary" href="http://localhost:4000/login">Login</Button>
-            </Form>
+                ))}
+              </Nav>
+              <Form inline>
+                <Button variant="outline-primary" href="http://localhost:4000/login">Login</Button>
+              </Form>
+            </Navbar.Collapse>
           </Navbar>
           <div >
             {routes.map(({ path, Component }) => (

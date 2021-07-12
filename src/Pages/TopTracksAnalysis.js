@@ -2,15 +2,7 @@ import React from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import RadarGraph from "../components/RadarGraph";
-import Loader from "react-loader-spinner";
-
-const tmpStyle = {
-  display: 'flex',
-  justifyContent: "center",
-  alignItems: "center",
-  flexDirection: "column",
-  paddingTop: "20%"
-};
+import VusicLoader from "../components/VusicLoader";
 
 const TOP_TRACKS = gql`
   query TOP_TRACKS {
@@ -43,15 +35,7 @@ export default function TopTracksAnalysis() {
           {({ loading: loadingTwo, data: two }) => {
             if (loadingOne || loadingTwo) {
               return (
-                <div style={tmpStyle}>
-                  <h1>Vusic</h1>
-                  <Loader
-                    type="Bars"
-                    color="#57F289"
-                    height={100}
-                    width={100}
-                  />
-                </div>
+                <VusicLoader/>
               );
             }
               return (

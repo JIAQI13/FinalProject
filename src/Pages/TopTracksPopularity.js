@@ -2,15 +2,7 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import BubblesGraph from '../components/BubblesGraph';
-import Loader from 'react-loader-spinner';
-
-const tmpStyle = {
-  display: 'flex',
-  justifyContent: "center",
-  alignItems: "center",
-  flexDirection: "column",
-  paddingTop: "20%"
-};
+import VusicLoader from '../components/VusicLoader';
 
 export const GET_TRACK = gql`
   query GetTrack {
@@ -39,15 +31,7 @@ export default function TopTracks (props) {
       {({ loading, data }) => {
           if (loading) {
             return (
-              <div style={tmpStyle}>
-                <h1>Vusic</h1>
-                <Loader
-                  type="Bars"
-                  color="#57F289"
-                  height={100}
-                  width={100}
-                />
-              </div>
+              <VusicLoader/>
             );
           }
           data.topTracks.forEach((element) => {

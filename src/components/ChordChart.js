@@ -1,6 +1,7 @@
 import React from 'react';
 import ChordDiagram from 'react-chord-diagram'
 import useWindowDimensions from '../helpers/userWindowDimensions'
+import './ChordChart.scss';
 
 export default function Chords(props) {
   const { height, width } = useWindowDimensions();
@@ -69,18 +70,19 @@ export default function Chords(props) {
   const colors = [];
   all.forEach(() => colors.push(random()))
 
-  const tmpStyle = {
-    display: 'flex',
-    justifyContent: "center",
-    alignContent: "center",
-    width: "100%",
-  };
-
+  // Narrow screens require additional height for the chart's viewport
+  // This works in tandem with scss styling
+  const heightExt = (height < 600 ? 2 : 1.1)
+  const widthExt = (width < 600 ? 1.1 : 1)
 
   return (
     <>
       <h1>Artists and Genres from your Top {slicedArray.length} Tracks</h1>
-      <div style={tmpStyle}>
+      <div id="prompt">
+        <div id="prompt-message">Trust me, you're going to want to Rotate Device</div>
+        <i class="fas fa-mobile-alt"></i>
+      </div>
+      <div id="chord">
         <ChordDiagram
         matrix={finalArray}
         componentId={1}
@@ -88,17 +90,17 @@ export default function Chords(props) {
         labelColors={colors}
         groupColors={colors}
         padAngle={.06}
-        height={height + 250}
-        width={width}
+        height={height * heightExt}
+        width={width * widthExt}
         outerRadius={225}
         innerRadius={200}
         strokeWidth={1.5}
         persistHoverOnClick={true}
         disableHover={false}
         style={{
+          // Some of the styling for the chord chart is here
+          // And is more specific, so possibly easier to manage
           textTransform: "capitalize",
-          backgroundColor: "#292929",
-          font: '20px cambria',
           fontWeight: "bolder",
           wordWrap: "break-word",
           letterSpacing: "2px",

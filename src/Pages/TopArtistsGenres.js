@@ -2,7 +2,7 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import ChordChart from '../components/ChordChart';
-import Loader from "react-loader-spinner";
+import VusicLoader from '../components/VusicLoader';
 
 export const GET_ARTIST = gql`
   query GetArtist {
@@ -20,27 +20,13 @@ export const GET_ARTIST = gql`
 `;
 
 export default function TopArtistsPopularity () {
-  const tmpStyle = {
-    "display": 'flex',
-    "justify-content": "center",
-    "align-content": "center",
-    "padding-top": "30%"
-  };
-
   return (
     <div>
       <Query query={GET_ARTIST}>
         {({ loading, data }) => {
           if (loading) {
             return (
-              <div style={tmpStyle}>
-                <Loader
-                  type="Bars"
-                  color="#57F289"
-                  height={100}
-                  width={100}
-                />
-              </div>
+              <VusicLoader />
             );
           }
           return(
