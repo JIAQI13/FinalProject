@@ -54,7 +54,7 @@ export default function TopArtistsPopularity() {
 
           return (
             <>
-              <h1 class="d-flex justify-content-center display-3 text-white">
+              <h1 >
                 Artists by Popularity
               </h1>
               <BubblesGraph graphData={data} onClick={onClick}></BubblesGraph>

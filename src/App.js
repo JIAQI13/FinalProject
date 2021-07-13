@@ -11,7 +11,7 @@ import TopTracksPopularity from "./Pages/TopTracksPopularity";
 import TopTracksAnalysis from "./Pages/TopTracksAnalysis";
 import TopTracksYears from "./Pages/TopTracksYears";
 import Home from "./Pages/Home";
-import "./styles.css";
+import "./_styles.scss";
 import "./App.scss";
 
 const routes = [

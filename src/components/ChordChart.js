@@ -85,8 +85,8 @@ export default function Chords(props) {
 
   return (
     <>
-      <h1 class="d-flex justify-content-center display-4 text-white">
-        Artists and Genres from your Top {slicedArray.length} Tracks
+      <h1 class="d-flex">
+        Artists and Genres from your Top Tracks
       </h1>
       <div id="prompt">
         <div id="prompt-message">

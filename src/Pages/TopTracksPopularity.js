@@ -39,7 +39,7 @@ export default function TopTracks(props) {
 
           return (
             <>
-              <h1 class="d-flex justify-content-center display-3 text-white">
+              <h1 class="d-flex justify-content-flex-end">
                 Tracks by Popularity
               </h1>
               <BubblesGraph graphData={data}></BubblesGraph>

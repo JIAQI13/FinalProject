@@ -121,8 +121,8 @@ export default function RadarGraph(props) {
 
   return (
     <>
-      <h1 class="d-flex justify-content-center display-3 text-white">
-        Top 10 Tracks Analysis
+      <h1 >
+        Top Tracks Analysis
       </h1>
       <div id="prompt-radar">
         <div id="prompt-message-radar">Rotate Device</div>

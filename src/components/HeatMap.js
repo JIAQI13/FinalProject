@@ -249,9 +249,9 @@ export default function HeatMap(props) {
 
   return (
     <>
-      <h1 class="d-flex justify-content-center display-3 text-white">
-        Top {info.length} Tracks Release Years
-      </h1>
+      <div class="background-title">
+        <h1 class="d-flex">Top Tracks Release Years</h1>
+      </div>
       <div id="prompt">
         <div id="prompt-message">Rotate Device</div>
         <i class="fas fa-mobile-alt"></i>
