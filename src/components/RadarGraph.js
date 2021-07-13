@@ -101,6 +101,7 @@ export default function RadarGraph(props) {
     display: width <= 500 ? "none" : "flex",
     flexDirection: width < 900 ? "column" : "row",
     paddingTop: "3%",
+    margin: "0 5%",
   };
 
   const createRadar = () => {

@@ -117,27 +117,6 @@ const data = {
       ]
     },
     {
-      "id": "78xUyw6FkVZrRAtziFdtdu",
-      "name": "The Roots",
-      "images": [
-        {
-          "height": 640,
-          "url": "https://i.scdn.co/image/ab6761610000e5eb7e92a85b9e31236380cd38f2",
-          "width": 640
-        },
-        {
-          "height": 320,
-          "url": "https://i.scdn.co/image/ab676161000051747e92a85b9e31236380cd38f2",
-          "width": 320
-        },
-        {
-          "height": 160,
-          "url": "https://i.scdn.co/image/ab6761610000f1787e92a85b9e31236380cd38f2",
-          "width": 160
-        }
-      ]
-    },
-    {
       "id": "4LLpKhyESsyAXpc4laK94U",
       "name": "Mac Miller",
       "images": [
@@ -254,27 +233,6 @@ const data = {
           "height": 79,
           "url": "https://i.scdn.co/image/0fda1f46337398e35d5c7c672ddc77beb68a8f93",
           "width": 64
-        }
-      ]
-    },
-    {
-      "id": "5MbNzCW3qokGyoo9giHA3V",
-      "name": "EARTHGANG",
-      "images": [
-        {
-          "height": 640,
-          "url": "https://i.scdn.co/image/ab6761610000e5eb7bd84652114eabfcb1d4514f",
-          "width": 640
-        },
-        {
-          "height": 320,
-          "url": "https://i.scdn.co/image/ab676161000051747bd84652114eabfcb1d4514f",
-          "width": 320
-        },
-        {
-          "height": 160,
-          "url": "https://i.scdn.co/image/ab6761610000f1787bd84652114eabfcb1d4514f",
-          "width": 160
         }
       ]
     },

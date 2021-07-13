@@ -87,7 +87,7 @@ export default function Chords(props) {
       </h1>
       <div id="prompt">
         <div id="prompt-message">
-          Trust me, you're going to want to Rotate Device
+          Rotate Device
         </div>
         <i class="fas fa-mobile-alt"></i>
       </div>

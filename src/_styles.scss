@@ -102,6 +102,8 @@ li {
     flex-direction: column;
     align-items: center;
     height: 100%;
+    padding: 5%;
+    opacity: .8;
 
     #prompt-message {
       font-size: 26px;
@@ -117,7 +119,7 @@ li {
 .fas {
   color: $base-text;
   font-size: 56px;
-  margin-top: 40px;
+  margin-top: 1%;
   animation-name: rotate;
   animation-duration: 3s;
   animation-iteration-count: infinite;
