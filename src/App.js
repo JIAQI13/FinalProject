@@ -11,6 +11,7 @@ import TopTracksPopularity from "./Pages/TopTracksPopularity";
 import TopTracksAnalysis from "./Pages/TopTracksAnalysis";
 import TopTracksYears from "./Pages/TopTracksYears";
 import Home from "./Pages/Home";
+import Footer from "../src/components/Footer";
 import "./_styles.scss";
 import "./App.scss";
 
@@ -119,6 +120,7 @@ class App extends Component {
               </Route>
             ))}
           </div>
+        <Footer/>
         </>
       </Router>
     );

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import * as d3d from 'd3';
 import * as HexbinPlot from 'd3-hexbin';
+import { select } from 'd3';
 
 //manually combine d3-hexbin into d3
 const d3 = {
@@ -19,6 +20,7 @@ export default function HexagonGraph(props) {
 
   //future dynamic data update feature with useEffect
   useEffect(() => {
+    select("#plot-area").selectAll("*").remove();
 
     //initilization
     const MapColumns = 20;

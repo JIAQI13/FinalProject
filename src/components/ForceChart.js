@@ -14,7 +14,7 @@ import useResizeObserver from "../helpers/useResizeObserver";
 import useWindowDimensions from '../helpers/userWindowDimensions'
 import './ForceChart.scss';
 
-function ForceTreeChart(props) {
+export default function ForceTreeChart(props) {
   const { height, width } = useWindowDimensions();
   const mobileHeight = width < 900 && width < height ? 1.7 : 1;
   const hoverPadding = width < 900 ? 1.3 : 1.2;
@@ -211,6 +211,4 @@ function ForceTreeChart(props) {
       <svg ref={svgRef}></svg>
     </div>
   );
-}
-
-export default ForceTreeChart;
+};

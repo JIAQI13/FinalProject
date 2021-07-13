@@ -6,7 +6,8 @@ export default function VusicLoader() {
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
-    paddingTop: "25%",
+    paddingTop: "15%",
+    paddingBottom: "15%",
   };
 
   return (
