@@ -19,8 +19,8 @@ export default function HeatMap(props) {
 
   // There's some not-perfect-science with width and getting the graph
   // just right, should find a way to make this dynamic
-  const graphWidth = width / 1.2;
-  const graphHeight = height / 1.2;
+  const graphWidth = width / 1.25;
+  const graphHeight = height / 1.25;
 
   // Find the min and max years in our data, to be used in scales
   const minYear = d3.min(data.albumCount, (item) => item["year"]);
