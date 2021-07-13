@@ -153,8 +153,8 @@ export default function BubblesGraph(props) {
 
         div.html(`${d.name} | ${d.numbers.toLocaleString()}`)
           .style("position", "absolute")
-          .style("left", `${e.clientX + 20}px`)
-          .style("top", `${e.clientY - 20}px`)
+          .style("left", `${e.pageX + 20}px`)
+          .style("top", `${e.pageY}px`)
           .style("padding", "5px")
       })
       .on("mouseout", function (e, d) {

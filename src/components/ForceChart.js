@@ -168,8 +168,8 @@ export default function ForceTreeChart(props) {
             let dataDiv = `${d.data.name}`
             div.html(dataDiv)
               .style("position", "absolute")
-              .style("left", `${pointer(event)[0] - (width + 65) / -2}px`)
-              .style("top", `${pointer(event)[1] - (height * hoverPadding)  / -1.3}px`)
+              .style("left", `${event.pageX + 20}px`)
+              .style("top", `${event.pageY}px`)
               // !--! Add styling to css eventually
               .style("padding", "7px")
 
