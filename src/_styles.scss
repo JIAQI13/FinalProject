@@ -12,6 +12,7 @@
 
 // Global variables for styling
 $bgcolor: #292929;
+$title-bgcolor: #343b40;
 $base-text: #fff;
 $accent-color: #22c95c;
 $title-font: "Masque";
@@ -36,6 +37,7 @@ h1 {
   font-family: "Masque";
   padding: 1% 10% 1% 5%;
   margin: 2% 13% 2% 0;
+  word-break: break-word;
 }
 
 li {

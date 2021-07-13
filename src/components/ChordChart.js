@@ -5,6 +5,8 @@ import "./ChordChart.scss";
 
 export default function Chords(props) {
   const { height, width } = useWindowDimensions();
+  const mobileHeight = height < 600 ? 2 : 1.1;
+  const mobileWidth = width < 600 ? 1.1 : 1;
 
   const data = [...props.graphData.topArtists];
 
@@ -78,11 +80,6 @@ export default function Chords(props) {
   const colors = [];
   all.forEach(() => colors.push(random()));
 
-  // Narrow screens require additional height for the chart's viewport
-  // This works in tandem with scss styling
-  const heightExt = height < 600 ? 2 : 1.1;
-  const widthExt = width < 600 ? 1.1 : 1;
-
   return (
     <>
       <h1 class="d-flex">
@@ -102,8 +99,8 @@ export default function Chords(props) {
           labelColors={colors}
           groupColors={colors}
           padAngle={0.06}
-          height={height * heightExt}
-          width={width * widthExt}
+          height={height * mobileHeight}
+          width={width * mobileWidth}
           outerRadius={225}
           innerRadius={200}
           strokeWidth={1.5}

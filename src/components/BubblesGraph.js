@@ -151,12 +151,7 @@ export default function BubblesGraph(props) {
           .style("position", "absolute")
           .style("left", `${e.clientX + 20}px`)
           .style("top", `${e.clientY - 20}px`)
-          // !--! Add styling to css eventually
-          .style("background-color", "#f1f1f1")
           .style("padding", "5px")
-          .style("font-size", "19px")
-          .style("font-weight", "500")
-          .style("border-radius", "10px")
       })
       .on("mouseout", function (e, d) {
         select(this)

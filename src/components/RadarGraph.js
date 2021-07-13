@@ -11,6 +11,10 @@ export default function RadarGraph(props) {
   const [audioFeatures, setAudioFeatures] = useState();
   const [sets, setSets] = useState();
 
+  const { height, width } = useWindowDimensions();
+  const mobileWidth = (width > height && height > 400 ? 2 : 3)
+  const mobileHeight = (width < height && width < 700 ? 3.2 : 1.4)
+
   const transformData = function (values) {
     let result = [];
     values &&
@@ -50,8 +54,6 @@ export default function RadarGraph(props) {
     props.dataGraphSecond.tracksAnalysis,
     tracksAnalysis,
   ]);
-
-  const { height, width } = useWindowDimensions();
 
   const topTracks = d3.select("#top-tracks");
 
@@ -105,8 +107,8 @@ export default function RadarGraph(props) {
     return (
       <>
         <Radar
-          width={width / (width > height && height > 400 ? 2 : 3)}
-          height={height / (width < height && width < 700 ? 3.2 : 1.4)}
+          width={width / (mobileWidth)}
+          height={height / (mobileHeight)}
           padding={50}
           domainMax={1}
           highlighted={null}

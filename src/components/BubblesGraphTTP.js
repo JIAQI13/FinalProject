@@ -5,9 +5,10 @@ import { select } from 'd3';
 import './BubblesGraph.scss';
 
 export default function BubblesGraph(props) {
-  const { height, width } = useWindowDimensions();
   const [data, setData] = useState()
   const [domain, setDomain] = useState({ min: 0, max: 150 })
+  const { height, width } = useWindowDimensions();
+  const mobileWidth = (width < 650 ? 1.5 : 1)
 
   // Generating random colors for stroke
   const random = () => {
@@ -38,7 +39,7 @@ export default function BubblesGraph(props) {
   // Constructing the chart in the return
   const createChart = () => {
     // For setting the radius of bubbles
-    let radiusScale = d3.scaleLinear().domain([0, 100]).range([15, domain.max])
+    let radiusScale = d3.scaleLinear().domain([0, 100 * (mobileWidth)]).range([15, domain.max])
     if (domain.max > 100) {
       radiusScale = d3.scaleSqrt().domain([domain.min, domain.max]).range([0, 110]);
     }
@@ -49,7 +50,7 @@ export default function BubblesGraph(props) {
       .select("#chart-ttp")
       .append("svg")
       .attr("preserveAspectRatio", "xMinYMin meet")
-      .attr("viewBox", `0 0 ${width} ${height}`)
+      .attr("viewBox", `0 ${width < 650 ? height * .1 : 0} ${width} ${height}`)
       .classed("svg-content-responsive", true)
       .append("g")
       .attr("transform", "translate(0,0)");
@@ -154,12 +155,7 @@ export default function BubblesGraph(props) {
           .style("position", "absolute")
           .style("left", `${e.clientX + 20}px`)
           .style("top", `${e.clientY - 20}px`)
-          // !--! Add styling to css eventually
-          .style("background-color", "#f1f1f1")
           .style("padding", "5px")
-          .style("font-size", "19px")
-          .style("font-weight", "500")
-          .style("border-radius", "10px")
       })
       .on("mouseout", function (e, d) {
         select(this)

@@ -1,5 +1,14 @@
 @import '../styles.scss';
 
+.circle-info {
+  background-color: $title-bgcolor;
+  color: $base-text;
+  font-size: 19px;
+  font-weight: 500;
+  border-radius: 5px;
+  box-shadow: rgb(34 201 92 / 42%) 1px 1px 1px 1px;
+}
+
 #artist-info {
   background-color: #fff;
   border-radius: 1px;

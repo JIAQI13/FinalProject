@@ -1,9 +1,16 @@
+@import '../styles.scss';
+
 #force-chart {
   padding-top: 2%;
 }
 
-#related-artist-name {
-  color: white;
+.circle-info {
+  background-color: $title-bgcolor;
+  color: $base-text;
+  font-size: 19px;
+  font-weight: 500;
+  border-radius: 5px;
+  box-shadow: rgb(34 201 92 / 42%) 1px 1px 1px 1px;
 }
 
 @media only screen and (max-width: 900px) {

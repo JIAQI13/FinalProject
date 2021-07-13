@@ -16,6 +16,8 @@ import './ForceChart.scss';
 
 function ForceTreeChart(props) {
   const { height, width } = useWindowDimensions();
+  const mobileHeight = width < 900 && width < height ? 1.7 : 1;
+  const hoverPadding = width < 900 ? 1.3 : 1.2;
 
   // Artist which all other artists are related to
   const parent = { ...props.parent }
@@ -55,7 +57,7 @@ function ForceTreeChart(props) {
         -dimensions.width / 2,
         -dimensions.height / 2,
         width,
-        height / (width < 900 && width < height ? 1.7 : 1)
+        height / mobileHeight
       ]);
 
     const div = select("#artist-info")
@@ -166,14 +168,10 @@ function ForceTreeChart(props) {
             let dataDiv = `${d.data.name}`
             div.html(dataDiv)
               .style("position", "absolute")
-              .style("left", `${pointer(event)[0] - width / -2}px`)
-              .style("top", `${pointer(event)[1] - height / -1.3}px`)
+              .style("left", `${pointer(event)[0] - (width + 65) / -2}px`)
+              .style("top", `${pointer(event)[1] - (height * hoverPadding)  / -1.3}px`)
               // !--! Add styling to css eventually
-              .style("background-color", "#f1f1f1")
-              .style("padding", "5px")
-              .style("font-size", "19px")
-              .style("font-weight", "500")
-              .style("border-radius", "10px")
+              .style("padding", "7px")
 
           })
           .on('mouseout', function (d, i) {
