@@ -25,6 +25,12 @@ g {
   }
 }
 
+#top-tracks {
+  li {
+    padding: 3% 3%;
+  }
+}
+
 #prompt-radar {
   display: none;
 }
@@ -32,6 +38,18 @@ g {
 @media only screen and (max-width: 900px) {
   #radar {
     flex-direction: column;
+  }
+
+  #top-tracks {
+    li {
+      padding: 3% 3%;
+
+      &:before {
+        content: '\1F3A7';
+        margin-left: -30px;
+        margin-right: 11px;
+      }
+    }
   }
 }
 

@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import * as d3d from 'd3';
 import * as HexbinPlot from 'd3-hexbin';
 import { select } from 'd3';
+import { Button } from 'react-bootstrap';
+import useWindowDimensions from '../helpers/userWindowDimensions';
+import './HexagonGraph.scss';
 
 //manually combine d3-hexbin into d3
 const d3 = {
@@ -9,6 +12,7 @@ const d3 = {
   hexbin: HexbinPlot.hexbin
 }
 export default function HexagonGraph(props) {
+  const { height, width } = useWindowDimensions();
 
   //generate random int which is used to show photoes in hexagons
   function getRandomInt(max) {
@@ -99,6 +103,15 @@ export default function HexagonGraph(props) {
   return (
     <>
       <div id="plot-area"></div>
+      <div id="login-welcome">
+        <img id="brand" src="/vusic_icon.png" alt="vusic-icon"></img>
+        <Button
+          variant="login-button"
+          href="http://localhost:4000/login"
+        >
+          View it!
+        </Button>
+      </div>
     </>
   );
 }

@@ -17,7 +17,7 @@ export default function Footer() {
               </div>
               <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-3">
                 <h6 class="text-uppercase mb-3 footer-titles">
-                  Top Artists
+                  Artists
                 </h6>
                 <p>
                   <a href="#!" class="text-reset">Popularity</a>
@@ -31,7 +31,7 @@ export default function Footer() {
               </div>
               <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-3">
                 <h6 class="text-uppercase mb-3 footer-titles">
-                  Top Tracks
+                  Tracks
                 </h6>
                 <p>
                   <a href="#!" class="text-reset">Popularity</a>

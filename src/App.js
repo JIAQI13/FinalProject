@@ -56,6 +56,7 @@ const routes = [
 
 class App extends Component {
 
+
   render() {
     return (
       <Router>
@@ -96,7 +97,7 @@ class App extends Component {
               </Nav>
               <Form inline>
                 <Button
-                  variant="outline-primary"
+                  variant="login-button"
                   href="http://localhost:4000/login"
                 >
                   Login

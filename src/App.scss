@@ -1,3 +1,5 @@
+@import './_styles.scss';
+
 #root {
   background-color: #292929;
 }
@@ -6,6 +8,17 @@
   width: 16rem;
   height: 4rem;
   margin-left: 5%;
+}
+
+.navbar-collapse {
+  margin-right: 2%;
+  z-index: 3;
+}
+
+.btn-login-button {
+  background-color: $accent-color;
+  color: $base-text;
+  border-radius: 3px;
 }
 
 .mr-auto {

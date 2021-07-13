@@ -1,0 +1,48 @@
+@import '../_styles.scss';
+
+#login-welcome {
+    @include title-background;
+    height: 25%;
+    width: 30%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    top: 35%;
+    left: 35%;
+    border-top-right-radius: 0;
+    padding: 2%;
+
+    img {
+      width: 16rem;
+      height: 4rem;
+      margin-bottom: 7%;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+
+  #login-welcome {
+    img {
+      width: 8rem;
+      height: 2rem;
+      margin-bottom: 7%;
+    }
+  }
+}
+
+@media only screen and (max-width: 800px) and (orientation: portrait){
+  #login-welcome {
+    height: 16%;
+    top: 30%;
+  }
+}
+
+@media only screen and (max-width: 700px) and (orientation: portrait){
+  #login-welcome {
+    left: 30%;
+    width: 40%;
+    top: 25%;
+  }
+}
