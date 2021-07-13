@@ -9,8 +9,6 @@ import '../components/ForceChart.scss'
 export default function RelatedArtists(props) {
   const location = useLocation();
 
-  console.log("log", location.state)
-
   let GET_TRACK = gql`
     query GetTrack {
       relatedArtists (id:"${location.state ? location.state.id : ""}") {

@@ -260,7 +260,7 @@ const root = {
         });
         ids = ids.slice(0, ids.length - 1);
         return new Promise((resolve) => {
-          console.log("***************", authToken);
+          // console.log("***************", authToken);
           request(
             {
               url: `https://api.spotify.com/v1/audio-features?ids=${ids}`,

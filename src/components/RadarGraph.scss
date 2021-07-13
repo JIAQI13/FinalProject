@@ -35,12 +35,6 @@ g {
   display: none;
 }
 
-// @media only screen and (orientation: landscape) {
-//   // #radar {
-//   //   flex-direction: column;
-//   // }
-// }
-
 @media only screen and (max-width: 900px) {
   #radar {
     flex-direction: column;
