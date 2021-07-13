@@ -2,7 +2,7 @@ import React from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import { useHistory } from "react-router";
-import BubblesGraph from "../components/BubblesGraph";
+import BubblesGraphTAP from "../components/BubblesGraphTAP";
 import VusicLoader from "../components/VusicLoader";
 
 export const GET_ARTIST = gql`
@@ -57,7 +57,7 @@ export default function TopArtistsPopularity() {
               <h1 >
                 Artists by Popularity
               </h1>
-              <BubblesGraph graphData={data} onClick={onClick}></BubblesGraph>
+              <BubblesGraphTAP graphData={data} onClick={onClick}></BubblesGraphTAP>
             </>
           );
         }}

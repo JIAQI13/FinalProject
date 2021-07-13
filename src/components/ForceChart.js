@@ -12,10 +12,7 @@ import {
 } from "d3";
 import useResizeObserver from "../helpers/useResizeObserver";
 import useWindowDimensions from '../helpers/userWindowDimensions'
-
-/**
- * Component, that renders a force layout for hierarchical data.
- */
+import './ForceChart.scss';
 
 function ForceTreeChart(props) {
   const { height, width } = useWindowDimensions();
@@ -53,12 +50,13 @@ function ForceTreeChart(props) {
     const svg = select(svgRef.current);
 
     // centering workaround
-    svg.attr("viewBox", [
-      -dimensions.width / 2,
-      -dimensions.height / 2,
-      width,
-      height
-    ]);
+    svg.attr("id", "force-chart")
+      .attr("viewBox", [
+        -dimensions.width / 2,
+        -dimensions.height / 2,
+        width,
+        height / (width < 900 && width < height ? 1.7 : 1)
+      ]);
 
     const div = select("#artist-info")
       .append("div")
@@ -95,7 +93,7 @@ function ForceTreeChart(props) {
     const radiusScale = scaleSqrt().domain([0, width * 2 - 100]).range([0, width * 1.5]);
 
     const simulation = forceSimulation(nodeData)
-      .force("charge", forceManyBody().strength(-15))
+      .force("charge", forceManyBody().strength(-10))
       .force("collide", forceCollide(function (d) {
         return radiusScale(d.data.name === parent.name ? 3.5 : 1) + 15
       }))
@@ -115,7 +113,7 @@ function ForceTreeChart(props) {
           .data(linkData)
           .join("line")
           .attr("class", "link")
-          .attr("stroke", "#a7a7a7")
+          .style("stroke", "#22c95c")
           .attr("fill", "none")
           .attr("x1", link => link.source.x)
           .attr("y1", link => link.source.y)
@@ -136,8 +134,8 @@ function ForceTreeChart(props) {
           .attr("fill", function (d) {
             return `url(#${d.data.name.toLowerCase().replace(/ /g, "-").replace(/'/g, "-").replace(/"/g, "-")})`;
           })
-          .attr("stroke", "black")
-          .attr("stroke-width", "1px")
+          .style("stroke", "#22c95c")
+          .attr("stroke-width", "3px")
           .on('mouseover', function (event, d) {
             // Show div with artist name and allow user to click link
 
@@ -145,14 +143,14 @@ function ForceTreeChart(props) {
               .transition()
               .duration('1')
               .attr('opacity', '.95')
-              .style("cursor", "pointer");
+              .style("cursor", "pointer")
+              .style("stroke", "white")
 
             div.transition()
             .duration(50)
             .style("opacity", 1)
 
             div.on('mouseover', function() {
-              console.log("this?", select(this))
               select(this)
                   .transition()
                   .duration(50)
@@ -169,7 +167,7 @@ function ForceTreeChart(props) {
             div.html(dataDiv)
               .style("position", "absolute")
               .style("left", `${pointer(event)[0] - width / -2}px`)
-              .style("top", `${pointer(event)[1] - height / -2}px`)
+              .style("top", `${pointer(event)[1] - height / -1.3}px`)
               // !--! Add styling to css eventually
               .style("background-color", "#f1f1f1")
               .style("padding", "5px")
@@ -182,7 +180,8 @@ function ForceTreeChart(props) {
             select(this).transition()
               .duration('1')
               .attr('opacity', '1')
-              .style("cursor", "default");
+              .style("cursor", "default")
+              .style("stroke", "#22c95c");
             div.transition()
               .duration('50')
               .style("opacity", 0);

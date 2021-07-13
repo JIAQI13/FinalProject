@@ -19,7 +19,7 @@ g {
   }
 
   text {
-    font-size: 13px;
+    font-size: 12px;
     letter-spacing: 1px;
     fill: $base-text;
   }
@@ -32,6 +32,16 @@ g {
 @media only screen and (max-width: 900px) {
   #radar {
     flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  g {
+    text {
+      font-size: 9px;
+      letter-spacing: 1px;
+      fill: $base-text;
+    }
   }
 }
 

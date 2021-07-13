@@ -96,7 +96,7 @@ export default function RadarGraph(props) {
   // The display require some changes depending on the screen size here
   // Works in tandem with the scss styling
   const tmpStyle = {
-    display: width < 500 ? "none" : "flex",
+    display: width <= 500 ? "none" : "flex",
     flexDirection: width < 900 ? "column" : "row",
     paddingTop: "3%",
   };
@@ -105,8 +105,8 @@ export default function RadarGraph(props) {
     return (
       <>
         <Radar
-          width={width / 2}
-          height={height / 2}
+          width={width / (width > height && height > 400 ? 2 : 3)}
+          height={height / (width < height && width < 700 ? 3.2 : 1.4)}
           padding={50}
           domainMax={1}
           highlighted={null}

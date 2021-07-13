@@ -3,11 +3,13 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import ForceChart from '../components/ForceChart'
 import { useLocation } from 'react-router';
-import { useParams } from 'react-router-dom';
+import '../components/ForceChart.scss'
 
 
 export default function RelatedArtists(props) {
   const location = useLocation();
+
+  console.log("log", location.state)
 
   let GET_TRACK = gql`
     query GetTrack {
@@ -31,7 +33,12 @@ export default function RelatedArtists(props) {
       <div>
         <Query query={GET_TRACK}>
           {({ loading, data }) => !loading && (
-            <ForceChart graphData={data} parent={location.state}></ForceChart>
+            <>
+              <h1 class="d-flex justify-content-flex-end">
+                Related Artists to {location.state.name}
+              </h1>
+              <ForceChart graphData={data} parent={location.state}></ForceChart>
+            </>
           )}
         </Query>
       </div>

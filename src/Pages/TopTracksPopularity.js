@@ -1,7 +1,7 @@
 import React from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
-import BubblesGraph from "../components/BubblesGraph";
+import BubblesGraphTTP from "../components/BubblesGraphTTP";
 import VusicLoader from "../components/VusicLoader";
 
 export const GET_TRACK = gql`
@@ -42,7 +42,7 @@ export default function TopTracks(props) {
               <h1 class="d-flex justify-content-flex-end">
                 Tracks by Popularity
               </h1>
-              <BubblesGraph graphData={data}></BubblesGraph>
+              <BubblesGraphTTP graphData={data}></BubblesGraphTTP>
             </>
           );
         }}
