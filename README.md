@@ -2,6 +2,11 @@
 
 !["Vusic"](https://github.com/JIAQI13/FinalProject/blob/master/doc/vusic.png)
 
+ - There’s a lot of cool information that Spotify offers, but it’s not easily visualized
+ - We as a team have created an app that retrieves and visualizes a Spotify user’s data into something interesting, fun, and informative. 
+ - To achieve this, we wanted to use GraphQL to pull data and manipulate the endpoints to fit the data we wanted to plot into graphs using D3.
+
+
 ## Project Planning
 
 !["WireFrame"](https://github.com/JIAQI13/FinalProject/blob/master/doc/wirefram.png)
@@ -24,10 +29,6 @@ NodeJS with Express as backend to fetch data from Spotify API
 ReactJS with D3.js to create intuitive user interface and visualize the data with animation and diagram
 Git for version control
 
-Stretch tech stack:
-Jira for project management using scrum development method
-GraphQL for the backend for less API calls and more responsive design
-Jenkins with docker to accelerate the development process
 
 ## Getting Started
 
