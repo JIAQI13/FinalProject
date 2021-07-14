@@ -38,3 +38,4 @@ start the project with `yarn start`
 
 !["HomePage"](https://github.com/JIAQI13/FinalProject/blob/master/doc/Home.png)
 
+!["ForceGraph"](https://github.com/JIAQI13/FinalProject/blob/master/doc/relatedartist.png)
