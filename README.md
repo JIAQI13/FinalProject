@@ -4,6 +4,8 @@
 
 ## Project Planning
 
+!["WireFrame"](https://github.com/JIAQI13/FinalProject/blob/master/doc/wirefram.png)
+
 Project title: Vusic
 
 Project description: Generate personal report based on their listening history on Spotify
@@ -31,6 +33,7 @@ Jenkins with docker to accelerate the development process
 
 start the project with `yarn start`
 
-## Demo
+## App Demo
 
 !["HomePage"](https://github.com/JIAQI13/FinalProject/blob/master/doc/Home.png)
+
