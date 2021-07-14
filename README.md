@@ -12,6 +12,10 @@ Target audience: Spotify heavy user
 
 Team member : Jiaqi Liu, David, Neerav
 
+Project Management Method: Agile with Waterfall design
+
+!["DailyStandUpMeeting"](https://github.com/JIAQI13/FinalProject/blob/master/doc/daily%20scrum.png)
+
 ## Stack Choices
 
 NodeJS with Express as backend to fetch data from Spotify API
