@@ -26,3 +26,7 @@ Jenkins with docker to accelerate the development process
 ## Getting Started
 
 start the project with `yarn start`
+
+## Demo
+
+!["HomePage"](https://github.com/JIAQI13/FinalProject/blob/master/doc/Home.png)
