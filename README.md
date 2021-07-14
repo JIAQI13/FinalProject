@@ -1,6 +1,6 @@
 # Vusic
 
-!["screenshot"](https://github.com/JIAQI13/jungle-rails/blob/master/doc/rails.png)
+!["Vusic"](https://github.com/JIAQI13/FinalProject/blob/master/doc/vusic.png)
 
 ## Project Planning
 
